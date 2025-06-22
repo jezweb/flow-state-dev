@@ -27,24 +27,24 @@ npm install -g git+https://github.com/jezweb/flow-state-dev.git
 
 ```bash
 fsd init my-awesome-app
+```
+
+The interactive setup will guide you through:
+- ✅ Configuring Supabase credentials
+- ✅ Connecting to GitHub repository
+- ✅ Setting up GitHub labels
+
+### 3. Start developing
+
+```bash
 cd my-awesome-app
-```
-
-### 3. Set up your environment
-
-```bash
-cp .env.example .env
-# Edit .env with your Supabase credentials
-```
-
-### 4. Start developing
-
-```bash
 npm install
 npm run dev
 ```
 
-That's it! You now have a fully configured Vue 3 + Vuetify + Supabase project with:
+That's it! Your project is configured and ready to run.
+
+You now have a fully configured Vue 3 + Vuetify + Supabase project with:
 - ✅ Proper project structure
 - ✅ Claude-ready documentation
 - ✅ Supabase integration
@@ -71,7 +71,8 @@ That's it! You now have a fully configured Vue 3 + Vuetify + Supabase project wi
 ## Commands
 
 ```bash
-fsd init [project-name]  # Create a new project
+fsd init [project-name]  # Create a new project (interactive)
+fsd init [project-name] --no-interactive  # Skip interactive setup
 fsd labels              # Set up GitHub labels for current repo
 fsd help               # Show all commands
 ```

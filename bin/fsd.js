@@ -24,13 +24,14 @@ const logo = chalk.cyan(`
 program
   .name('fsd')
   .description('Flow State Dev - Vue 3 + Supabase project generator')
-  .version('0.1.0');
+  .version('0.1.2');
 
 // Init command
 program
   .command('init [project-name]')
   .description('Create a new Vue 3 + Supabase project')
-  .action(async (projectName) => {
+  .option('--no-interactive', 'Skip interactive setup')
+  .action(async (projectName, options) => {
     console.log(logo);
     
     // If no project name provided, ask for it
@@ -87,14 +88,131 @@ program
       execSync('git init', { cwd: targetDir });
       execSync('git branch -m main', { cwd: targetDir });
 
+      // Interactive setup (unless --no-interactive flag is used)
+      let supabaseConfigured = false;
+      let gitHubConfigured = false;
+      
+      if (options.interactive !== false) {
+        console.log(chalk.blue('\n🔧 Let\'s configure your project:\n'));
+
+        // Supabase configuration
+        const { configureSupabase } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'configureSupabase',
+            message: 'Would you like to configure Supabase now?',
+            default: true
+          }
+        ]);
+
+        if (configureSupabase) {
+          supabaseConfigured = true;
+          const supabaseAnswers = await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'supabaseUrl',
+              message: 'Supabase project URL:',
+              validate: (input) => {
+                if (!input) return 'Supabase URL is required';
+                if (input.includes('supabase.co')) return true;
+                return 'Please enter a valid Supabase URL (e.g., https://xyzabc.supabase.co)';
+              }
+            },
+            {
+              type: 'password',
+              name: 'supabaseAnonKey',
+              message: 'Supabase anon key:',
+              validate: (input) => {
+                if (!input) return 'Supabase anon key is required';
+                return true;
+              }
+            }
+          ]);
+
+          // Create .env file
+          const envPath = path.join(targetDir, '.env');
+          const envContent = `# Supabase Configuration
+VITE_SUPABASE_URL=${supabaseAnswers.supabaseUrl}
+VITE_SUPABASE_ANON_KEY=${supabaseAnswers.supabaseAnonKey}
+
+# App Configuration
+VITE_APP_NAME="${projectName}"
+VITE_APP_ENV=development
+`;
+          await fs.writeFile(envPath, envContent);
+          console.log(chalk.green('✅ Supabase configured in .env'));
+        }
+
+        // GitHub configuration
+        const { configureGitHub } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'configureGitHub',
+            message: 'Would you like to connect to a GitHub repository?',
+            default: true
+          }
+        ]);
+
+        if (configureGitHub) {
+          gitHubConfigured = true;
+          const { repoUrl } = await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'repoUrl',
+              message: 'GitHub repository URL (optional):',
+              validate: (input) => {
+                if (!input) return true; // Optional
+                if (input.includes('github.com')) return true;
+                return 'Please enter a valid GitHub URL (e.g., https://github.com/username/repo)';
+              }
+            }
+          ]);
+
+          if (repoUrl) {
+            try {
+              execSync(`git remote add origin ${repoUrl}`, { cwd: targetDir });
+              console.log(chalk.green('✅ GitHub remote added'));
+              
+              // Ask about labels
+              const { setupLabels } = await inquirer.prompt([
+                {
+                  type: 'confirm',
+                  name: 'setupLabels',
+                  message: 'Would you like to set up GitHub labels now?',
+                  default: true
+                }
+              ]);
+
+              if (setupLabels) {
+                // Check for GitHub CLI
+                try {
+                  execSync('gh --version', { stdio: 'ignore' });
+                  // Run labels setup
+                  console.log(chalk.blue('\n🏷️  Setting up GitHub labels...'));
+                  execSync('fsd labels', { cwd: targetDir, stdio: 'inherit' });
+                } catch {
+                  console.log(chalk.yellow('⚠️  GitHub CLI not installed. You can run "fsd labels" later.'));
+                }
+              }
+            } catch (error) {
+              console.log(chalk.yellow('⚠️  Could not add GitHub remote. You can do this manually later.'));
+            }
+          }
+        }
+      }
+
       console.log(chalk.green('\n✅ Project created successfully!\n'));
       console.log(chalk.white('Next steps:'));
       console.log(chalk.gray(`  cd ${projectName}`));
-      console.log(chalk.gray('  cp .env.example .env'));
-      console.log(chalk.gray('  # Edit .env with your Supabase credentials'));
+      if (!supabaseConfigured) {
+        console.log(chalk.gray('  cp .env.example .env'));
+        console.log(chalk.gray('  # Edit .env with your Supabase credentials'));
+      }
       console.log(chalk.gray('  npm install'));
       console.log(chalk.gray('  npm run dev\n'));
-      console.log(chalk.yellow('💡 Tip: Run "fsd labels" after creating your GitHub repo\n'));
+      if (!gitHubConfigured) {
+        console.log(chalk.yellow('💡 Tip: Run "fsd labels" after creating your GitHub repo\n'));
+      }
 
     } catch (error) {
       console.error(chalk.red('❌ Error creating project:'), error.message);

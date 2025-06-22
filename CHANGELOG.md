@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Interactive setup mode for `fsd init` command
+- Prompts for Supabase configuration during project creation
+- Automatic .env file creation with credentials
+- GitHub repository connection during setup
+- Option to run GitHub labels setup immediately
+- `--no-interactive` flag to skip interactive setup
+
+### Changed
+- Simplified project setup - no manual .env configuration needed
+- Better onboarding experience for new users
+
 ## [0.1.2] - 2025-01-22
 
 ### Fixed
