@@ -25,6 +25,11 @@
     "description": "New feature or request"
   },
   {
+    "name": "feature",
+    "color": "0E8A16",
+    "description": "New feature"
+  },
+  {
     "name": "documentation",
     "color": "0075CA",
     "description": "Documentation improvements"
@@ -43,6 +48,46 @@
     "name": "database",
     "color": "7057FF",
     "description": "Database related"
+  },
+  {
+    "name": "cli",
+    "color": "0075CA",
+    "description": "Command line interface related"
+  },
+  {
+    "name": "templates",
+    "color": "7057FF",
+    "description": "Template system and files"
+  },
+  {
+    "name": "ux",
+    "color": "FBCA04",
+    "description": "User experience improvements"
+  },
+  {
+    "name": "testing",
+    "color": "0E8A16",
+    "description": "Test suite and testing tools"
+  },
+  {
+    "name": "security",
+    "color": "B60205",
+    "description": "Security related issues"
+  },
+  {
+    "name": "performance",
+    "color": "FBCA04",
+    "description": "Performance optimizations"
+  },
+  {
+    "name": "refactor",
+    "color": "0075CA",
+    "description": "Code refactoring"
+  },
+  {
+    "name": "research",
+    "color": "D876E3",
+    "description": "Investigation/research needed"
   },
   {
     "name": "human-task",
@@ -73,5 +118,35 @@
     "name": "in-progress",
     "color": "0075CA",
     "description": "Currently being worked on"
+  },
+  {
+    "name": "needs-discussion",
+    "color": "FBCA04",
+    "description": "Requires team discussion"
+  },
+  {
+    "name": "breaking-change",
+    "color": "B60205",
+    "description": "Breaking changes"
+  },
+  {
+    "name": "good-for-beginners",
+    "color": "7057FF",
+    "description": "Even easier than good first issue"
+  },
+  {
+    "name": "integration",
+    "color": "7057FF",
+    "description": "Third-party integrations"
+  },
+  {
+    "name": "import",
+    "color": "0075CA",
+    "description": "Import/export functionality"
+  },
+  {
+    "name": "automation",
+    "color": "0E8A16",
+    "description": "Automation features"
   }
 ]

@@ -106,12 +106,14 @@ cd my-awesome-app
 fsd labels
 ```
 
-This will create consistent labels across all your projects:
-- 🐛 `bug` - Something isn't working
-- ✨ `enhancement` - New features
-- 🙋 `human-task` - Needs manual action
-- 🎨 `frontend` / 🔧 `backend` - Component areas
-- 🔴 `priority:high` / 🟡 `priority:medium` / 🟢 `priority:low`
+This will create a comprehensive set of labels for better issue tracking:
+- **Priority**: 🔴 `priority:high` / 🟡 `priority:medium` / 🟢 `priority:low`
+- **Types**: 🐛 `bug`, ✨ `feature`, 📝 `documentation`, ♻️ `refactor`
+- **Components**: 🎨 `frontend`, 🔧 `backend`, 🗄️ `database`, 💻 `cli`
+- **Workflow**: 🚧 `in-progress`, 🚫 `blocked`, ✅ `ready-for-review`
+- **And more**: `ux`, `testing`, `security`, `performance`, etc.
+
+See [docs/LABELS.md](docs/LABELS.md) for complete label usage guidelines.
 
 ## Working with Claude Code
 

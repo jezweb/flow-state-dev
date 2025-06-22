@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Interactive test scenarios for user input flows
 - GitHub Actions workflow for CI/CD testing
 - Testing documentation and manual test checklist
+- Expanded GitHub label set from 15 to 30 labels for better issue categorization
+- New label categories: CLI, templates, UX, testing, security, performance
+- Label usage documentation in `docs/LABELS.md`
+- Additional workflow labels: needs-discussion, breaking-change
+- Research and automation labels for better project management
 
 ## [0.2.0] - 2025-01-22
 
