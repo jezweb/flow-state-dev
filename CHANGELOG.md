@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2025-01-23
+
+### Improved
+- Simplified quickstart instructions to just `fsd init`
+- Added explanation of `-g` flag meaning "global installation"
+- Auto-normalize project names (spaces→hyphens, uppercase→lowercase)
+- Smart folder detection - offers to use current directory if empty and matches project name
+- Clear messaging about where files will be created
+- Suppressed git initialization hints for cleaner output
+- Enhanced GitHub CLI missing message with complete setup instructions
+- Added comprehensive troubleshooting section to README
+- Better error handling and user guidance throughout
+
+### Fixed
+- Project name validation now more user-friendly
+- Folder creation behavior is now clear and predictable
+- GitHub CLI setup instructions include authentication step
+
 ## [0.3.0] - 2025-01-23
 
 ### Added
@@ -124,6 +142,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript-ready configuration
 - Netlify deployment ready
 
+[0.3.1]: https://github.com/jezweb/flow-state-dev/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/jezweb/flow-state-dev/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/jezweb/flow-state-dev/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/jezweb/flow-state-dev/compare/v0.1.1...v0.1.2
