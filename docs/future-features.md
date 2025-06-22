@@ -71,6 +71,24 @@ This document outlines all the features and ideas that were deferred from the in
 - Audit logging
 - Compliance tools
 
+## Version 4.0 - Modular Architecture
+
+### Modular Stack Selection
+Transform from monolithic templates to a modular system where users can mix and match:
+- **Frontend Frameworks**: Vue, React, Svelte, Solid, Next.js, Nuxt
+- **UI Libraries**: Vuetify, Material UI, Tailwind, Ant Design, Chakra UI
+- **Databases**: Supabase, Firebase, PostgreSQL, MongoDB, PlanetScale
+- **Backend**: Express, Fastify, Deno, Serverless, Edge Functions
+- **Auth**: Supabase Auth, Auth0, Clerk, Firebase Auth, NextAuth
+
+### Benefits
+- Hundreds of combinations from dozens of modules
+- Easier maintenance and updates
+- Community can contribute individual modules
+- Future-proof architecture
+
+See issue #24 for detailed architecture plans.
+
 ## Ideas Parking Lot
 
 ### Developer Experience
