@@ -32,6 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Preview of memory file before creation with confirmation
 - Better organized tech stack selection with categories
 - Improved work style descriptions with emoji indicators
+- Memory import now supports selective section import
+- Enhanced file scanning includes recent git repositories
+- Import preview shows file content before confirmation
+- Diff view for comparing memory files before import
+- Smart merge conflict resolution with multiple import modes
+- File validation ensures only valid memory files are imported
 
 ## [0.2.0] - 2025-01-22
 

@@ -71,11 +71,37 @@ fsd memory import
 fsd memory import /path/to/CLAUDE.md
 ```
 
-Automatically scans:
-- Current directory
-- Home directory
-- `~/claude/*` projects
-- `.claude` directories
+**Features:**
+- Preview source file before importing
+- Multiple import modes:
+  - **Replace completely** - Overwrite existing memory
+  - **Selective import** - Choose which sections to import
+  - **View differences** - Compare files before deciding
+- Smart conflict resolution
+- Automatic validation of memory file format
+
+**Automatically scans:**
+- Current directory (./CLAUDE.md)
+- Home directory (~/CLAUDE.md)
+- Claude projects (~/claude/*/CLAUDE.md)
+- Recent git repositories
+- Common development directories
+
+**Import Options:**
+1. **Replace Mode**: Complete replacement of existing memory
+2. **Selective Mode**: Choose specific sections to import
+3. **Diff Mode**: View side-by-side comparison before importing
+
+**Selective Import Example:**
+```
+🧩 Selective Import
+
+Select sections to import:
+◉ Personal Information (will replace existing)
+◯ Development Environment (unchanged)
+◉ Custom Workflow (new section)
+◯ Tech Stack Preferences (unchanged)
+```
 
 ## Memory File Structure
 

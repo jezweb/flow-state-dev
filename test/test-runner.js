@@ -272,6 +272,15 @@ fsd.on('close', (code) => {
         throw new Error('Memory show command output incorrect');
       }
       
+      // Test memory import help
+      const importHelpOutput = execSync(`node ${join(rootDir, 'bin/fsd.js')} memory import --help`, {
+        encoding: 'utf-8'
+      });
+      
+      if (!importHelpOutput.includes('Import memory from another file')) {
+        throw new Error('Memory import help command output incorrect');
+      }
+      
       return true;
     }
   }
