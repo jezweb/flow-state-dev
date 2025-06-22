@@ -69,6 +69,11 @@ run_test "Duplicate Project Check" "
     node '$ROOT_DIR/bin/fsd.js' init test-basic --no-interactive 2>&1 | grep -q 'already exists'
 "
 
+# Test 6: Post-install script
+run_test "Post-Install Script" "
+    node '$ROOT_DIR/test/test-post-install.js'
+"
+
 # Summary
 echo -e "\n===================================="
 echo -e "${BLUE}Test Summary:${NC}"

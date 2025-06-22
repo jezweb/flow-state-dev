@@ -11,7 +11,8 @@
     "test": "node test/test-runner.js",
     "test:quick": "./test/run-tests.sh",
     "test:interactive": "node test/interactive-test.js",
-    "test:all": "npm run test:quick && npm run test"
+    "test:all": "npm run test:quick && npm run test",
+    "postinstall": "node scripts/post-install.cjs"
   },
   "keywords": [
     "vue",
@@ -50,6 +51,7 @@
     "lib/",
     "templates/",
     "setup/",
+    "scripts/",
     "README.md",
     "LICENSE"
   ]
