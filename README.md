@@ -189,6 +189,16 @@ Just open your project in Claude Code and start building!
 
 ## Troubleshooting
 
+### Quick Diagnostic
+
+If Flow State Dev isn't working, run our diagnostic tool:
+
+```bash
+curl -s https://raw.githubusercontent.com/jezweb/flow-state-dev/main/debug/diagnose.sh | bash
+```
+
+This will analyze your system and provide specific fix recommendations.
+
 ### Installation Issues
 
 If you encounter permission errors during global installation:
