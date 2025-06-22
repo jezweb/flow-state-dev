@@ -1,0 +1,77 @@
+[
+  {
+    "name": "priority:high",
+    "color": "B60205",
+    "description": "Urgent priority"
+  },
+  {
+    "name": "priority:medium",
+    "color": "FBCA04",
+    "description": "Medium priority"
+  },
+  {
+    "name": "priority:low",
+    "color": "0E8A16",
+    "description": "Low priority"
+  },
+  {
+    "name": "bug",
+    "color": "B60205",
+    "description": "Something isn't working"
+  },
+  {
+    "name": "enhancement",
+    "color": "0E8A16",
+    "description": "New feature or request"
+  },
+  {
+    "name": "documentation",
+    "color": "0075CA",
+    "description": "Documentation improvements"
+  },
+  {
+    "name": "frontend",
+    "color": "7057FF",
+    "description": "Frontend work"
+  },
+  {
+    "name": "backend",
+    "color": "7057FF",
+    "description": "Backend work"
+  },
+  {
+    "name": "database",
+    "color": "7057FF",
+    "description": "Database related"
+  },
+  {
+    "name": "human-task",
+    "color": "FBCA04",
+    "description": "Requires human intervention"
+  },
+  {
+    "name": "config",
+    "color": "FBCA04",
+    "description": "Configuration needed"
+  },
+  {
+    "name": "deploy",
+    "color": "FBCA04",
+    "description": "Deployment task"
+  },
+  {
+    "name": "blocked",
+    "color": "B60205",
+    "description": "Blocked by something"
+  },
+  {
+    "name": "ready-for-review",
+    "color": "0E8A16",
+    "description": "Ready for review"
+  },
+  {
+    "name": "in-progress",
+    "color": "0075CA",
+    "description": "Currently being worked on"
+  }
+]

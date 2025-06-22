@@ -1,0 +1,41 @@
+{
+  "name": "flow-state-dev",
+  "version": "0.1.0",
+  "description": "The fastest way to start a Vue 3 + Supabase project that both you and Claude Code will love",
+  "main": "bin/fsd.js",
+  "bin": {
+    "fsd": "./bin/fsd.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "supabase",
+    "vuetify",
+    "template",
+    "cli",
+    "claude",
+    "ai",
+    "development"
+  ],
+  "author": "Jez Dawes <jez@jezweb.com.au>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jezweb/flow-state-dev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jezweb/flow-state-dev/issues"
+  },
+  "homepage": "https://github.com/jezweb/flow-state-dev#readme",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.12"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
