@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-01-22
+
 ### Added
 - Interactive setup mode for `fsd init` command
 - Prompts for Supabase configuration during project creation
@@ -15,10 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to run GitHub labels setup immediately
 - `--no-interactive` flag to skip interactive setup
 - `.claude/settings.json` with pre-approved commands for smoother Claude Code experience
+- Comprehensive permissions for common development commands
+- WebFetch permissions for documentation sites
 
 ### Changed
 - Simplified project setup - no manual .env configuration needed
 - Better onboarding experience for new users
+- Expanded Claude Code permissions to cover most development scenarios
 
 ## [0.1.2] - 2025-01-22
 
@@ -64,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript-ready configuration
 - Netlify deployment ready
 
+[0.2.0]: https://github.com/jezweb/flow-state-dev/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/jezweb/flow-state-dev/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/jezweb/flow-state-dev/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jezweb/flow-state-dev/releases/tag/v0.1.0
