@@ -5,6 +5,14 @@ All notable changes to Flow State Dev will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- Enhanced .gitignore file in template with comprehensive ignore patterns
+- Now properly ignores all environment files, temporary files, and build artifacts
+- Added .eslintrc.cjs configuration file to prevent linting errors on fresh projects
+- Configured ESLint for Vue 3 with sensible defaults (allows single-word component names)
+
 ## [0.1.1] - 2025-01-22
 
 ### Changed
