@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Now properly ignores all environment files, temporary files, and build artifacts
 - Added .eslintrc.cjs configuration file to prevent linting errors on fresh projects
 - Configured ESLint for Vue 3 with sensible defaults (allows single-word component names)
+- Made Supabase initialization graceful - app runs without crashing when not configured
+- Added offline mode support with clear warnings when Supabase is not configured
+- Created SupabaseStatus component to notify users about missing configuration
 
 ## [0.1.1] - 2025-01-22
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { auth } from '@/services/supabase'
+import { auth, isSupabaseConfigured } from '@/services/supabase'
 
 export const useAuthStore = defineStore('auth', () => {
   // State
@@ -16,6 +16,13 @@ export const useAuthStore = defineStore('auth', () => {
   // Actions
   const initialize = async () => {
     try {
+      // Skip initialization if Supabase is not configured
+      if (!isSupabaseConfigured) {
+        console.warn('Auth: Running without Supabase - authentication disabled')
+        loading.value = false
+        return
+      }
+
       // Get initial session
       const { data: { session: currentSession } } = await auth.getSession()
       if (currentSession) {
@@ -36,6 +43,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const signIn = async (email, password) => {
+    if (!isSupabaseConfigured) {
+      console.warn('Cannot sign in: Supabase is not configured')
+      return { data: null, error: new Error('Supabase is not configured') }
+    }
+
     try {
       loading.value = true
       const { data, error } = await auth.signIn(email, password)
@@ -50,6 +62,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const signUp = async (email, password) => {
+    if (!isSupabaseConfigured) {
+      console.warn('Cannot sign up: Supabase is not configured')
+      return { data: null, error: new Error('Supabase is not configured') }
+    }
+
     try {
       loading.value = true
       const { data, error } = await auth.signUp(email, password)
@@ -64,6 +81,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const signOut = async () => {
+    if (!isSupabaseConfigured) {
+      console.warn('Cannot sign out: Supabase is not configured')
+      return
+    }
+
     try {
       loading.value = true
       const { error } = await auth.signOut()

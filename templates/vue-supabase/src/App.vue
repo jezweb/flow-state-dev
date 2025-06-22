@@ -34,6 +34,9 @@
 
     <!-- Main Content -->
     <v-main>
+      <!-- Supabase Status Alert -->
+      <SupabaseStatus />
+      
       <v-container>
         <router-view />
       </v-container>
@@ -52,6 +55,7 @@
 import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import SupabaseStatus from '@/components/SupabaseStatus.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
