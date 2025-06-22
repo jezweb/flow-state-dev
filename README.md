@@ -3,11 +3,11 @@
 [![npm version](https://badge.fury.io/js/flow-state-dev.svg)](https://www.npmjs.com/package/flow-state-dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> The fastest way to start a Vue 3 + Supabase project that both you and Claude Code will love.
+> The fastest way to start a modern web project that both you and Claude Code will love.
 
 ## What is Flow State Dev?
 
-Flow State Dev (FSD) provides a simple, opinionated project template and workflow for building Vue 3 + Supabase applications. It's designed to eliminate the friction between human developers and AI coding assistants by standardizing project structure and documentation.
+Flow State Dev (FSD) provides simple, opinionated project templates and workflows for building modern web applications. It's designed to eliminate the friction between human developers and AI coding assistants by standardizing project structure and documentation.
 
 ## Quick Start (2 minutes)
 
@@ -30,6 +30,7 @@ fsd init my-awesome-app
 ```
 
 The interactive setup will guide you through:
+- 🎨 Choosing your framework (Vue, React, and more coming soon)
 - ✅ Configuring Supabase credentials
 - ✅ Connecting to GitHub repository
 - ✅ Setting up GitHub labels
@@ -44,23 +45,31 @@ npm run dev
 
 That's it! Your project is configured and ready to run.
 
-You now have a fully configured Vue 3 + Vuetify + Supabase project with:
+You now have a fully configured project with:
+- 🎨 Your choice of framework and UI library
 - ✅ Proper project structure
 - ✅ Claude-ready documentation
 - ✅ Supabase integration
-- ✅ Vuetify 3 UI components
+- ✅ Modern UI components
 - ✅ Type-safe development
 - ✅ GitHub-ready with proper .gitignore
 
 ## What's Included?
 
-### Project Template
+### Available Frameworks
+
+#### ✅ Vue 3 + Vuetify (Available Now)
 - **Vue 3** with Composition API
 - **Vuetify 3** for beautiful Material Design components
 - **Supabase** for backend (auth, database, storage)
 - **Vue Router** for navigation
 - **Pinia** for state management
 - **Vite** for lightning-fast builds
+
+#### 🔜 Coming Soon
+- **React + Material UI** - React with Material Design
+- **Vue 3 + Tailwind** - Vue with utility-first CSS
+- **SvelteKit + Skeleton UI** - Full-stack with SSR
 
 ### Developer Tools
 - `CLAUDE.md` file pre-configured with project info
@@ -75,6 +84,8 @@ You now have a fully configured Vue 3 + Vuetify + Supabase project with:
 fsd init [project-name]  # Create a new project (interactive)
 fsd init [project-name] --no-interactive  # Skip interactive setup
 fsd labels              # Set up GitHub labels for current repo
+fsd memory init         # Create your Claude Code memory file
+fsd memory show         # Display your memory file
 fsd help               # Show all commands
 ```
 
@@ -165,8 +176,9 @@ Just open your project in Claude Code and start building!
 - **Zero Configuration**: Start coding immediately
 - **Best Practices Built-in**: Proper structure from day one
 - **AI-Friendly**: Claude Code understands your project instantly
-- **Your Stack**: Optimized for Vue 3 + Supabase development
+- **Multiple Frameworks**: Choose the stack that works for you
 - **Minimal**: Just what you need, nothing more
+- **Future-Ready**: Easy to add new frameworks and templates
 
 ## Troubleshooting
 

@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auto-detection of OS and environment
 - Smart scanning for existing memory files to import
 - Interactive tech stack selection during setup
+- Framework selection prompt during `fsd init`
+- Support for multiple framework templates (Vue 3 + Vuetify available)
+- Framework configuration system for easy template additions
+- Coming soon placeholders for React, Vue+Tailwind, and SvelteKit
 
 ### Enhanced
 - Memory quick setup now has minimal mode option (--minimal flag)

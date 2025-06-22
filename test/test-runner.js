@@ -283,6 +283,33 @@ fsd.on('close', (code) => {
       
       return true;
     }
+  },
+  
+  frameworkSelection: {
+    name: 'Framework Selection',
+    run: async () => {
+      const projectName = 'test-framework';
+      const projectPath = join(testDir, projectName);
+      
+      await fs.remove(projectPath);
+      
+      // Test non-interactive mode uses default framework
+      execSync(`node ${join(rootDir, 'bin/fsd.js')} init ${projectName} --no-interactive`, {
+        cwd: testDir,
+        stdio: 'inherit'
+      });
+      
+      // Verify Vue/Vuetify template was used
+      const packageJson = await fs.readJson(join(projectPath, 'package.json'));
+      if (!packageJson.dependencies.vuetify) {
+        throw new Error('Default framework should be Vue + Vuetify');
+      }
+      
+      // Clean up
+      await fs.remove(projectPath);
+      
+      return true;
+    }
   }
 };
 

@@ -8,10 +8,11 @@ import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import { initMemory, showMemory, editMemory, importMemory } from '../lib/memory.js';
+import { frameworks, getFramework, formatFrameworkInfo } from '../lib/frameworks.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const templateDir = path.join(__dirname, '..', 'templates', 'vue-supabase');
+// Template directory is now determined by framework selection
 
 const program = new Command();
 
@@ -30,7 +31,7 @@ program
 // Init command
 program
   .command('init [project-name]')
-  .description('Create a new Vue 3 + Supabase project')
+  .description('Create a new project with your choice of framework')
   .option('--no-interactive', 'Skip interactive setup')
   .action(async (projectName, options) => {
     console.log(logo);
@@ -52,6 +53,35 @@ program
       projectName = answers.projectName;
     }
 
+    // Framework selection
+    let selectedFramework;
+    
+    if (options.interactive !== false) {
+      console.log(chalk.blue('\n🎨 Choose your framework:\n'));
+      
+      const { framework } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'framework',
+          message: 'Select a framework:',
+          choices: frameworks.map(f => ({
+            name: f.name,
+            value: f.value,
+            disabled: f.comingSoon ? chalk.gray('Coming soon') : false
+          })),
+          default: 'vue-vuetify'
+        }
+      ]);
+      
+      selectedFramework = getFramework(framework);
+      
+      // Show framework details
+      console.log(formatFrameworkInfo(selectedFramework));
+    } else {
+      // Default to Vue + Vuetify for non-interactive mode
+      selectedFramework = getFramework('vue-vuetify');
+    }
+    
     const targetDir = path.join(process.cwd(), projectName);
 
     // Check if directory exists
@@ -60,10 +90,17 @@ program
       process.exit(1);
     }
 
-    console.log(chalk.blue(`\n📁 Creating project: ${projectName}`));
+    console.log(chalk.blue(`\n📁 Creating ${selectedFramework.short} project: ${projectName}`));
 
     try {
-      // Copy template
+      // Copy template based on selected framework
+      const templateDir = path.join(__dirname, '..', 'templates', selectedFramework.templateDir);
+      
+      if (!fs.existsSync(templateDir)) {
+        console.log(chalk.red(`❌ Template directory not found: ${selectedFramework.templateDir}`));
+        process.exit(1);
+      }
+      
       await fs.copy(templateDir, targetDir);
 
       // Update package.json with project name
