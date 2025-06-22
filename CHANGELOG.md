@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2025-01-23
+
+### Added
+- **Post-install verification script** - Automatically tests installation after npm install
+- **Comprehensive diagnostic tools** for troubleshooting installation issues
+- **Installation success feedback** with version confirmation and next steps
+- **Automated fix script** for common installation problems
+- **Cross-platform compatibility** for post-install checks (Windows, macOS, Linux)
+
+### Enhanced
+- **Installation experience** now provides immediate feedback and guidance
+- **Error handling** with specific troubleshooting recommendations
+- **Test suite** includes post-install script validation
+- **Documentation** with quick diagnostic commands for users
+
+### Fixed
+- **Installation verification** helps identify and resolve "command not found" issues
+- **PATH configuration** guidance for different shell environments
+- **Node version manager** compatibility improvements
+
+### Tools Added
+- `debug/diagnose.sh` - Quick system and installation analysis
+- `debug/diagnose.js` - Detailed Node.js-based diagnostics
+- `debug/test-install.sh` - Complete installation testing
+- `debug/fix-install.sh` - Automated installation repair
+- `scripts/post-install.cjs` - Post-installation verification
+
 ## [0.3.1] - 2025-01-23
 
 ### Improved
@@ -142,6 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript-ready configuration
 - Netlify deployment ready
 
+[0.3.2]: https://github.com/jezweb/flow-state-dev/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/jezweb/flow-state-dev/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/jezweb/flow-state-dev/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/jezweb/flow-state-dev/compare/v0.1.2...v0.2.0
