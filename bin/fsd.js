@@ -7,7 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import inquirer from 'inquirer';
-import { initMemory, showMemory, editMemory, importMemory } from '../lib/memory.js';
+import { initMemory, showMemory, editMemory, importMemory, validateMemory } from '../lib/memory.js';
 import { frameworks, getFramework, formatFrameworkInfo } from '../lib/frameworks.js';
 import { runDoctor } from '../lib/doctor.js';
 
@@ -387,6 +387,24 @@ memoryCmd
   .action(async (source) => {
     console.log(logo);
     await importMemory(source);
+  });
+
+memoryCmd
+  .command('validate [file]')
+  .description('Validate memory file structure and content')
+  .option('--strict', 'Enable strict validation mode')
+  .option('--fix', 'Auto-fix common issues')
+  .action(async (file, options) => {
+    console.log(logo);
+    await validateMemory(file, options);
+  });
+
+memoryCmd
+  .command('fix [file]')
+  .description('Auto-fix common issues in memory file')
+  .action(async (file) => {
+    console.log(logo);
+    await validateMemory(file, { fix: true });
   });
 
 // Default action for memory command (show help)

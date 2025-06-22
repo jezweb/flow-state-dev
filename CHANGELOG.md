@@ -36,6 +36,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added responsive design guidelines and performance tips
 - Expanded testing checklist and debugging information
 - Common gotchas documentation for authentication and Vuetify
+- Memory file validation and linting with `fsd memory validate`
+- Auto-fix capability for memory files with `fsd memory fix`
+- Structure validation: markdown syntax, heading hierarchy, file size
+- Content validation: required sections, clear instructions, no contradictions
+- Security checks: detect passwords, API keys, sensitive information
+- Version checks: validate tech stack versions are current
+- Best practices enforcement: actionable instructions, proper organization
+- Strict validation mode for comprehensive checks
+- Memory validation documentation in `docs/MEMORY-VALIDATION.md`
 
 ### Enhanced
 - Memory quick setup now has minimal mode option (--minimal flag)

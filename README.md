@@ -145,9 +145,11 @@ This creates a personalized memory file at `~/.claude/CLAUDE.md` with:
 
 ### Other Memory Commands
 ```bash
-fsd memory show    # Display your current memory file
-fsd memory edit    # Open memory file in your editor
-fsd memory import  # Import from existing memory files
+fsd memory show      # Display your current memory file
+fsd memory edit      # Open memory file in your editor
+fsd memory import    # Import from existing memory files
+fsd memory validate  # Validate memory file structure
+fsd memory fix       # Auto-fix common issues
 ```
 
 ### Why Use Memory Files?
