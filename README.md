@@ -84,6 +84,8 @@ You now have a fully configured project with:
 fsd init [project-name]  # Create a new project (interactive)
 fsd init [project-name] --no-interactive  # Skip interactive setup
 fsd labels              # Set up GitHub labels for current repo
+fsd doctor              # Run diagnostics on your project
+fsd doctor --fix        # Auto-fix common issues
 fsd memory init         # Create your Claude Code memory file
 fsd memory show         # Display your memory file
 fsd help               # Show all commands

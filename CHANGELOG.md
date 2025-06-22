@@ -28,6 +28,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for multiple framework templates (Vue 3 + Vuetify available)
 - Framework configuration system for easy template additions
 - Coming soon placeholders for React, Vue+Tailwind, and SvelteKit
+- New `fsd doctor` command for project diagnostics
+- Auto-fix capability with `fsd doctor --fix`
+- Enhanced error messages with specific solutions and commands
+- Comprehensive error handling system with helpful troubleshooting
+- CLAUDE.md template enhanced with Vue 3 best practices
+- Added responsive design guidelines and performance tips
+- Expanded testing checklist and debugging information
+- Common gotchas documentation for authentication and Vuetify
 
 ### Enhanced
 - Memory quick setup now has minimal mode option (--minimal flag)

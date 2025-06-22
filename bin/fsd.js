@@ -9,6 +9,7 @@ import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import { initMemory, showMemory, editMemory, importMemory } from '../lib/memory.js';
 import { frameworks, getFramework, formatFrameworkInfo } from '../lib/frameworks.js';
+import { runDoctor } from '../lib/doctor.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -233,7 +234,8 @@ VITE_APP_ENV=development
                 }
               }
             } catch (error) {
-              console.log(chalk.yellow('⚠️  Could not add GitHub remote. You can do this manually later.'));
+              console.log(chalk.yellow('⚠️  Could not add GitHub remote:'));
+              console.log(formatError(error, { command: 'git remote add' }));
             }
           }
         }
@@ -392,6 +394,17 @@ memoryCmd
   .action(() => {
     console.log(logo);
     memoryCmd.outputHelp();
+  });
+
+// Doctor command
+program
+  .command('doctor')
+  .description('Run diagnostics on your Flow State Dev project')
+  .option('--fix', 'Automatically fix issues where possible')
+  .action(async (options) => {
+    console.log(logo);
+    const exitCode = await runDoctor(options);
+    process.exit(exitCode);
   });
 
 // Help command

@@ -310,6 +310,41 @@ fsd.on('close', (code) => {
       
       return true;
     }
+  },
+  
+  doctorCommand: {
+    name: 'Doctor Command',
+    run: async () => {
+      const projectName = 'test-doctor';
+      const projectPath = join(testDir, projectName);
+      
+      // Create a test project
+      await fs.remove(projectPath);
+      execSync(`node ${join(rootDir, 'bin/fsd.js')} init ${projectName} --no-interactive`, {
+        cwd: testDir,
+        stdio: 'inherit'
+      });
+      
+      // Run doctor command
+      const doctorOutput = execSync(`node ${join(rootDir, 'bin/fsd.js')} doctor`, {
+        cwd: projectPath,
+        encoding: 'utf-8'
+      });
+      
+      // Check output contains expected elements
+      if (!doctorOutput.includes('Running Flow State Dev diagnostics')) {
+        throw new Error('Doctor command output missing diagnostics header');
+      }
+      
+      if (!doctorOutput.includes('Flow State Dev Project')) {
+        throw new Error('Doctor command did not check for Flow State Dev markers');
+      }
+      
+      // Clean up
+      await fs.remove(projectPath);
+      
+      return true;
+    }
   }
 };
 
