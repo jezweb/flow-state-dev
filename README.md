@@ -10,9 +10,19 @@ Flow State Dev (FSD) provides a simple, opinionated project template and workflo
 
 ### 1. Install Flow State Dev
 
+Currently, install directly from GitHub:
+
 ```bash
-npm install -g flow-state-dev
+# Option 1: Install from GitHub (Recommended for now)
+npm install -g git+https://github.com/jezweb/flow-state-dev.git
+
+# Option 2: Clone and install locally
+git clone https://github.com/jezweb/flow-state-dev.git
+cd flow-state-dev
+npm install -g .
 ```
+
+> **Note**: npm package coming soon! Once published, you'll be able to use `npm install -g flow-state-dev`
 
 ### 2. Create a new project
 
@@ -126,6 +136,29 @@ Just open your project in Claude Code and start building!
 - **AI-Friendly**: Claude Code understands your project instantly
 - **Your Stack**: Optimized for Vue 3 + Supabase development
 - **Minimal**: Just what you need, nothing more
+
+## Troubleshooting
+
+### Installation Issues
+
+If you encounter permission errors during global installation:
+
+```bash
+# On macOS/Linux, you might need sudo
+sudo npm install -g git+https://github.com/jezweb/flow-state-dev.git
+
+# Or configure npm to use a different directory
+npm config set prefix ~/.npm-global
+export PATH=~/.npm-global/bin:$PATH
+```
+
+### Command Not Found
+
+After installation, if `fsd` command is not found:
+
+1. Check npm global bin directory: `npm bin -g`
+2. Make sure it's in your PATH
+3. Try running with full path: `$(npm bin -g)/fsd`
 
 ## Getting Help
 

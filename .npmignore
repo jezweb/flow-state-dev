@@ -1,0 +1,25 @@
+# Documentation
+docs/archive/
+*.md
+!README.md
+!templates/**/*.md
+
+# Git
+.git/
+.gitignore
+
+# Development
+.vscode/
+.idea/
+*.log
+.DS_Store
+
+# Test projects
+test/
+examples/
+
+# GitHub specific
+.github/
+
+# Build artifacts
+*.tgz
