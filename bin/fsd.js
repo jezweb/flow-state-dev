@@ -320,6 +320,7 @@ memoryCmd
   .command('init')
   .description('Initialize a new user memory file')
   .option('-f, --force', 'Overwrite existing memory file')
+  .option('-m, --minimal', 'Use minimal setup with all defaults')
   .action(async (options) => {
     console.log(logo);
     await initMemory(options);

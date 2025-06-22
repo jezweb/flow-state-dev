@@ -25,6 +25,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smart scanning for existing memory files to import
 - Interactive tech stack selection during setup
 
+### Enhanced
+- Memory quick setup now has minimal mode option (--minimal flag)
+- Setup reduced to essential questions only with smart defaults
+- Auto-detection now includes OS version, shell, Node.js version
+- Preview of memory file before creation with confirmation
+- Better organized tech stack selection with categories
+- Improved work style descriptions with emoji indicators
+
 ## [0.2.0] - 2025-01-22
 
 ### Added
