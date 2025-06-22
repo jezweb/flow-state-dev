@@ -11,6 +11,7 @@ import { initMemory, showMemory, editMemory, importMemory, validateMemory } from
 import { frameworks, getFramework, formatFrameworkInfo } from '../lib/frameworks.js';
 import { runDoctor } from '../lib/doctor.js';
 import { formatError } from '../lib/errors.js';
+import { analyzeDirectory, formatDirectoryInfo, performSafetyChecks } from '../lib/directory-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,13 +29,16 @@ const logo = chalk.cyan(`
 program
   .name('fsd')
   .description('Flow State Dev - Vue 3 + Supabase project generator')
-  .version('0.3.2');
+  .version('0.4.0');
 
 // Init command
 program
   .command('init [project-name]')
   .description('Create a new project with your choice of framework')
   .option('--no-interactive', 'Skip interactive setup')
+  .option('--here', 'Create project in current directory')
+  .option('--subfolder', 'Create project in subfolder (default)')
+  .option('--force', 'Skip safety confirmations (use with caution)')
   .action(async (projectName, options) => {
     console.log(logo);
     
@@ -104,36 +108,105 @@ program
       selectedFramework = getFramework('vue-vuetify');
     }
 
-    // Smart folder detection
+    // Check for conflicting flags
+    if (options.here && options.subfolder) {
+      console.log(chalk.red('❌ Cannot use both --here and --subfolder flags'));
+      process.exit(1);
+    }
+
+    // Directory selection
     const currentDir = process.cwd();
     const currentDirName = path.basename(currentDir);
     let targetDir;
     let useCurrentDir = false;
 
-    // Check if current directory is empty and matches project name
-    const currentDirFiles = fs.readdirSync(currentDir).filter(f => !f.startsWith('.'));
-    const isCurrentDirEmpty = currentDirFiles.length === 0;
-    const currentDirMatchesProject = currentDirName.toLowerCase() === projectName.toLowerCase();
-
-    if (isCurrentDirEmpty && currentDirMatchesProject && options.interactive !== false) {
-      // Offer to use current directory
-      const { useCurrentDirectory } = await inquirer.prompt([
+    // Determine target directory based on flags or interactive prompt
+    if (options.here) {
+      // Explicit --here flag
+      targetDir = currentDir;
+      useCurrentDir = true;
+    } else if (options.subfolder || options.interactive === false) {
+      // Explicit --subfolder flag or non-interactive mode
+      targetDir = path.join(currentDir, projectName);
+      useCurrentDir = false;
+    } else {
+      // Interactive mode - ask user
+      const currentAnalysis = analyzeDirectory(currentDir);
+      const subfolderPath = path.join(currentDir, projectName);
+      
+      // Show directory info
+      console.log(chalk.blue('\n📍 Directory Selection:\n'));
+      
+      const { directoryChoice } = await inquirer.prompt([
         {
-          type: 'confirm',
-          name: 'useCurrentDirectory',
-          message: `Initialize project in current directory (${currentDirName})?`,
-          default: true
+          type: 'list',
+          name: 'directoryChoice',
+          message: 'Where should we create your project files?',
+          choices: [
+            {
+              name: `./${projectName}/ (new subfolder)`,
+              value: 'subfolder',
+              short: 'Subfolder'
+            },
+            {
+              name: `./ (current directory)`,
+              value: 'current',
+              short: 'Current'
+            }
+          ],
+          default: 'subfolder'
         }
       ]);
-
-      if (useCurrentDirectory) {
+      
+      // Show current directory info after choice
+      console.log();
+      formatDirectoryInfo(currentAnalysis).forEach(line => {
+        console.log(chalk.gray(line));
+      });
+      
+      if (directoryChoice === 'current') {
         targetDir = currentDir;
         useCurrentDir = true;
       } else {
-        targetDir = path.join(currentDir, projectName);
+        targetDir = subfolderPath;
+        useCurrentDir = false;
       }
-    } else {
-      targetDir = path.join(currentDir, projectName);
+    }
+
+    // Perform safety checks if using current directory
+    if (useCurrentDir && !options.force) {
+      const analysis = analyzeDirectory(targetDir);
+      const safety = performSafetyChecks(analysis);
+      
+      if (!safety.safe) {
+        console.log(chalk.red('\n❌ Cannot create project in this directory:\n'));
+        safety.issues.forEach(issue => {
+          console.log(chalk.red(`   • ${issue.message}`));
+          console.log(chalk.gray(`     ${issue.suggestion}`));
+        });
+        process.exit(1);
+      }
+      
+      if (safety.needsConfirmation) {
+        console.log(chalk.yellow('\n⚠️  Warning:\n'));
+        safety.warnings.forEach(warning => {
+          console.log(chalk.yellow(`   • ${warning.message}`));
+        });
+        
+        const { proceed } = await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'proceed',
+            message: 'Are you sure you want to create the project here?',
+            default: false
+          }
+        ]);
+        
+        if (!proceed) {
+          console.log(chalk.gray('\nProject creation cancelled.'));
+          process.exit(0);
+        }
+      }
     }
 
     // Show where files will go

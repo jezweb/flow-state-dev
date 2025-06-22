@@ -11,19 +11,20 @@ Flow State Dev (FSD) provides simple, opinionated project templates and workflow
 
 ## Quick Start (2 minutes)
 
-### 1. Install Flow State Dev
+### Option 1: Use without installation (recommended)
+
+```bash
+npx flow-state-dev init
+```
+*No installation needed! Just run and create your project*
+
+### Option 2: Install globally for frequent use
 
 ```bash
 npm install -g flow-state-dev
-```
-*The `-g` flag installs globally so you can use `fsd` from anywhere*
-
-### 2. Create a new project
-
-```bash
 fsd init
 ```
-*Choose a project name like `my-blog`, `todo-app`, or `e-commerce-site`*
+*The `-g` flag installs globally so you can use `fsd` from anywhere*
 
 The interactive setup will guide you through:
 - 🎨 Choosing your framework (Vue, React, and more coming soon)
@@ -43,10 +44,15 @@ That's it! Your project is configured and ready to run.
 
 ### Where Do Files Go?
 
-Flow State Dev creates a new folder for your project:
-- If you're in `~/projects/` and run `fsd init my-blog`
-- Files go in `~/projects/my-blog/`
-- Then `cd my-blog` to enter your project
+By default, Flow State Dev creates a new subfolder for your project. You'll be asked where to put files:
+- **Subfolder** (default): Creates `./my-app/` in current directory
+- **Current directory**: Adds files to where you are now
+
+Use flags to skip the prompt:
+```bash
+fsd init my-app --subfolder  # Always create subfolder
+fsd init my-app --here       # Use current directory
+```
 
 You now have a fully configured project with:
 - 🎨 Your choice of framework and UI library
@@ -82,6 +88,17 @@ You now have a fully configured project with:
 - Clear folder structure
 
 ## Commands
+
+### Using npx (no installation needed)
+
+```bash
+npx flow-state-dev init           # Create a new project
+npx flow-state-dev doctor         # Run diagnostics
+npx flow-state-dev memory init    # Setup Claude memory
+npx flow-state-dev labels         # Setup GitHub labels
+```
+
+### Using global installation
 
 ```bash
 fsd init                # Create a new project (interactive)
@@ -171,6 +188,30 @@ The generated `CLAUDE.md` file helps Claude Code understand your project immedia
 
 Just open your project in Claude Code and start building!
 
+## Using npx (No Installation Needed!)
+
+Don't want to install globally? Use npx to run Flow State Dev directly:
+
+```bash
+# Create a new project
+npx flow-state-dev init my-app
+
+# Run diagnostics
+npx flow-state-dev doctor
+
+# Set up GitHub labels
+npx flow-state-dev labels
+
+# Create memory file
+npx flow-state-dev memory init
+```
+
+Benefits of using npx:
+- ✅ No global installation required
+- ✅ Always uses the latest version
+- ✅ No PATH configuration needed
+- ✅ Perfect for trying out Flow State Dev
+
 ## Requirements
 
 - Node.js 18+ 
@@ -201,7 +242,12 @@ This will analyze your system and provide specific fix recommendations.
 
 ### Installation Issues
 
-If you encounter permission errors during global installation:
+**Recommended: Use npx to avoid installation issues entirely:**
+```bash
+npx flow-state-dev init
+```
+
+If you prefer global installation and encounter permission errors:
 
 ```bash
 # On macOS/Linux, you might need sudo
@@ -214,11 +260,19 @@ export PATH=~/.npm-global/bin:$PATH
 
 ### Command Not Found
 
-After installation, if `fsd` command is not found:
+If `fsd` command is not found after global installation:
 
+**Quick Solution: Use npx instead**
+```bash
+npx flow-state-dev init
+```
+
+Or fix your PATH:
 1. Check npm global bin directory: `npm bin -g`
 2. Make sure it's in your PATH
 3. Try running with full path: `$(npm bin -g)/fsd`
+
+**Linux Users**: See our comprehensive [Linux Troubleshooting Guide](docs/LINUX-TROUBLESHOOTING.md) for detailed PATH configuration instructions.
 
 ### GitHub CLI Not Installed
 

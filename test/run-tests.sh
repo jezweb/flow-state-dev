@@ -74,6 +74,28 @@ run_test "Post-Install Script" "
     node '$ROOT_DIR/test/test-post-install.js'
 "
 
+# Test 7: Directory flags
+run_test "Subfolder Flag" "
+    cd '$TEST_DIR' && \\
+    node '$ROOT_DIR/bin/fsd.js' init test-subfolder --subfolder --no-interactive && \\
+    [ -d test-subfolder ] && \\
+    [ -f test-subfolder/package.json ]
+"
+
+# Test 8: Here flag in empty directory
+run_test "Here Flag" "
+    mkdir -p '$TEST_DIR/test-here' && \\
+    cd '$TEST_DIR/test-here' && \\
+    node '$ROOT_DIR/bin/fsd.js' init test-here --here --no-interactive && \\
+    [ -f package.json ]
+"
+
+# Test 9: Safety check
+run_test "Safety Check" "
+    cd '$TEST_DIR/test-here' && \\
+    node '$ROOT_DIR/bin/fsd.js' init another --here --no-interactive 2>&1 | grep -q 'Cannot create project'
+"
+
 # Summary
 echo -e "\n===================================="
 echo -e "${BLUE}Test Summary:${NC}"

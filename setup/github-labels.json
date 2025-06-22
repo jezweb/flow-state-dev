@@ -1,152 +1,272 @@
 [
   {
-    "name": "priority:high",
-    "color": "B60205",
-    "description": "Urgent priority"
+    "name": "type:feature",
+    "color": "10b981",
+    "description": "New functionality"
   },
   {
-    "name": "priority:medium",
-    "color": "FBCA04",
-    "description": "Medium priority"
-  },
-  {
-    "name": "priority:low",
-    "color": "0E8A16",
-    "description": "Low priority"
-  },
-  {
-    "name": "bug",
-    "color": "B60205",
+    "name": "type:bug",
+    "color": "dc2626",
     "description": "Something isn't working"
   },
   {
-    "name": "enhancement",
-    "color": "0E8A16",
-    "description": "New feature or request"
+    "name": "type:enhancement",
+    "color": "10b981",
+    "description": "Improvement to existing features"
   },
   {
-    "name": "feature",
-    "color": "0E8A16",
-    "description": "New feature"
+    "name": "type:refactor",
+    "color": "3b82f6",
+    "description": "Code restructuring without changing behavior"
   },
   {
-    "name": "documentation",
-    "color": "0075CA",
-    "description": "Documentation improvements"
+    "name": "type:test",
+    "color": "10b981",
+    "description": "Test creation or modification"
   },
   {
-    "name": "frontend",
-    "color": "7057FF",
-    "description": "Frontend work"
+    "name": "type:docs",
+    "color": "3b82f6",
+    "description": "Documentation updates"
   },
   {
-    "name": "backend",
-    "color": "7057FF",
-    "description": "Backend work"
+    "name": "type:style",
+    "color": "3b82f6",
+    "description": "Code formatting, missing semicolons, etc."
   },
   {
-    "name": "database",
-    "color": "7057FF",
-    "description": "Database related"
+    "name": "type:perf",
+    "color": "f59e0b",
+    "description": "Performance improvements"
   },
   {
-    "name": "cli",
-    "color": "0075CA",
-    "description": "Command line interface related"
+    "name": "type:security",
+    "color": "dc2626",
+    "description": "Security vulnerabilities or improvements"
   },
   {
-    "name": "templates",
-    "color": "7057FF",
-    "description": "Template system and files"
+    "name": "priority:critical",
+    "color": "dc2626",
+    "description": "Show-stopper, needs immediate attention"
   },
   {
-    "name": "ux",
-    "color": "FBCA04",
-    "description": "User experience improvements"
+    "name": "priority:high",
+    "color": "ef4444",
+    "description": "Important, should be addressed soon"
   },
   {
-    "name": "testing",
-    "color": "0E8A16",
-    "description": "Test suite and testing tools"
+    "name": "priority:medium",
+    "color": "f59e0b",
+    "description": "Normal priority"
   },
   {
-    "name": "security",
-    "color": "B60205",
-    "description": "Security related issues"
+    "name": "priority:low",
+    "color": "10b981",
+    "description": "Nice to have, can wait"
   },
   {
-    "name": "performance",
-    "color": "FBCA04",
-    "description": "Performance optimizations"
+    "name": "status:ready",
+    "color": "10b981",
+    "description": "Ready to be worked on"
   },
   {
-    "name": "refactor",
-    "color": "0075CA",
-    "description": "Code refactoring"
-  },
-  {
-    "name": "research",
-    "color": "D876E3",
-    "description": "Investigation/research needed"
-  },
-  {
-    "name": "human-task",
-    "color": "FBCA04",
-    "description": "Requires human intervention"
-  },
-  {
-    "name": "config",
-    "color": "FBCA04",
-    "description": "Configuration needed"
-  },
-  {
-    "name": "deploy",
-    "color": "FBCA04",
-    "description": "Deployment task"
-  },
-  {
-    "name": "blocked",
-    "color": "B60205",
-    "description": "Blocked by something"
-  },
-  {
-    "name": "ready-for-review",
-    "color": "0E8A16",
-    "description": "Ready for review"
-  },
-  {
-    "name": "in-progress",
-    "color": "0075CA",
+    "name": "status:in-progress",
+    "color": "f59e0b",
     "description": "Currently being worked on"
   },
   {
-    "name": "needs-discussion",
-    "color": "FBCA04",
-    "description": "Requires team discussion"
+    "name": "status:blocked",
+    "color": "dc2626",
+    "description": "Blocked by another issue or external factor"
   },
   {
-    "name": "breaking-change",
-    "color": "B60205",
-    "description": "Breaking changes"
+    "name": "status:review",
+    "color": "3b82f6",
+    "description": "Needs code review"
   },
   {
-    "name": "good-for-beginners",
-    "color": "7057FF",
-    "description": "Even easier than good first issue"
+    "name": "status:testing",
+    "color": "f59e0b",
+    "description": "In testing phase"
   },
   {
-    "name": "integration",
-    "color": "7057FF",
-    "description": "Third-party integrations"
+    "name": "status:on-hold",
+    "color": "6b7280",
+    "description": "Temporarily paused"
   },
   {
-    "name": "import",
-    "color": "0075CA",
-    "description": "Import/export functionality"
+    "name": "ai:generated",
+    "color": "8b5cf6",
+    "description": "Code primarily generated by AI"
   },
   {
-    "name": "automation",
-    "color": "0E8A16",
-    "description": "Automation features"
+    "name": "ai:assisted",
+    "color": "8b5cf6",
+    "description": "Human-written with AI assistance"
+  },
+  {
+    "name": "ai:review-needed",
+    "color": "8b5cf6",
+    "description": "AI-generated code needs human review"
+  },
+  {
+    "name": "ai:prompt-update",
+    "color": "8b5cf6",
+    "description": "Prompt/context needs improvement"
+  },
+  {
+    "name": "ai:refactor-candidate",
+    "color": "8b5cf6",
+    "description": "Good candidate for AI refactoring"
+  },
+  {
+    "name": "ai:test-generation",
+    "color": "8b5cf6",
+    "description": "Tests can be generated by AI"
+  },
+  {
+    "name": "ai:needs-validation",
+    "color": "f59e0b",
+    "description": "AI output needs verification"
+  },
+  {
+    "name": "ai:hallucination",
+    "color": "dc2626",
+    "description": "AI provided incorrect information"
+  },
+  {
+    "name": "ai:incomplete",
+    "color": "f59e0b",
+    "description": "AI didn't complete the task fully"
+  },
+  {
+    "name": "ai:optimization-needed",
+    "color": "f59e0b",
+    "description": "AI code works but needs optimization"
+  },
+  {
+    "name": "component:frontend",
+    "color": "06b6d4",
+    "description": "Frontend/client-side"
+  },
+  {
+    "name": "component:backend",
+    "color": "06b6d4",
+    "description": "Backend/server-side"
+  },
+  {
+    "name": "component:api",
+    "color": "06b6d4",
+    "description": "API-related"
+  },
+  {
+    "name": "component:database",
+    "color": "06b6d4",
+    "description": "Database-related"
+  },
+  {
+    "name": "component:ui",
+    "color": "06b6d4",
+    "description": "User interface"
+  },
+  {
+    "name": "component:auth",
+    "color": "06b6d4",
+    "description": "Authentication/authorization"
+  },
+  {
+    "name": "component:deployment",
+    "color": "06b6d4",
+    "description": "Deployment/CI/CD"
+  },
+  {
+    "name": "tech:vue",
+    "color": "42b883",
+    "description": "Vue.js related"
+  },
+  {
+    "name": "tech:react",
+    "color": "61dafb",
+    "description": "React related"
+  },
+  {
+    "name": "tech:typescript",
+    "color": "3178c6",
+    "description": "TypeScript related"
+  },
+  {
+    "name": "tech:javascript",
+    "color": "f7df1e",
+    "description": "JavaScript related"
+  },
+  {
+    "name": "tech:supabase",
+    "color": "3ecf8e",
+    "description": "Supabase related"
+  },
+  {
+    "name": "needs:review",
+    "color": "f59e0b",
+    "description": "Needs code review"
+  },
+  {
+    "name": "needs:testing",
+    "color": "f59e0b",
+    "description": "Needs testing"
+  },
+  {
+    "name": "needs:discussion",
+    "color": "f59e0b",
+    "description": "Needs team discussion"
+  },
+  {
+    "name": "needs:ux-review",
+    "color": "f59e0b",
+    "description": "Needs UX/design review"
+  },
+  {
+    "name": "effort:small",
+    "color": "9ca3af",
+    "description": "Less than 2 hours"
+  },
+  {
+    "name": "effort:medium",
+    "color": "6b7280",
+    "description": "2-8 hours"
+  },
+  {
+    "name": "effort:large",
+    "color": "4b5563",
+    "description": "More than 8 hours"
+  },
+  {
+    "name": "good-first-issue",
+    "color": "7c3aed",
+    "description": "Good for newcomers"
+  },
+  {
+    "name": "help-wanted",
+    "color": "10b981",
+    "description": "Extra attention needed"
+  },
+  {
+    "name": "wontfix",
+    "color": "6b7280",
+    "description": "Won't be worked on"
+  },
+  {
+    "name": "duplicate",
+    "color": "6b7280",
+    "description": "Duplicate of another issue"
+  },
+  {
+    "name": "invalid",
+    "color": "6b7280",
+    "description": "Not a valid issue"
+  },
+  {
+    "name": "question",
+    "color": "6b7280",
+    "description": "Further information requested"
   }
 ]

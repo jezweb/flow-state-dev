@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-01-23
+
+### Added
+- **Directory selection prompt** - Always ask users where to create project files
+- **Command-line flags** for directory control:
+  - `--here` - Create project in current directory
+  - `--subfolder` - Create project in subfolder (default)
+  - `--force` - Skip safety confirmations
+- **Enhanced directory analysis** showing file counts and important files
+- **Safety checks** prevent overwriting existing projects
+- **npx support documentation** - Users can run without installation
+
+### Changed
+- Directory selection is now explicit rather than "smart"
+- Shows full directory path and contents before creating project
+- Improved error messages with actionable suggestions
+
+### Fixed
+- Hidden files no longer ignored when checking if directory is "empty"
+- Clearer behavior about where project files will be created
+
+### Updated
+- **Complete label system overhaul** - Now 54 labels optimized for AI-assisted development
+- **Prefix-based organization** - Labels grouped by type:, priority:, status:, ai:, component:, tech:, needs:, effort:
+- **AI-specific labels** added for Claude Code workflows (ai:generated, ai:review-needed, etc.)
+- **Better color coding** - Consistent color scheme by category
+- **Comprehensive documentation** - Updated LABELS.md with usage guidelines
+
 ## [0.3.2] - 2025-01-23
 
 ### Added
@@ -169,6 +197,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript-ready configuration
 - Netlify deployment ready
 
+[0.4.0]: https://github.com/jezweb/flow-state-dev/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/jezweb/flow-state-dev/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/jezweb/flow-state-dev/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/jezweb/flow-state-dev/compare/v0.2.0...v0.3.0
