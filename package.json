@@ -5,7 +5,7 @@
   "type": "module",
   "main": "bin/fsd.js",
   "bin": {
-    "fsd": "./bin/fsd.js"
+    "fsd": "bin/fsd.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

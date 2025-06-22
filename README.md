@@ -1,5 +1,8 @@
 # Flow State Dev 🚀
 
+[![npm version](https://badge.fury.io/js/flow-state-dev.svg)](https://www.npmjs.com/package/flow-state-dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > The fastest way to start a Vue 3 + Supabase project that both you and Claude Code will love.
 
 ## What is Flow State Dev?
@@ -10,19 +13,15 @@ Flow State Dev (FSD) provides a simple, opinionated project template and workflo
 
 ### 1. Install Flow State Dev
 
-Currently, install directly from GitHub:
-
 ```bash
-# Option 1: Install from GitHub (Recommended for now)
-npm install -g git+https://github.com/jezweb/flow-state-dev.git
-
-# Option 2: Clone and install locally
-git clone https://github.com/jezweb/flow-state-dev.git
-cd flow-state-dev
-npm install -g .
+npm install -g flow-state-dev
 ```
 
-> **Note**: npm package coming soon! Once published, you'll be able to use `npm install -g flow-state-dev`
+Or install from GitHub for the latest development version:
+
+```bash
+npm install -g git+https://github.com/jezweb/flow-state-dev.git
+```
 
 ### 2. Create a new project
 
