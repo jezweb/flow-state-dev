@@ -35,6 +35,10 @@ coverage/
 tmp/
 temp/
 
+# Test output
+test-output/
+test-ci/
+
 # npm/yarn
 .npm
 .yarn-integrity

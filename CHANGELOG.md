@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Comprehensive test suite with automated testing
+- Quick tests script for basic functionality checks
+- Interactive test scenarios for user input flows
+- GitHub Actions workflow for CI/CD testing
+- Testing documentation and manual test checklist
+
 ## [0.2.0] - 2025-01-22
 
 ### Added

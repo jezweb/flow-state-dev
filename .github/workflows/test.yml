@@ -1,0 +1,65 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run basic tests
+      run: node test/test-runner.js
+    
+    - name: Test global installation
+      run: |
+        npm pack
+        npm install -g flow-state-dev-*.tgz
+        fsd --version
+    
+    - name: Test init command
+      run: |
+        mkdir test-ci
+        cd test-ci
+        fsd init test-project --no-interactive
+        cd test-project
+        npm install
+        npm run build
+
+  interactive-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.x
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Install expect for interactive testing
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y expect
+    
+    - name: Run interactive tests
+      run: node test/interactive-test.js
