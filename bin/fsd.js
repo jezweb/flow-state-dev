@@ -10,6 +10,7 @@ import inquirer from 'inquirer';
 import { initMemory, showMemory, editMemory, importMemory, validateMemory } from '../lib/memory.js';
 import { frameworks, getFramework, formatFrameworkInfo } from '../lib/frameworks.js';
 import { runDoctor } from '../lib/doctor.js';
+import { formatError } from '../lib/errors.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,6 +38,16 @@ program
   .action(async (projectName, options) => {
     console.log(logo);
     
+    // Helper function to normalize project names
+    const normalizeProjectName = (name) => {
+      return name
+        .toLowerCase()
+        .replace(/[^a-z0-9-\s]/g, '') // Remove special chars except spaces and hyphens
+        .replace(/\s+/g, '-') // Convert spaces to hyphens
+        .replace(/-+/g, '-') // Remove multiple consecutive hyphens
+        .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+    };
+
     // If no project name provided, ask for it
     if (!projectName) {
       const answers = await inquirer.prompt([
@@ -46,12 +57,22 @@ program
           message: 'What is your project name?',
           default: 'my-app',
           validate: (input) => {
-            if (/^[a-z0-9-]+$/.test(input)) return true;
-            return 'Project name must be lowercase with hyphens only';
-          }
+            if (!input.trim()) return 'Project name is required';
+            const normalized = normalizeProjectName(input);
+            if (!normalized) return 'Project name must contain at least one letter or number';
+            return true;
+          },
+          filter: (input) => normalizeProjectName(input)
         }
       ]);
       projectName = answers.projectName;
+    } else {
+      // Normalize provided project name
+      const originalName = projectName;
+      projectName = normalizeProjectName(projectName);
+      if (originalName !== projectName) {
+        console.log(chalk.yellow(`📝 Normalized project name: ${originalName} → ${projectName}`));
+      }
     }
 
     // Framework selection
@@ -82,16 +103,52 @@ program
       // Default to Vue + Vuetify for non-interactive mode
       selectedFramework = getFramework('vue-vuetify');
     }
-    
-    const targetDir = path.join(process.cwd(), projectName);
 
-    // Check if directory exists
-    if (fs.existsSync(targetDir)) {
-      console.log(chalk.red(`❌ Directory ${projectName} already exists!`));
-      process.exit(1);
+    // Smart folder detection
+    const currentDir = process.cwd();
+    const currentDirName = path.basename(currentDir);
+    let targetDir;
+    let useCurrentDir = false;
+
+    // Check if current directory is empty and matches project name
+    const currentDirFiles = fs.readdirSync(currentDir).filter(f => !f.startsWith('.'));
+    const isCurrentDirEmpty = currentDirFiles.length === 0;
+    const currentDirMatchesProject = currentDirName.toLowerCase() === projectName.toLowerCase();
+
+    if (isCurrentDirEmpty && currentDirMatchesProject && options.interactive !== false) {
+      // Offer to use current directory
+      const { useCurrentDirectory } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'useCurrentDirectory',
+          message: `Initialize project in current directory (${currentDirName})?`,
+          default: true
+        }
+      ]);
+
+      if (useCurrentDirectory) {
+        targetDir = currentDir;
+        useCurrentDir = true;
+      } else {
+        targetDir = path.join(currentDir, projectName);
+      }
+    } else {
+      targetDir = path.join(currentDir, projectName);
     }
 
-    console.log(chalk.blue(`\n📁 Creating ${selectedFramework.short} project: ${projectName}`));
+    // Show where files will go
+    if (useCurrentDir) {
+      console.log(chalk.blue(`\n📁 Creating ${selectedFramework.short} project in current directory`));
+    } else {
+      console.log(chalk.blue(`\n📁 Creating ${selectedFramework.short} project: ${path.relative(process.cwd(), targetDir) || projectName}`));
+    }
+
+    // Check if target directory exists (only for subdirectory creation)
+    if (!useCurrentDir && fs.existsSync(targetDir)) {
+      console.log(chalk.red(`❌ Directory ${projectName} already exists!`));
+      console.log(chalk.gray(`   Location: ${targetDir}`));
+      process.exit(1);
+    }
 
     try {
       // Copy template based on selected framework
@@ -124,8 +181,8 @@ program
 
       // Initialize git
       console.log(chalk.blue('\n📝 Initializing git repository...'));
-      execSync('git init', { cwd: targetDir });
-      execSync('git branch -m main', { cwd: targetDir });
+      execSync('git init --quiet', { cwd: targetDir, stdio: 'pipe' });
+      execSync('git branch -m main', { cwd: targetDir, stdio: 'pipe' });
 
       // Interactive setup (unless --no-interactive flag is used)
       let supabaseConfigured = false;
@@ -230,7 +287,10 @@ VITE_APP_ENV=development
                   console.log(chalk.blue('\n🏷️  Setting up GitHub labels...'));
                   execSync('fsd labels', { cwd: targetDir, stdio: 'inherit' });
                 } catch {
-                  console.log(chalk.yellow('⚠️  GitHub CLI not installed. You can run "fsd labels" later.'));
+                  console.log(chalk.yellow('⚠️  GitHub CLI not installed.'));
+                  console.log(chalk.gray('   Visit: https://cli.github.com/'));
+                  console.log(chalk.gray('   After installing, run: gh auth login'));
+                  console.log(chalk.gray('   Then run: fsd labels'));
                 }
               }
             } catch (error) {

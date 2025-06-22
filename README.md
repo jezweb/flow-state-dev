@@ -16,18 +16,14 @@ Flow State Dev (FSD) provides simple, opinionated project templates and workflow
 ```bash
 npm install -g flow-state-dev
 ```
-
-Or install from GitHub for the latest development version:
-
-```bash
-npm install -g git+https://github.com/jezweb/flow-state-dev.git
-```
+*The `-g` flag installs globally so you can use `fsd` from anywhere*
 
 ### 2. Create a new project
 
 ```bash
-fsd init my-awesome-app
+fsd init
 ```
+*Choose a project name like `my-blog`, `todo-app`, or `e-commerce-site`*
 
 The interactive setup will guide you through:
 - 🎨 Choosing your framework (Vue, React, and more coming soon)
@@ -38,12 +34,19 @@ The interactive setup will guide you through:
 ### 3. Start developing
 
 ```bash
-cd my-awesome-app
+cd your-project-name
 npm install
 npm run dev
 ```
 
 That's it! Your project is configured and ready to run.
+
+### Where Do Files Go?
+
+Flow State Dev creates a new folder for your project:
+- If you're in `~/projects/` and run `fsd init my-blog`
+- Files go in `~/projects/my-blog/`
+- Then `cd my-blog` to enter your project
 
 You now have a fully configured project with:
 - 🎨 Your choice of framework and UI library
@@ -81,8 +84,8 @@ You now have a fully configured project with:
 ## Commands
 
 ```bash
-fsd init [project-name]  # Create a new project (interactive)
-fsd init [project-name] --no-interactive  # Skip interactive setup
+fsd init                # Create a new project (interactive)
+fsd init --no-interactive  # Skip interactive setup
 fsd labels              # Set up GitHub labels for current repo
 fsd doctor              # Run diagnostics on your project
 fsd doctor --fix        # Auto-fix common issues
@@ -192,7 +195,7 @@ If you encounter permission errors during global installation:
 
 ```bash
 # On macOS/Linux, you might need sudo
-sudo npm install -g git+https://github.com/jezweb/flow-state-dev.git
+sudo npm install -g flow-state-dev
 
 # Or configure npm to use a different directory
 npm config set prefix ~/.npm-global
@@ -206,6 +209,28 @@ After installation, if `fsd` command is not found:
 1. Check npm global bin directory: `npm bin -g`
 2. Make sure it's in your PATH
 3. Try running with full path: `$(npm bin -g)/fsd`
+
+### GitHub CLI Not Installed
+
+If you see "GitHub CLI not installed" warnings:
+
+1. Visit: https://cli.github.com/
+2. Install GitHub CLI for your platform
+3. Run: `gh auth login`
+4. Then retry: `fsd labels`
+
+### Project Name Issues
+
+Flow State Dev auto-fixes project names:
+- Converts "My App" → "my-app"
+- Removes special characters
+- Only allows letters, numbers, and hyphens
+
+### Folder Confusion
+
+- `fsd init my-project` creates `./my-project/` subfolder
+- If you're already in `my-project/` folder and it's empty, Flow State Dev will offer to use it
+- Files always go where you expect them!
 
 ## Getting Help
 
