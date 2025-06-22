@@ -24,6 +24,9 @@ npm run lint     # Lint and fix code
 npm run format   # Format code with Prettier
 ```
 
+## Claude Code Settings
+This project includes `.claude/settings.json` with pre-approved commands for a smoother development experience. Common npm and git commands are pre-approved so you won't need to confirm them each time.
+
 ## Project Structure
 ```
 src/

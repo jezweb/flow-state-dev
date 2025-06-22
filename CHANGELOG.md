@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub repository connection during setup
 - Option to run GitHub labels setup immediately
 - `--no-interactive` flag to skip interactive setup
+- `.claude/settings.json` with pre-approved commands for smoother Claude Code experience
 
 ### Changed
 - Simplified project setup - no manual .env configuration needed

@@ -64,6 +64,7 @@ You now have a fully configured Vue 3 + Vuetify + Supabase project with:
 
 ### Developer Tools
 - `CLAUDE.md` file pre-configured with project info
+- `.claude/settings.json` with pre-approved commands for Claude Code
 - Standard GitHub labels for consistent issue tracking
 - Environment variable template
 - Clear folder structure
