@@ -27,6 +27,8 @@ npm run format   # Format code with Prettier
 ## Claude Code Settings
 This project includes `.claude/settings.json` with pre-approved commands for a smoother development experience. Common npm and git commands are pre-approved so you won't need to confirm them each time.
 
+You can create your own `.claude/settings.local.json` for personal overrides - this file is automatically ignored by git.
+
 ## Project Structure
 ```
 src/

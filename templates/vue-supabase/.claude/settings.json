@@ -1,91 +1,42 @@
 {
-  "name": "Flow State Dev Project",
-  "description": "Vue 3 + Supabase application created with Flow State Dev",
-  "approvedCommands": [
-    {
-      "command": "npm install",
-      "description": "Install project dependencies"
-    },
-    {
-      "command": "npm run dev",
-      "description": "Start development server"
-    },
-    {
-      "command": "npm run build",
-      "description": "Build for production"
-    },
-    {
-      "command": "npm run preview",
-      "description": "Preview production build"
-    },
-    {
-      "command": "npm run lint",
-      "description": "Run ESLint"
-    },
-    {
-      "command": "npm run format",
-      "description": "Format code with Prettier"
-    },
-    {
-      "command": "npm test",
-      "description": "Run tests"
-    },
-    {
-      "command": "git status",
-      "description": "Check git status"
-    },
-    {
-      "command": "git add",
-      "description": "Stage changes"
-    },
-    {
-      "command": "git add .",
-      "description": "Stage all changes"
-    },
-    {
-      "command": "git diff",
-      "description": "View unstaged changes"
-    },
-    {
-      "command": "git diff --staged",
-      "description": "View staged changes"
-    },
-    {
-      "command": "git log",
-      "description": "View commit history"
-    },
-    {
-      "command": "git branch",
-      "description": "List branches"
-    },
-    {
-      "command": "git checkout",
-      "description": "Switch branches"
-    },
-    {
-      "command": "ls -la",
-      "description": "List files"
-    },
-    {
-      "command": "cat",
-      "description": "View file contents"
-    },
-    {
-      "command": "mkdir",
-      "description": "Create directory"
-    },
-    {
-      "command": "rm",
-      "description": "Remove files"
-    },
-    {
-      "command": "cp",
-      "description": "Copy files"
-    },
-    {
-      "command": "mv",
-      "description": "Move/rename files"
-    }
-  ],
-  "customInstructions": "This is a Vue 3 + Supabase project. Follow the patterns established in the codebase and use the Composition API for all components."
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run dev)",
+      "Bash(npm run build)",
+      "Bash(npm run preview)",
+      "Bash(npm run lint)",
+      "Bash(npm run format)",
+      "Bash(npm test:*)",
+      "Bash(git status)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git remote:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh auth:*)",
+      "Bash(fsd:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:vuejs.org)",
+      "WebFetch(domain:vitejs.dev)",
+      "WebFetch(domain:vuetifyjs.com)"
+    ],
+    "deny": []
+  }
 }

@@ -61,5 +61,5 @@ Desktop.ini
 .tmp/
 
 # Claude Code settings
-# Keep settings.json (template) but ignore settings.local.json (user overrides)
-.claude/settings.local.json
+# .claude/settings.json is shared team settings (committed)
+# .claude/settings.local.json is automatically ignored by Claude Code
