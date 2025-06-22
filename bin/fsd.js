@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import inquirer from 'inquirer';
+import { initMemory, showMemory, editMemory, importMemory } from '../lib/memory.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -287,32 +288,9 @@ program
       process.exit(1);
     }
 
-    const labels = [
-      // Priority
-      { name: 'priority:high', color: 'B60205', description: 'Urgent priority' },
-      { name: 'priority:medium', color: 'FBCA04', description: 'Medium priority' },
-      { name: 'priority:low', color: '0E8A16', description: 'Low priority' },
-      
-      // Type
-      { name: 'bug', color: 'B60205', description: 'Something isn\'t working' },
-      { name: 'enhancement', color: '0E8A16', description: 'New feature or request' },
-      { name: 'documentation', color: '0075CA', description: 'Documentation improvements' },
-      
-      // Component
-      { name: 'frontend', color: '7057FF', description: 'Frontend work' },
-      { name: 'backend', color: '7057FF', description: 'Backend work' },
-      { name: 'database', color: '7057FF', description: 'Database related' },
-      
-      // Human tasks
-      { name: 'human-task', color: 'FBCA04', description: 'Requires human intervention' },
-      { name: 'config', color: 'FBCA04', description: 'Configuration needed' },
-      { name: 'deploy', color: 'FBCA04', description: 'Deployment task' },
-      
-      // Status
-      { name: 'blocked', color: 'B60205', description: 'Blocked by something' },
-      { name: 'ready-for-review', color: '0E8A16', description: 'Ready for review' },
-      { name: 'in-progress', color: '0075CA', description: 'Currently being worked on' }
-    ];
+    // Load labels from JSON file
+    const labelsPath = path.join(__dirname, '..', 'setup', 'github-labels.json');
+    const labels = await fs.readJson(labelsPath);
 
     console.log(chalk.white('Creating labels:\n'));
 
@@ -331,6 +309,51 @@ program
 
     console.log(chalk.green('\n✅ GitHub labels setup complete!\n'));
     console.log(chalk.gray('You can now create issues with consistent labels across all your projects.'));
+  });
+
+// Memory command with subcommands
+const memoryCmd = program
+  .command('memory')
+  .description('Manage Claude Code user memory file');
+
+memoryCmd
+  .command('init')
+  .description('Initialize a new user memory file')
+  .option('-f, --force', 'Overwrite existing memory file')
+  .action(async (options) => {
+    console.log(logo);
+    await initMemory(options);
+  });
+
+memoryCmd
+  .command('show')
+  .description('Display current user memory file')
+  .action(async () => {
+    console.log(logo);
+    await showMemory();
+  });
+
+memoryCmd
+  .command('edit')
+  .description('Edit user memory file in default editor')
+  .action(async () => {
+    console.log(logo);
+    await editMemory();
+  });
+
+memoryCmd
+  .command('import [source]')
+  .description('Import memory from another file')
+  .action(async (source) => {
+    console.log(logo);
+    await importMemory(source);
+  });
+
+// Default action for memory command (show help)
+memoryCmd
+  .action(() => {
+    console.log(logo);
+    memoryCmd.outputHelp();
   });
 
 // Help command

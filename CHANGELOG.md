@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Label usage documentation in `docs/LABELS.md`
 - Additional workflow labels: needs-discussion, breaking-change
 - Research and automation labels for better project management
+- New `fsd memory` command for managing Claude Code user memory files
+- Memory subcommands: init, show, edit, import
+- Quick setup mode for memory initialization (< 1 minute)
+- Auto-detection of OS and environment
+- Smart scanning for existing memory files to import
+- Interactive tech stack selection during setup
 
 ## [0.2.0] - 2025-01-22
 

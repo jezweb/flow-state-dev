@@ -249,6 +249,31 @@ fsd.on('close', (code) => {
       
       return true;
     }
+  },
+  
+  memoryCommands: {
+    name: 'Memory Command Functionality',
+    run: async () => {
+      // Test memory help
+      const helpOutput = execSync(`node ${join(rootDir, 'bin/fsd.js')} memory --help`, {
+        encoding: 'utf-8'
+      });
+      
+      if (!helpOutput.includes('Manage Claude Code user memory file')) {
+        throw new Error('Memory help command output incorrect');
+      }
+      
+      // Test memory show (should work whether memory exists or not)
+      const showOutput = execSync(`node ${join(rootDir, 'bin/fsd.js')} memory show`, {
+        encoding: 'utf-8'
+      });
+      
+      if (!showOutput.includes('memory file') && !showOutput.includes('Location:')) {
+        throw new Error('Memory show command output incorrect');
+      }
+      
+      return true;
+    }
   }
 };
 

@@ -115,6 +115,34 @@ This will create a comprehensive set of labels for better issue tracking:
 
 See [docs/LABELS.md](docs/LABELS.md) for complete label usage guidelines.
 
+## Managing Your Claude Code Memory
+
+Flow State Dev includes tools to help you create and manage your Claude Code user memory file:
+
+### Quick Setup (< 1 minute)
+```bash
+fsd memory init
+```
+
+This creates a personalized memory file at `~/.claude/CLAUDE.md` with:
+- Your name and role
+- Detected OS and environment
+- Tech stack preferences
+- Work style (prototyping, production, learning, etc.)
+
+### Other Memory Commands
+```bash
+fsd memory show    # Display your current memory file
+fsd memory edit    # Open memory file in your editor
+fsd memory import  # Import from existing memory files
+```
+
+### Why Use Memory Files?
+Memory files help Claude Code understand your preferences across all projects:
+- Consistent coding style
+- Preferred tools and libraries
+- Work approach and communication style
+
 ## Working with Claude Code
 
 The generated `CLAUDE.md` file helps Claude Code understand your project immediately:
