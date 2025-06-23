@@ -190,6 +190,7 @@ npx flow-state-dev memory init    # Setup Claude memory
 npx flow-state-dev labels         # Setup GitHub labels
 npx flow-state-dev security scan  # Scan for exposed secrets
 npx flow-state-dev store <name>   # Generate a Pinia store
+npx flow-state-dev upgrade        # Add Flow State Dev features to existing projects
 ```
 
 ### Using global installation
@@ -248,6 +249,13 @@ fsd slash "/analyze:scope --requirements 'requirements'" # Detailed scope analys
 # Examples with issue creation
 fsd slash "/breakdown --scope 'user auth system' --create-issues --milestone 'v2.0'"
 fsd slash "/epic:breakdown --epic 'dashboard redesign' --create-issues --assignee johndoe"
+
+# Project Upgrade & Retrofit System
+fsd upgrade            # Safely add Flow State Dev features to existing projects
+fsd upgrade --preview  # Preview changes without applying them
+fsd upgrade --features "Documentation,Security" # Apply specific features
+fsd upgrade --list-backups    # Show available backups
+fsd upgrade --rollback backup-2025-01-23-14-30-15  # Rollback to backup
 
 # Help
 fsd help               # Show all commands
