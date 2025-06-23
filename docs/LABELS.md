@@ -1,24 +1,27 @@
-# GitHub Labels Guide
+# Enhanced GitHub Labels Guide
 
-This guide explains the comprehensive label system used in Flow State Dev projects, optimized for AI-assisted development with tools like Claude Code.
+This guide explains the comprehensive enhanced label system used in Flow State Dev projects, designed for intelligent project management and optimized for AI-assisted development.
 
-## Label Categories
+## 🎯 Label Categories Overview
 
-### Type Labels (`type:*`)
+Our enhanced label system provides visual project status at a glance with smart combinations for intelligent prioritization and workflow automation.
 
-Categorize the nature of the issue or PR:
+### 📋 Issue Type Labels
 
-- **`type:feature`** - New functionality being added
-- **`type:bug`** - Something isn't working correctly
-- **`type:enhancement`** - Improvement to existing features
-- **`type:refactor`** - Code restructuring without changing behavior
-- **`type:test`** - Test creation or modification
-- **`type:docs`** - Documentation updates
-- **`type:style`** - Code formatting, missing semicolons, etc.
-- **`type:perf`** - Performance improvements
-- **`type:security`** - Security vulnerabilities or improvements
+Core issue categorization with emoji indicators:
 
-### Priority Labels (`priority:*`)
+- **`epic`** 🎯 - Large initiative spanning multiple features
+- **`feature`** ✨ - New functionality
+- **`task`** 📋 - Specific work item
+- **`bug`** 🐛 - Something isn't working
+- **`enhancement`** ⬆️ - Improvement to existing features
+- **`refactor`** ♻️ - Code restructuring without changing behavior
+- **`chore`** 🔧 - Maintenance task
+- **`docs`** 📚 - Documentation updates
+- **`performance`** 🚀 - Performance improvements
+- **`security`** 🔒 - Security vulnerabilities or improvements
+
+### 🚦 Priority Labels
 
 Indicate urgency and importance:
 
@@ -27,18 +30,50 @@ Indicate urgency and importance:
 - **`priority:medium`** 🟡 - Normal priority
 - **`priority:low`** 🟢 - Nice to have, can wait
 
-### Status Labels (`status:*`)
+### 🔄 Workflow Status Labels
 
-Track the current state of work:
+Track where issues are in the development lifecycle:
 
-- **`status:ready`** - Ready to be worked on
-- **`status:in-progress`** - Currently being worked on
-- **`status:blocked`** - Blocked by another issue or external factor
-- **`status:review`** - Needs code review
-- **`status:testing`** - In testing phase
-- **`status:on-hold`** - Temporarily paused
+- **`status:planning`** 🔵 - In design/planning phase
+- **`status:ready`** 🟡 - Ready to start work
+- **`status:in-progress`** 🟠 - Active development
+- **`status:review`** 🟣 - In code review
+- **`status:testing`** 🟤 - In QA/testing
+- **`status:done`** 🟢 - Completed
+- **`status:blocked`** 🔴 - Blocked by dependency
+- **`status:on-hold`** ⏸️ - Temporarily paused
 
-### AI Development Labels (`ai:*`)
+### ⏱️ Effort Estimation Labels
+
+Understand work required:
+
+- **`effort:trivial`** 🟢 - < 1 hour
+- **`effort:small`** 🟡 - 1-4 hours
+- **`effort:medium`** 🟠 - 4-16 hours (0.5-2 days)
+- **`effort:large`** 🔴 - 16-40 hours (2-5 days)
+- **`effort:xlarge`** 🟣 - > 40 hours (requires breakdown)
+
+### 📊 Impact Assessment Labels
+
+Understand the scope of changes:
+
+- **`impact:breaking`** 🔴 - Breaking changes
+- **`impact:high`** 🟠 - Affects multiple components
+- **`impact:medium`** 🟡 - Affects single component
+- **`impact:low`** 🟢 - Isolated change
+
+### 🏃 Sprint & Release Labels
+
+Project planning and release management:
+
+- **`sprint:current`** 🏃 - Current sprint
+- **`sprint:next`** 📅 - Next sprint
+- **`sprint:backlog`** 📋 - Product backlog
+- **`release:v1.0`** 🎯 - Target release v1.0
+- **`release:next`** 🚀 - Next release
+- **`release:shipped`** 🚢 - Included in release
+
+### 🤖 AI Development Labels
 
 Specific to AI-assisted development workflows:
 
@@ -58,9 +93,9 @@ Specific to AI-assisted development workflows:
 - **`ai:incomplete`** - AI didn't complete the task fully
 - **`ai:optimization-needed`** - AI code works but needs optimization
 
-### Component Labels (`component:*`)
+### 🏗️ Component Labels
 
-Identify which part of the application is affected:
+For Vue + Supabase projects:
 
 - **`component:frontend`** - Frontend/client-side
 - **`component:backend`** - Backend/server-side
@@ -70,9 +105,9 @@ Identify which part of the application is affected:
 - **`component:auth`** - Authentication/authorization
 - **`component:deployment`** - Deployment/CI/CD
 
-### Technology Labels (`tech:*`)
+### 🛠️ Technology Labels
 
-Specific technology or framework involved:
+Framework and technology specific:
 
 - **`tech:vue`** - Vue.js related
 - **`tech:react`** - React related
@@ -80,81 +115,100 @@ Specific technology or framework involved:
 - **`tech:javascript`** - JavaScript related
 - **`tech:supabase`** - Supabase related
 
-### Workflow Labels (`needs:*`)
+### 🔍 Needs Labels
 
-Indicate what action is needed:
+Indicate what type of attention is required:
 
 - **`needs:review`** - Needs code review
 - **`needs:testing`** - Needs testing
 - **`needs:discussion`** - Needs team discussion
 - **`needs:ux-review`** - Needs UX/design review
 
-### Effort Labels (`effort:*`)
+### 📌 Standard GitHub Labels
 
-Estimate time required:
+Community-standard labels:
 
-- **`effort:small`** - Less than 2 hours
-- **`effort:medium`** - 2-8 hours
-- **`effort:large`** - More than 8 hours
-
-### Standard Labels
-
-Common GitHub labels:
-
-- **`good-first-issue`** - Good for newcomers to the project
-- **`help-wanted`** - Extra attention or expertise needed
-- **`wontfix`** - Issue won't be addressed
+- **`good-first-issue`** - Good for newcomers
+- **`help-wanted`** - Extra attention needed
+- **`wontfix`** - Won't be worked on
 - **`duplicate`** - Duplicate of another issue
 - **`invalid`** - Not a valid issue
 - **`question`** - Further information requested
 
-## Color Coding System
+## 🧠 Smart Label Combinations
 
-The label colors follow a consistent scheme:
+### Priority Matrix Examples
+Combine priority + impact for intelligent prioritization:
 
-- **Red** (#dc2626, #ef4444) - Bugs, critical items, blockers
-- **Green** (#10b981) - Features, enhancements, ready status
-- **Blue** (#3b82f6) - Documentation, information, reviews
-- **Yellow/Orange** (#f59e0b) - In progress, warnings, needs attention
-- **Purple** (#8b5cf6) - AI-related labels
-- **Teal** (#06b6d4) - Component labels
-- **Gray** (#6b7280) - Won't fix, invalid, on hold
+- `priority:critical` + `impact:breaking` = **Immediate attention required**
+- `priority:high` + `effort:small` = **Quick wins for impact**
+- `priority:low` + `effort:xlarge` = **Consider deferring or breaking down**
 
-## Best Practices
+### Workflow Intelligence Examples
+Smart combinations for workflow automation:
+
+- `status:blocked` + `priority:high` = **Escalation needed**
+- `status:review` + `effort:large` = **Needs thorough review**
+- `status:ready` + `effort:small` = **Good for new contributors**
+- `epic` + `effort:xlarge` = **Needs breakdown into smaller tasks**
+
+### AI Development Patterns
+Common AI-assisted development combinations:
+
+- `ai:generated` + `needs:review` = **AI code awaiting human validation**
+- `refactor` + `ai:refactor-candidate` = **Good for AI automation**
+- `bug` + `ai:needs-validation` = **AI diagnosis needs verification**
+
+## 🎨 Visual Design System
+
+Our labels use:
+- **Color coding** for quick visual scanning
+- **Emoji prefixes** for accessibility and quick recognition
+- **Consistent naming** with category prefixes
+- **Clear descriptions** for team understanding
+
+## 🔧 Usage Guidelines
+
+### For Project Managers
+- Use `epic` for large initiatives, break down with `task` labels
+- Combine `priority:*` with `effort:*` for smart sprint planning
+- Track progress with `status:*` labels for visual project boards
 
 ### For Developers
-
-1. **Always add a type label** - Every issue should have one `type:*` label
-2. **Set priority early** - Add `priority:*` label when creating issues
-3. **Update status** - Change `status:*` labels as work progresses
-4. **Estimate effort** - Add `effort:*` labels to help with planning
+- Add `status:in-progress` when starting work
+- Use `component:*` labels to help with code reviews
+- Apply `needs:*` labels when stuck or needing help
 
 ### For AI Development
+- Always tag AI-generated code with appropriate `ai:*` labels
+- Use `ai:review-needed` for any AI output requiring validation
+- Mark refactoring candidates for future AI automation
 
-1. **Mark AI involvement** - Use `ai:generated` or `ai:assisted` on PRs
-2. **Flag for review** - Add `ai:review-needed` when AI code needs human verification
-3. **Document issues** - Use `ai:hallucination` or `ai:incomplete` when AI struggles
-4. **Identify opportunities** - Use `ai:refactor-candidate` for tasks AI could help with
+### For Teams
+- Update `status:*` labels as work progresses
+- Use `sprint:current` for active work items
+- Apply `release:*` labels for version planning
 
-### Label Combinations
+## 🚀 Automation Opportunities
 
-Common label combinations:
+These labels enable powerful automation:
 
-- Bug fix: `type:bug` + `priority:high` + `component:backend`
-- New feature: `type:feature` + `status:in-progress` + `effort:large`
-- AI task: `ai:test-generation` + `status:ready` + `effort:small`
-- Code review: `status:review` + `needs:review` + `ai:review-needed`
+1. **Status Updates**: Auto-move issues on project boards based on `status:*` labels
+2. **Sprint Management**: Filter and organize using `sprint:*` labels
+3. **Code Review**: Auto-assign reviewers based on `component:*` labels
+4. **AI Workflows**: Trigger AI tools based on `ai:*` labels
+5. **Release Planning**: Track features using `release:*` labels
 
-## Applying Labels
+## 📝 Implementation
 
-To apply these labels to your GitHub repository:
+To set up these labels in your Flow State Dev project:
 
 ```bash
-# If Flow State Dev is installed globally
 fsd labels
-
-# Or using npx
-npx flow-state-dev labels
 ```
 
-This will create or update all labels according to this system.
+This creates all labels automatically with proper colors and descriptions.
+
+---
+
+> 💡 **Tip**: Start with basic `priority:*`, `status:*`, and `effort:*` labels, then gradually adopt more specific categories as your team grows comfortable with the system.

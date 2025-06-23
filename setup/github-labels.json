@@ -1,48 +1,53 @@
 [
   {
-    "name": "type:feature",
-    "color": "10b981",
-    "description": "New functionality"
+    "name": "epic",
+    "color": "6366f1",
+    "description": "🎯 Large initiative spanning multiple features"
   },
   {
-    "name": "type:bug",
+    "name": "feature",
+    "color": "10b981",
+    "description": "✨ New functionality"
+  },
+  {
+    "name": "task",
+    "color": "3b82f6",
+    "description": "📋 Specific work item"
+  },
+  {
+    "name": "bug",
     "color": "dc2626",
-    "description": "Something isn't working"
+    "description": "🐛 Something isn't working"
   },
   {
-    "name": "type:enhancement",
+    "name": "enhancement",
     "color": "10b981",
-    "description": "Improvement to existing features"
+    "description": "⬆️ Improvement to existing features"
   },
   {
-    "name": "type:refactor",
+    "name": "refactor",
+    "color": "8b5cf6",
+    "description": "♻️ Code restructuring without changing behavior"
+  },
+  {
+    "name": "chore",
+    "color": "6b7280",
+    "description": "🔧 Maintenance task"
+  },
+  {
+    "name": "docs",
     "color": "3b82f6",
-    "description": "Code restructuring without changing behavior"
+    "description": "📚 Documentation updates"
   },
   {
-    "name": "type:test",
-    "color": "10b981",
-    "description": "Test creation or modification"
-  },
-  {
-    "name": "type:docs",
-    "color": "3b82f6",
-    "description": "Documentation updates"
-  },
-  {
-    "name": "type:style",
-    "color": "3b82f6",
-    "description": "Code formatting, missing semicolons, etc."
-  },
-  {
-    "name": "type:perf",
+    "name": "performance",
     "color": "f59e0b",
-    "description": "Performance improvements"
+    "description": "🚀 Performance improvements"
   },
   {
-    "name": "type:security",
+    "name": "security",
     "color": "dc2626",
-    "description": "Security vulnerabilities or improvements"
+    "description": "🔒 Security vulnerabilities or improvements"
   },
   {
     "name": "priority:critical",
@@ -65,34 +70,44 @@
     "description": "Nice to have, can wait"
   },
   {
+    "name": "status:planning",
+    "color": "0969da",
+    "description": "🔵 In design/planning phase"
+  },
+  {
     "name": "status:ready",
-    "color": "10b981",
-    "description": "Ready to be worked on"
+    "color": "fbca04",
+    "description": "🟡 Ready to start work"
   },
   {
     "name": "status:in-progress",
-    "color": "f59e0b",
-    "description": "Currently being worked on"
+    "color": "d97706",
+    "description": "🟠 Active development"
+  },
+  {
+    "name": "status:review",
+    "color": "8b5cf6",
+    "description": "🟣 In code review"
+  },
+  {
+    "name": "status:testing",
+    "color": "92400e",
+    "description": "🟤 In QA/testing"
+  },
+  {
+    "name": "status:done",
+    "color": "16a34a",
+    "description": "🟢 Completed"
   },
   {
     "name": "status:blocked",
     "color": "dc2626",
-    "description": "Blocked by another issue or external factor"
-  },
-  {
-    "name": "status:review",
-    "color": "3b82f6",
-    "description": "Needs code review"
-  },
-  {
-    "name": "status:testing",
-    "color": "f59e0b",
-    "description": "In testing phase"
+    "description": "🔴 Blocked by dependency"
   },
   {
     "name": "status:on-hold",
     "color": "6b7280",
-    "description": "Temporarily paused"
+    "description": "⏸️ Temporarily paused"
   },
   {
     "name": "ai:generated",
@@ -225,19 +240,79 @@
     "description": "Needs UX/design review"
   },
   {
+    "name": "effort:trivial",
+    "color": "d1fae5",
+    "description": "🟢 < 1 hour"
+  },
+  {
     "name": "effort:small",
-    "color": "9ca3af",
-    "description": "Less than 2 hours"
+    "color": "fef3c7",
+    "description": "🟡 1-4 hours"
   },
   {
     "name": "effort:medium",
-    "color": "6b7280",
-    "description": "2-8 hours"
+    "color": "fed7aa",
+    "description": "🟠 4-16 hours (0.5-2 days)"
   },
   {
     "name": "effort:large",
-    "color": "4b5563",
-    "description": "More than 8 hours"
+    "color": "fecaca",
+    "description": "🔴 16-40 hours (2-5 days)"
+  },
+  {
+    "name": "effort:xlarge",
+    "color": "e9d5ff",
+    "description": "🟣 > 40 hours (requires breakdown)"
+  },
+  {
+    "name": "impact:breaking",
+    "color": "dc2626",
+    "description": "🔴 Breaking changes"
+  },
+  {
+    "name": "impact:high",
+    "color": "d97706",
+    "description": "🟠 Affects multiple components"
+  },
+  {
+    "name": "impact:medium",
+    "color": "f59e0b",
+    "description": "🟡 Affects single component"
+  },
+  {
+    "name": "impact:low",
+    "color": "16a34a",
+    "description": "🟢 Isolated change"
+  },
+  {
+    "name": "sprint:current",
+    "color": "1d4ed8",
+    "description": "🏃 Current sprint"
+  },
+  {
+    "name": "sprint:next",
+    "color": "3b82f6",
+    "description": "📅 Next sprint"
+  },
+  {
+    "name": "sprint:backlog",
+    "color": "6b7280",
+    "description": "📋 Product backlog"
+  },
+  {
+    "name": "release:v1.0",
+    "color": "059669",
+    "description": "🎯 Target release v1.0"
+  },
+  {
+    "name": "release:next",
+    "color": "10b981",
+    "description": "🚀 Next release"
+  },
+  {
+    "name": "release:shipped",
+    "color": "065f46",
+    "description": "🚢 Included in release"
   },
   {
     "name": "good-first-issue",
