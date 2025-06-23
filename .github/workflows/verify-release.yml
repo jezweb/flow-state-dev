@@ -1,0 +1,180 @@
+name: Verify Release
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  verify-package:
+    runs-on: ubuntu-latest
+    name: Verify Package
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run package verification
+        run: npm run verify
+        
+      - name: Test local installation
+        run: npm run test:install
+
+  test-installation:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20]
+    runs-on: ${{ matrix.os }}
+    name: Test on ${{ matrix.os }} / Node ${{ matrix.node }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Pack package
+        run: npm pack
+        
+      - name: Get package filename
+        id: package
+        shell: bash
+        run: |
+          PACKAGE_FILE=$(ls *.tgz | head -1)
+          echo "filename=$PACKAGE_FILE" >> $GITHUB_OUTPUT
+          
+      - name: Test global installation
+        shell: bash
+        run: |
+          # Create test directory
+          mkdir -p test-global
+          cd test-global
+          
+          # Install globally with custom prefix
+          npm install -g ../${{ steps.package.outputs.filename }} --prefix=.
+          
+          # Test commands
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            ./fsd.cmd --version
+            ./fsd.cmd --help
+          else
+            ./bin/fsd --version
+            ./bin/fsd --help
+          fi
+          
+      - name: Test local installation
+        shell: bash
+        run: |
+          # Create test project
+          mkdir -p test-local
+          cd test-local
+          npm init -y
+          
+          # Install locally
+          npm install ../${{ steps.package.outputs.filename }}
+          
+          # Test with npx
+          npx fsd --version
+          npx fsd --help
+          
+      - name: Test project creation
+        shell: bash
+        run: |
+          # Use global installation to create project
+          cd test-global
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            ./fsd.cmd init test-app --no-interactive --subfolder
+          else
+            ./bin/fsd init test-app --no-interactive --subfolder
+          fi
+          
+          # Verify project structure
+          test -f test-app/package.json
+          test -f test-app/README.md
+          test -f test-app/CLAUDE.md
+          test -d test-app/src
+          
+      - name: Cleanup
+        if: always()
+        shell: bash
+        run: |
+          rm -f *.tgz
+          
+  security-check:
+    runs-on: ubuntu-latest
+    name: Security Verification
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run security scan
+        run: |
+          node bin/fsd.js security scan --verbose
+          
+      - name: Check for secrets
+        run: |
+          # Basic secret scanning
+          ! grep -r "SUPABASE_SERVICE_KEY" --include="*.js" --include="*.json" --include="*.md" . || exit 1
+          ! grep -r "sk-[A-Za-z0-9]{48}" --include="*.js" --include="*.json" . || exit 1
+          
+  release-notes:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    name: Generate Release Notes
+    needs: [verify-package, test-installation, security-check]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          if [ -z "$PREV_TAG" ]; then
+            echo "No previous tag found"
+            COMMITS=$(git log --pretty=format:"- %s" HEAD)
+          else
+            echo "Previous tag: $PREV_TAG"
+            COMMITS=$(git log --pretty=format:"- %s" $PREV_TAG..HEAD)
+          fi
+          
+          # Create release notes
+          echo "## What's Changed" > release-notes.md
+          echo "" >> release-notes.md
+          echo "$COMMITS" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREV_TAG...${{ github.ref_name }}" >> release-notes.md
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release-notes.md
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

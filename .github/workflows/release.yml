@@ -1,0 +1,189 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  verify-release:
+    runs-on: ubuntu-latest
+    name: Verify Release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run release validation
+        run: npm run release:validate
+        
+      - name: Build package
+        run: npm pack
+        
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: npm-package
+          path: '*.tgz'
+
+  test-package:
+    needs: verify-release
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20]
+    runs-on: ${{ matrix.os }}
+    name: Test on ${{ matrix.os }} / Node ${{ matrix.node }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          
+      - name: Download package artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: npm-package
+          
+      - name: Test package installation
+        shell: bash
+        run: |
+          # Get package filename
+          PACKAGE_FILE=$(ls *.tgz | head -1)
+          
+          # Test global install
+          npm install -g $PACKAGE_FILE
+          fsd --version
+          fsd --help
+          
+          # Test project creation
+          fsd init test-project --no-interactive --subfolder
+          cd test-project
+          npm install
+          npm run build
+
+  create-release:
+    needs: test-package
+    runs-on: ubuntu-latest
+    name: Create GitHub Release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        
+      - name: Extract changelog section
+        id: changelog
+        run: |
+          # Extract the specific version section from CHANGELOG.md
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          # Use awk to extract the version section
+          awk "/^## \[$VERSION\]/{flag=1; next} /^## \[/{flag=0} flag" CHANGELOG.md > release-notes.md
+          
+          # Add footer
+          echo "" >> release-notes.md
+          echo "---" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "## 📦 Installation" >> release-notes.md
+          echo "" >> release-notes.md
+          echo "\`\`\`bash" >> release-notes.md
+          echo "npm install -g flow-state-dev@$VERSION" >> release-notes.md
+          echo "# or" >> release-notes.md
+          echo "npx flow-state-dev@$VERSION init my-project" >> release-notes.md
+          echo "\`\`\`" >> release-notes.md
+          echo "" >> release-notes.md
+          
+          # Get previous tag for comparison link
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ ! -z "$PREV_TAG" ]; then
+            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREV_TAG...v$VERSION" >> release-notes.md
+          fi
+          
+      - name: Download package artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: npm-package
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: v${{ steps.version.outputs.version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+          files: '*.tgz'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-npm:
+    needs: create-release
+    runs-on: ubuntu-latest
+    name: Publish to npm
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Download package artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: npm-package
+          
+      - name: Publish to npm
+        run: npm publish *.tgz
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Verify publication
+        run: |
+          sleep 10  # Wait for npm to update
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          npm view flow-state-dev@$VERSION
+
+  announce-release:
+    needs: publish-npm
+    runs-on: ubuntu-latest
+    name: Announce Release
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Extract version
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        
+      - name: Create announcement
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          echo "🚀 Flow State Dev v$VERSION has been released!" > announcement.txt
+          echo "" >> announcement.txt
+          echo "📦 Install: npm install -g flow-state-dev@latest" >> announcement.txt
+          echo "📚 Release notes: https://github.com/${{ github.repository }}/releases/tag/v$VERSION" >> announcement.txt
+          echo "🐛 Report issues: https://github.com/${{ github.repository }}/issues" >> announcement.txt
+          
+          cat announcement.txt
