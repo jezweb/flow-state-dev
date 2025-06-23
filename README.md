@@ -38,6 +38,16 @@ Flow State Dev (FSD) is an intelligent project scaffolding tool that creates pro
 - 💾 **Progress Saving** - Resume interrupted setup sessions
 - ✨ **Variable Substitution** - Dynamic templates with smart defaults
 
+### v0.11.1 - Analysis & Planning Slash Commands ✨
+- 🔍 **Analysis Commands** - Transform ideas into trackable GitHub issues
+- 📋 **`/breakdown`** - Analyze scope and create comprehensive issue breakdowns
+- 🎯 **`/epic:breakdown`** - Break large epics into user stories and technical tasks
+- ⚡ **`/feature:plan`** - Complete feature planning from concept to implementation
+- 🔬 **`/analyze:scope`** - Detailed scope analysis with dependency mapping
+- 🚀 **Auto Issue Creation** - One command creates multiple properly structured GitHub issues
+
+**Perfect for the "looks good, make GitHub issues" workflow** - These commands take your high-level ideas and automatically break them down into detailed, trackable GitHub issues with proper labels, milestones, and templates. No more manual analysis and issue creation!
+
 ### v0.9.0 - Slash Commands for Project Management
 - ⚡ **Slash Commands** - Powerful project management with `fsd slash "/command"`
 - 🎯 **Sprint Management** - Plan, review, and close sprints with capacity tracking
@@ -228,6 +238,16 @@ fsd memory show         # Display your memory file
 fsd memory edit         # Edit memory file in your editor
 fsd memory validate     # Validate memory structure
 fsd memory fix          # Auto-fix memory issues
+
+# Analysis & Planning Commands  
+fsd slash "/breakdown --scope 'feature description'"     # Analyze and create issues
+fsd slash "/epic:breakdown --epic 'epic description'"    # Break epic into stories  
+fsd slash "/feature:plan --feature 'feature' --complexity medium"  # Feature planning
+fsd slash "/analyze:scope --requirements 'requirements'" # Detailed scope analysis
+
+# Examples with issue creation
+fsd slash "/breakdown --scope 'user auth system' --create-issues --milestone 'v2.0'"
+fsd slash "/epic:breakdown --epic 'dashboard redesign' --create-issues --assignee johndoe"
 
 # Help
 fsd help               # Show all commands
