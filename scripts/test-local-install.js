@@ -228,7 +228,7 @@ async function testProjectCreation(installPath, tempDir, isGlobal = false) {
     
     // Test non-interactive project creation
     console.log(chalk.gray(`Creating test project: ${testAppName}`));
-    runCommand(`${cmdPath} init ${testAppName} --no-interactive --subfolder`, {
+    runCommand(`${cmdPath} init ${testAppName} --no-interactive`, {
       cwd: tempDir,
       silent: false,
       env: { ...process.env, FORCE_COLOR: '0' }
