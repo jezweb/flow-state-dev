@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.1] - 2025-01-23
+
+### Added
+- **Analysis & Planning Slash Commands** - Transform high-level ideas into trackable GitHub issues
+  - `/breakdown` command for comprehensive scope analysis and issue creation
+  - `/epic:breakdown` command for breaking large epics into user stories and technical tasks
+  - `/feature:plan` command for complete feature planning from concept to implementation
+  - `/analyze:scope` command for detailed scope analysis with dependency mapping
+  - Smart analysis engine that recognizes authentication, dashboard, and generic feature patterns
+  - Automatic GitHub issue creation with proper templates, labels, and milestones
+  - Effort estimation and timeline recommendations
+  - AI-powered component identification and risk assessment
+
+- **Enhanced Slash Command Infrastructure** - Robust framework for command development
+  - Command aliases for faster access (`/bd` → `/breakdown`, `/e:b` → `/epic:breakdown`)
+  - Comprehensive help system with command categories and detailed options
+  - Advanced argument parsing with validation and defaults
+  - Template generation system for consistent issue creation
+  - Integration with GitHub CLI for seamless issue management
+
+### Enhanced
+- **Issue Creation Workflow** - Automated generation of properly structured GitHub issues
+  - User story templates with acceptance criteria and priority
+  - Technical task templates with type classification and effort estimates
+  - Feature phase templates with deliverables and dependencies
+  - Complexity-based labeling system (effort:small, effort:medium, effort:large)
+
+- **Analysis Capabilities** - Intelligent breakdown of project requirements
+  - Authentication system analysis (registration, login, password reset, profile)
+  - Dashboard/UI analysis (layout, visualization, responsive design, preferences)
+  - Generic feature analysis with component-based breakdown
+  - Dependency identification and risk assessment
+  - Timeline and effort estimation based on complexity
+
+### Developer Experience
+- **"Looks Good, Make GitHub Issues" Workflow** - One command solution for planning
+  - Transforms manual analysis process into automated workflow
+  - Reduces planning time from hours to minutes
+  - Ensures consistent issue structure and completeness
+  - Perfect integration with AI-assisted development
+
+- **Comprehensive Documentation** - Updated guides and examples
+  - New command examples in README with real-world scenarios
+  - Enhanced help system with categorized command listings
+  - Usage patterns for different project types and complexities
+
 ## [0.11.0] - 2025-01-23
 
 ### Added
