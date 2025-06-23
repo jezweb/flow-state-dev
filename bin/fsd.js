@@ -14,6 +14,11 @@ import { formatError } from '../lib/errors.js';
 import { analyzeDirectory, formatDirectoryInfo, performSafetyChecks } from '../lib/directory-utils.js';
 import { legacyOnboarding } from '../lib/onboarding/index.js';
 import { SecurityScanner } from '../lib/security-scanner.js';
+import { runSetupLocal } from '../lib/setup-local.js';
+import { executeSupabaseCommand } from '../lib/supabase-commands.js';
+import { generateStore } from '../lib/generate-store.js';
+import { labelsManager } from '../lib/labels-manager.js';
+import { executeSlashCommand } from '../lib/slash-commands.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,7 +36,7 @@ const logo = chalk.cyan(`
 program
   .name('fsd')
   .description('Flow State Dev - Vue 3 + Supabase project generator')
-  .version('0.4.0');
+  .version('0.11.0');
 
 // Init command
 program
@@ -41,6 +46,8 @@ program
   .option('--here', 'Create project in current directory')
   .option('--subfolder', 'Create project in subfolder (default)')
   .option('--force', 'Skip safety confirmations (use with caution)')
+  .option('--memory', 'Set up Claude memory file during initialization')
+  .option('--no-memory', 'Skip memory file setup')
   .action(async (projectName, options) => {
     console.log(logo);
     
@@ -52,94 +59,61 @@ program
     }
   });
 
-// Labels command
-program
+// Labels command with subcommands
+const labelsCmd = program
   .command('labels')
-  .description('Set up GitHub labels for the current repository')
+  .description('Set up GitHub labels for the current repository');
+
+labelsCmd
+  .command('create')
+  .description('Create labels in repository (default action)')
+  .option('-c, --collection <name>', 'Use specific label collection (minimal, standard, ai-enhanced, full)')
+  .option('-e, --emoji', 'Include emojis in label names')
+  .option('--emoji-format <format>', 'Emoji position: prefix or suffix', 'prefix')
+  .option('-f, --force', 'Skip preview and confirmation')
+  .option('-v, --verbose', 'Show detailed error messages')
+  .action(async (options) => {
+    console.log(logo);
+    try {
+      await labelsManager.setupLabels(options);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+labelsCmd
+  .command('list')
+  .description('List available label collections')
   .action(async () => {
     console.log(logo);
-    console.log(chalk.blue('\n🏷️  Setting up GitHub labels...\n'));
+    await labelsManager.listCollections();
+  });
 
-    // Check if we're in a git repo
+labelsCmd
+  .command('export')
+  .description('Export labels from current repository')
+  .option('-o, --output <file>', 'Output file name', 'labels-export.json')
+  .action(async (options) => {
+    console.log(logo);
     try {
-      execSync('git rev-parse --git-dir', { stdio: 'ignore' });
-    } catch {
-      console.error(chalk.red('❌ Not in a git repository!'));
-      console.log(chalk.gray('Please run this command from within your project directory.'));
+      await labelsManager.exportLabels(options.output);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
       process.exit(1);
     }
+  });
 
-    // Check for GitHub remote
+// Default action for labels command (create labels)
+labelsCmd
+  .action(async () => {
+    console.log(logo);
     try {
-      const remoteUrl = execSync('git config --get remote.origin.url', { encoding: 'utf-8' }).trim();
-      if (!remoteUrl.includes('github.com')) {
-        console.error(chalk.red('❌ No GitHub remote found!'));
-        console.log(chalk.gray('Please add your GitHub repository as origin first.'));
-        process.exit(1);
-      }
-    } catch {
-      console.error(chalk.red('❌ No remote origin found!'));
-      console.log(chalk.gray('Please add your GitHub repository as origin first.'));
+      await labelsManager.setupLabels();
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
       process.exit(1);
     }
-
-    // Get GitHub repo info
-    const remoteUrl = execSync('git config --get remote.origin.url', { encoding: 'utf-8' }).trim();
-    const match = remoteUrl.match(/github\.com[:/](.+?)\/(.+?)(\.git)?$/);
-    
-    if (!match) {
-      console.error(chalk.red('❌ Could not parse GitHub repository URL'));
-      process.exit(1);
-    }
-
-    const owner = match[1];
-    const repo = match[2];
-
-    console.log(chalk.gray(`Repository: ${owner}/${repo}\n`));
-
-    // Check for GitHub CLI
-    try {
-      execSync('gh --version', { stdio: 'ignore' });
-    } catch {
-      console.error(chalk.red('❌ GitHub CLI (gh) is not installed!'));
-      console.log(chalk.white('\nTo install GitHub CLI:'));
-      console.log(chalk.gray('  • Ubuntu/Debian: sudo apt install gh'));
-      console.log(chalk.gray('  • macOS: brew install gh'));
-      console.log(chalk.gray('  • Or visit: https://cli.github.com/\n'));
-      process.exit(1);
-    }
-
-    // Check if authenticated
-    try {
-      execSync('gh auth status', { stdio: 'ignore' });
-    } catch {
-      console.error(chalk.red('❌ Not authenticated with GitHub!'));
-      console.log(chalk.white('\nPlease run:'));
-      console.log(chalk.gray('  gh auth login\n'));
-      process.exit(1);
-    }
-
-    // Load labels from JSON file
-    const labelsPath = path.join(__dirname, '..', 'setup', 'github-labels.json');
-    const labels = await fs.readJson(labelsPath);
-
-    console.log(chalk.white('Creating labels:\n'));
-
-    for (const label of labels) {
-      try {
-        // Try to create the label
-        execSync(
-          `gh label create "${label.name}" --color "${label.color}" --description "${label.description}" --force`,
-          { stdio: 'ignore' }
-        );
-        console.log(chalk.green(`✅ ${label.name}`));
-      } catch (error) {
-        console.log(chalk.yellow(`⚠️  ${label.name} (may already exist)`));
-      }
-    }
-
-    console.log(chalk.green('\n✅ GitHub labels setup complete!\n'));
-    console.log(chalk.gray('You can now create issues with consistent labels across all your projects.'));
   });
 
 // Memory command with subcommands
@@ -152,6 +126,8 @@ memoryCmd
   .description('Initialize a new user memory file')
   .option('-f, --force', 'Overwrite existing memory file')
   .option('-m, --minimal', 'Use minimal setup with all defaults')
+  .option('-e, --enhanced', 'Use enhanced setup mode')
+  .option('-t, --template <name>', 'Start from a specific template')
   .action(async (options) => {
     console.log(logo);
     await initMemory(options);
@@ -197,6 +173,15 @@ memoryCmd
   .action(async (file) => {
     console.log(logo);
     await validateMemory(file, { fix: true });
+  });
+
+memoryCmd
+  .command('templates')
+  .description('List available memory templates')
+  .action(async () => {
+    console.log(logo);
+    const { templateManager } = await import('../lib/memory-templates.js');
+    await templateManager.listTemplates();
   });
 
 // Default action for memory command (show help)
@@ -283,6 +268,67 @@ securityCmd
   .action(() => {
     console.log(logo);
     securityCmd.outputHelp();
+  });
+
+// Setup-local command
+program
+  .command('setup-local')
+  .description('Set up local Supabase development environment')
+  .action(async () => {
+    console.log(logo);
+    try {
+      await runSetupLocal();
+    } catch (error) {
+      console.error(chalk.red('❌ Setup error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Supabase command
+program
+  .command('supabase <command>')
+  .description('Manage local Supabase development')
+  .action(async (command) => {
+    console.log(logo);
+    try {
+      await executeSupabaseCommand(command);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Store generator command
+program
+  .command('store <name>')
+  .description('Generate a new Pinia store')
+  .option('-m, --minimal', 'Generate a minimal store template')
+  .option('-a, --auth', 'Generate an authentication store')
+  .option('-s, --supabase', 'Generate a Supabase-connected store')
+  .option('-t, --table <table>', 'Specify Supabase table name (with --supabase)')
+  .option('-f, --force', 'Overwrite existing store')
+  .action(async (name, options) => {
+    console.log(logo);
+    try {
+      await generateStore(name, options);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Slash commands for project management
+program
+  .command('slash <command>')
+  .description('Execute project management slash commands')
+  .action(async (command) => {
+    console.log(logo);
+    try {
+      await executeSlashCommand(command);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
   });
 
 // Help command

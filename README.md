@@ -17,9 +17,48 @@ Flow State Dev (FSD) is an intelligent project scaffolding tool that creates pro
 - 📚 **Documentation Rich** - 21+ templates included from day one
 - 🔧 **Modular Architecture** - Extensible plugin-based onboarding system
 - 🏷️ **GitHub Integration** - 66 labels for comprehensive project management
+- ⚡ **Slash Commands** - Powerful project management commands for sprints, epics, and issues
 - 🚀 **Modern Stack** - Vue 3, Vuetify, Supabase, Vite (React coming soon)
 
 ## 🎉 What's New
+
+### v0.11.0 - Smart Environment Detection
+- 🔍 **Auto-Detection** - Automatically detects development environment and tools
+- 🛠️ **Tool Discovery** - Finds installed package managers, databases, CLI tools
+- 📊 **Project Analysis** - Detects frameworks, testing tools, project patterns
+- 🎯 **Smart Defaults** - Pre-fills memory setup with detected values
+- ⚡ **Faster Setup** - Reduces manual input with intelligent suggestions
+- 🔒 **Privacy First** - Opt-in detection with transparent results
+
+### v0.10.0 - Enhanced Memory System
+- 🧠 **Enhanced Memory Setup** - Comprehensive section-by-section configuration
+- 📄 **Template System** - Pre-built personas (Vue Developer, Full Stack, AI Engineer)
+- 🧩 **Section Library** - Modular, reusable configuration blocks
+- 🔄 **Project Integration** - Memory setup during `fsd init` with `--memory` flag
+- 💾 **Progress Saving** - Resume interrupted setup sessions
+- ✨ **Variable Substitution** - Dynamic templates with smart defaults
+
+### v0.9.0 - Slash Commands for Project Management
+- ⚡ **Slash Commands** - Powerful project management with `fsd slash "/command"`
+- 🎯 **Sprint Management** - Plan, review, and close sprints with capacity tracking
+- 📋 **Epic Management** - Create and track epics with automated templates
+- 🔄 **Issue Operations** - Bulk operations and dependency analysis
+- 📊 **Progress Reporting** - Generate weekly/monthly reports with metrics
+- 🔗 **GitHub Integration** - Deep integration with GitHub CLI and API
+
+### v0.8.0 - Pinia Store Generator
+- 🏪 **Store Generator** - `fsd store <name>` generates complete Pinia stores
+- 🔄 **Multiple Templates** - Default, Supabase, Auth, and Minimal templates
+- 🔌 **Supabase Integration** - Real-time subscriptions and RLS support
+- 🎯 **Smart Defaults** - Includes loading states, error handling, and CRUD operations
+- 📚 **Comprehensive Docs** - Complete guide with examples and best practices
+
+### v0.7.0 - Local Supabase Development
+- 🐳 **Local Development Setup** - Automated Docker & Supabase CLI installation
+- 🚀 **Supabase Commands** - `fsd supabase start/stop/reset/migrate/seed`
+- 🏠 **Offline Development** - Work without internet, full database control
+- 🔧 **Enhanced Doctor** - Checks for local development prerequisites
+- 📚 **Local Dev Guide** - Comprehensive documentation for local workflows
 
 ### v0.6.0 - Security & Modular Architecture
 - 🔒 **Automatic Security Detection** - Detects public/private repositories and adapts configuration
@@ -140,6 +179,7 @@ npx flow-state-dev doctor         # Run diagnostics
 npx flow-state-dev memory init    # Setup Claude memory
 npx flow-state-dev labels         # Setup GitHub labels
 npx flow-state-dev security scan  # Scan for exposed secrets
+npx flow-state-dev store <name>   # Generate a Pinia store
 ```
 
 ### Using global installation
@@ -151,17 +191,36 @@ fsd init --no-interactive  # Skip interactive setup
 fsd init --here         # Use current directory
 fsd init --subfolder    # Create in subfolder (default)
 
+# Local Development Setup
+fsd setup-local         # Install Docker & Supabase CLI
+fsd supabase init       # Initialize Supabase in project
+fsd supabase start      # Start local Supabase
+fsd supabase stop       # Stop local Supabase
+fsd supabase reset      # Reset database
+fsd supabase migrate    # Run migrations
+fsd supabase seed       # Seed database
+fsd supabase status     # Check status
+
 # Security Tools
 fsd security scan       # Scan project for exposed secrets
 fsd security check      # Check repository security status
 fsd security setup      # Configure security tools
 
 # GitHub Integration
-fsd labels              # Set up GitHub labels for current repo
+fsd labels              # Interactive label setup (choose collection)
+fsd labels create       # Create labels with options
+fsd labels list         # Show available label collections
+fsd labels export       # Export current repo labels
 
 # Development Tools
 fsd doctor              # Run diagnostics on your project
 fsd doctor --fix        # Auto-fix common issues
+
+# Code Generation
+fsd store <name>        # Generate a new Pinia store
+fsd store user --supabase  # Generate Supabase-connected store
+fsd store auth --auth   # Generate authentication store
+fsd store ui --minimal  # Generate minimal store
 
 # Claude Memory Management
 fsd memory init         # Create your Claude Code memory file
@@ -385,12 +444,19 @@ Benefits of using npx:
 - **Best Practices Built-in**: Proper structure from day one
 - **AI-Friendly**: Claude Code understands your project instantly
 - **Comprehensive Documentation**: 21+ templates included
+- **Local Development**: Full offline Supabase development support
 
 ### 🔧 Extensibility
 - **Modular Architecture**: Plugin-based onboarding system
 - **Multiple Frameworks**: Vue now, React/Svelte coming soon
 - **Custom Steps**: Add your own onboarding modules
 - **Future-Ready**: Easy to extend and customize
+
+### 🏠 Local Development Power
+- **Automated Setup**: One command to install all tools
+- **Offline First**: Work without internet connection
+- **Full Control**: Direct database access and modifications
+- **Fast Iteration**: No API rate limits or network latency
 
 ## Troubleshooting
 
@@ -480,10 +546,19 @@ Comprehensive label system with:
 
 See [docs/GITHUB_PROJECT_MANAGEMENT.md](docs/GITHUB_PROJECT_MANAGEMENT.md) for workflows.
 
+## Security Documentation
+
+Flow State Dev includes comprehensive security documentation to help you build secure applications:
+
+- 📖 **[Security Guide](docs/SECURITY.md)** - Complete security documentation
+- ✅ **[Security Checklist](docs/SECURITY_CHECKLIST.md)** - Actionable security checklist for every stage
+- 🚀 **[Security Best Practices](docs/SECURITY_BEST_PRACTICES.md)** - Quick reference for secure coding
+- 🔐 **[Supabase Security Guide](docs/SUPABASE_SECURITY_GUIDE.md)** - Supabase-specific security configuration
+
 ## Getting Help
 
 - **Issues**: [GitHub Issues](https://github.com/jezweb/flow-state-dev/issues)
-- **Security**: [Security Guide](https://github.com/jezweb/flow-state-dev/blob/main/docs/SECURITY.md)
+- **Security**: [Security Documentation](https://github.com/jezweb/flow-state-dev/tree/main/docs#security)
 - **Docs**: [Full Documentation](https://github.com/jezweb/flow-state-dev/tree/main/docs)
 - **Examples**: [Custom Plugins](https://github.com/jezweb/flow-state-dev/tree/main/examples)
 
