@@ -38,6 +38,17 @@ Flow State Dev (FSD) is an intelligent project scaffolding tool that creates pro
 - 💾 **Progress Saving** - Resume interrupted setup sessions
 - ✨ **Variable Substitution** - Dynamic templates with smart defaults
 
+### v0.12.0 - Project Retrofit System 🔄
+- 🔄 **Project Retrofit System** - Safely add Flow State Dev features to existing projects
+- 📋 **`fsd upgrade`** - Interactive upgrade system with backup and rollback capability
+- 🔍 **Project Analysis** - Intelligent detection of missing features and upgrade opportunities
+- 💾 **Automatic Backups** - Complete safety with timestamped backups before any changes
+- 👀 **Change Preview** - See exactly what will be modified before applying changes
+- 📚 **Documentation Module** - Add 21+ comprehensive templates to any existing project
+- 🛡️ **Enhanced Safety** - Advanced conflict detection and file preservation
+
+**Perfect for existing projects** - Finally, a safe way to add Flow State Dev features to projects you've already started! No more starting over.
+
 ### v0.11.1 - Analysis & Planning Slash Commands ✨
 - 🔍 **Analysis Commands** - Transform ideas into trackable GitHub issues
 - 📋 **`/breakdown`** - Analyze scope and create comprehensive issue breakdowns
