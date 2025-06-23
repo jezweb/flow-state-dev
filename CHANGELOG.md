@@ -7,6 +7,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Automated Release Process** - Streamlined release workflow with new scripts
+  - `npm run release:patch/minor/major` for version management
+  - `npm run release:validate` for comprehensive pre-release checks
+  - `npm run release:publish` for automated publishing
+- **Local Supabase Development** - Complete offline development setup
+  - Automated Docker and Supabase CLI installation
+  - New commands: `fsd supabase start/stop/reset/migrate/seed`
+  - Local development guide with best practices
+- **Security Documentation Suite** - Comprehensive security guides
+  - Main security guide covering all aspects
+  - Security checklist for every development stage
+  - Best practices quick reference
+  - Supabase-specific security configuration
+- **Enhanced Build Process**
+  - Automated changelog generation from commits
+  - GitHub Actions workflow for releases
+  - Package validation and security scanning
+  - Release process documentation
+
+### Changed
+- **Default project name** now uses the current directory name instead of 'my-app' (#68)
+- **Enhanced labels command** with multiple collections and emoji options (#69)
+  - Choose from minimal, standard, AI-enhanced, or full label sets
+  - Option to include emojis in label names (prefix or suffix)
+  - New subcommands: `labels create`, `labels list`, `labels export`
+  - Interactive collection selection with preview
+- Improved release workflow with automated version bumping
+- Enhanced .npmignore for smaller package size
+- Updated GitHub workflows for better automation
+
+### Fixed
+- Version consistency validation in release scripts
+- Test installation script compatibility
+
+## [0.8.0] - 2025-01-23
+
+### Added
+- **Pinia Store Generator** - New `fsd store <name>` command for generating state management stores
+- **Multiple store templates**:
+  - Default template with full CRUD operations
+  - Supabase template with real-time subscriptions
+  - Authentication template with complete auth flows
+  - Minimal template for simple use cases
+- **Smart store generation features**:
+  - Automatic name transformation (camelCase, PascalCase, kebab-case)
+  - Built-in error handling and loading states
+  - TypeScript-ready structure
+  - Comprehensive inline documentation
+- **Supabase store enhancements**:
+  - Real-time change subscriptions
+  - Row Level Security aware error handling
+  - Optimistic updates for better UX
+  - Filter support in fetch operations
+- **CLI options for store customization**:
+  - `--minimal` for lightweight stores
+  - `--auth` for authentication stores
+  - `--supabase` for database-connected stores
+  - `--table` to specify custom table names
+  - `--force` to overwrite existing stores
+
+### Documentation
+- Created comprehensive `docs/STORE_GENERATOR.md` guide
+- Added store generator examples to README
+- Updated CLI help with new commands
+
 ## [0.5.0] - 2025-01-23
 
 ### Added

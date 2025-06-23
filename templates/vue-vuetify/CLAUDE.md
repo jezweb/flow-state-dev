@@ -22,7 +22,26 @@ npm run build    # Build for production
 npm run preview  # Preview production build
 npm run lint     # Lint and fix code
 npm run format   # Format code with Prettier
+
+# Local Supabase Development
+npm run supabase:start   # Start local Supabase
+npm run supabase:stop    # Stop local Supabase
+npm run supabase:reset   # Reset local database
+npm run supabase:status  # Check Supabase status
+npm run dev:local        # Start both Supabase and Vite
 ```
+
+## Local Development Setup
+For local Supabase development:
+1. Run `fsd setup-local` to install Docker and Supabase CLI
+2. Run `fsd supabase init` to initialize Supabase in this project
+3. Use `npm run dev:local` to start both Supabase and Vite
+
+### Local Supabase URLs
+- **Studio**: http://localhost:54323
+- **API**: http://localhost:54321
+- **Database**: postgresql://postgres:postgres@localhost:54322/postgres
+- **Inbucket** (email testing): http://localhost:54324
 
 ## Claude Code Settings
 This project includes `.claude/settings.json` with pre-approved commands for a smoother development experience. Common npm and git commands are pre-approved so you won't need to confirm them each time.
