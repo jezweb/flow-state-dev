@@ -12,6 +12,8 @@ import { frameworks, getFramework, formatFrameworkInfo } from '../lib/frameworks
 import { runDoctor } from '../lib/doctor.js';
 import { formatError } from '../lib/errors.js';
 import { analyzeDirectory, formatDirectoryInfo, performSafetyChecks } from '../lib/directory-utils.js';
+import { legacyOnboarding } from '../lib/onboarding/index.js';
+import { SecurityScanner } from '../lib/security-scanner.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,351 +44,8 @@ program
   .action(async (projectName, options) => {
     console.log(logo);
     
-    // Helper function to normalize project names
-    const normalizeProjectName = (name) => {
-      return name
-        .toLowerCase()
-        .replace(/[^a-z0-9-\s]/g, '') // Remove special chars except spaces and hyphens
-        .replace(/\s+/g, '-') // Convert spaces to hyphens
-        .replace(/-+/g, '-') // Remove multiple consecutive hyphens
-        .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
-    };
-
-    // If no project name provided, ask for it
-    if (!projectName) {
-      const answers = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'projectName',
-          message: 'What is your project name?',
-          default: 'my-app',
-          validate: (input) => {
-            if (!input.trim()) return 'Project name is required';
-            const normalized = normalizeProjectName(input);
-            if (!normalized) return 'Project name must contain at least one letter or number';
-            return true;
-          },
-          filter: (input) => normalizeProjectName(input)
-        }
-      ]);
-      projectName = answers.projectName;
-    } else {
-      // Normalize provided project name
-      const originalName = projectName;
-      projectName = normalizeProjectName(projectName);
-      if (originalName !== projectName) {
-        console.log(chalk.yellow(`📝 Normalized project name: ${originalName} → ${projectName}`));
-      }
-    }
-
-    // Framework selection
-    let selectedFramework;
-    
-    if (options.interactive !== false) {
-      console.log(chalk.blue('\n🎨 Choose your framework:\n'));
-      
-      const { framework } = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'framework',
-          message: 'Select a framework:',
-          choices: frameworks.map(f => ({
-            name: f.name,
-            value: f.value,
-            disabled: f.comingSoon ? chalk.gray('Coming soon') : false
-          })),
-          default: 'vue-vuetify'
-        }
-      ]);
-      
-      selectedFramework = getFramework(framework);
-      
-      // Show framework details
-      console.log(formatFrameworkInfo(selectedFramework));
-    } else {
-      // Default to Vue + Vuetify for non-interactive mode
-      selectedFramework = getFramework('vue-vuetify');
-    }
-
-    // Check for conflicting flags
-    if (options.here && options.subfolder) {
-      console.log(chalk.red('❌ Cannot use both --here and --subfolder flags'));
-      process.exit(1);
-    }
-
-    // Directory selection
-    const currentDir = process.cwd();
-    const currentDirName = path.basename(currentDir);
-    let targetDir;
-    let useCurrentDir = false;
-
-    // Determine target directory based on flags or interactive prompt
-    if (options.here) {
-      // Explicit --here flag
-      targetDir = currentDir;
-      useCurrentDir = true;
-    } else if (options.subfolder || options.interactive === false) {
-      // Explicit --subfolder flag or non-interactive mode
-      targetDir = path.join(currentDir, projectName);
-      useCurrentDir = false;
-    } else {
-      // Interactive mode - ask user
-      const currentAnalysis = analyzeDirectory(currentDir);
-      const subfolderPath = path.join(currentDir, projectName);
-      
-      // Show directory info
-      console.log(chalk.blue('\n📍 Directory Selection:\n'));
-      
-      const { directoryChoice } = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'directoryChoice',
-          message: 'Where should we create your project files?',
-          choices: [
-            {
-              name: `./${projectName}/ (new subfolder)`,
-              value: 'subfolder',
-              short: 'Subfolder'
-            },
-            {
-              name: `./ (current directory)`,
-              value: 'current',
-              short: 'Current'
-            }
-          ],
-          default: 'subfolder'
-        }
-      ]);
-      
-      // Show current directory info after choice
-      console.log();
-      formatDirectoryInfo(currentAnalysis).forEach(line => {
-        console.log(chalk.gray(line));
-      });
-      
-      if (directoryChoice === 'current') {
-        targetDir = currentDir;
-        useCurrentDir = true;
-      } else {
-        targetDir = subfolderPath;
-        useCurrentDir = false;
-      }
-    }
-
-    // Perform safety checks if using current directory
-    if (useCurrentDir && !options.force) {
-      const analysis = analyzeDirectory(targetDir);
-      const safety = performSafetyChecks(analysis);
-      
-      if (!safety.safe) {
-        console.log(chalk.red('\n❌ Cannot create project in this directory:\n'));
-        safety.issues.forEach(issue => {
-          console.log(chalk.red(`   • ${issue.message}`));
-          console.log(chalk.gray(`     ${issue.suggestion}`));
-        });
-        process.exit(1);
-      }
-      
-      if (safety.needsConfirmation) {
-        console.log(chalk.yellow('\n⚠️  Warning:\n'));
-        safety.warnings.forEach(warning => {
-          console.log(chalk.yellow(`   • ${warning.message}`));
-        });
-        
-        const { proceed } = await inquirer.prompt([
-          {
-            type: 'confirm',
-            name: 'proceed',
-            message: 'Are you sure you want to create the project here?',
-            default: false
-          }
-        ]);
-        
-        if (!proceed) {
-          console.log(chalk.gray('\nProject creation cancelled.'));
-          process.exit(0);
-        }
-      }
-    }
-
-    // Show where files will go
-    if (useCurrentDir) {
-      console.log(chalk.blue(`\n📁 Creating ${selectedFramework.short} project in current directory`));
-    } else {
-      console.log(chalk.blue(`\n📁 Creating ${selectedFramework.short} project: ${path.relative(process.cwd(), targetDir) || projectName}`));
-    }
-
-    // Check if target directory exists (only for subdirectory creation)
-    if (!useCurrentDir && fs.existsSync(targetDir)) {
-      console.log(chalk.red(`❌ Directory ${projectName} already exists!`));
-      console.log(chalk.gray(`   Location: ${targetDir}`));
-      process.exit(1);
-    }
-
     try {
-      // Copy template based on selected framework
-      const templateDir = path.join(__dirname, '..', 'templates', selectedFramework.templateDir);
-      
-      if (!fs.existsSync(templateDir)) {
-        console.log(chalk.red(`❌ Template directory not found: ${selectedFramework.templateDir}`));
-        process.exit(1);
-      }
-      
-      await fs.copy(templateDir, targetDir);
-
-      // Update package.json with project name
-      const packageJsonPath = path.join(targetDir, 'package.json');
-      const packageJson = await fs.readJson(packageJsonPath);
-      packageJson.name = projectName;
-      await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
-
-      // Update CLAUDE.md with project name
-      const claudeMdPath = path.join(targetDir, 'CLAUDE.md');
-      let claudeMd = await fs.readFile(claudeMdPath, 'utf-8');
-      claudeMd = claudeMd.replace(/\[PROJECT_NAME\]/g, projectName);
-      await fs.writeFile(claudeMdPath, claudeMd);
-
-      // Update README.md with project name
-      const readmePath = path.join(targetDir, 'README.md');
-      let readme = await fs.readFile(readmePath, 'utf-8');
-      readme = readme.replace(/\[PROJECT_NAME\]/g, projectName);
-      await fs.writeFile(readmePath, readme);
-
-      // Initialize git
-      console.log(chalk.blue('\n📝 Initializing git repository...'));
-      execSync('git init --quiet', { cwd: targetDir, stdio: 'pipe' });
-      execSync('git branch -m main', { cwd: targetDir, stdio: 'pipe' });
-
-      // Interactive setup (unless --no-interactive flag is used)
-      let supabaseConfigured = false;
-      let gitHubConfigured = false;
-      
-      if (options.interactive !== false) {
-        console.log(chalk.blue('\n🔧 Let\'s configure your project:\n'));
-
-        // Supabase configuration
-        const { configureSupabase } = await inquirer.prompt([
-          {
-            type: 'confirm',
-            name: 'configureSupabase',
-            message: 'Would you like to configure Supabase now?',
-            default: true
-          }
-        ]);
-
-        if (configureSupabase) {
-          supabaseConfigured = true;
-          const supabaseAnswers = await inquirer.prompt([
-            {
-              type: 'input',
-              name: 'supabaseUrl',
-              message: 'Supabase project URL:',
-              validate: (input) => {
-                if (!input) return 'Supabase URL is required';
-                if (input.includes('supabase.co')) return true;
-                return 'Please enter a valid Supabase URL (e.g., https://xyzabc.supabase.co)';
-              }
-            },
-            {
-              type: 'password',
-              name: 'supabaseAnonKey',
-              message: 'Supabase anon key:',
-              validate: (input) => {
-                if (!input) return 'Supabase anon key is required';
-                return true;
-              }
-            }
-          ]);
-
-          // Create .env file
-          const envPath = path.join(targetDir, '.env');
-          const envContent = `# Supabase Configuration
-VITE_SUPABASE_URL=${supabaseAnswers.supabaseUrl}
-VITE_SUPABASE_ANON_KEY=${supabaseAnswers.supabaseAnonKey}
-
-# App Configuration
-VITE_APP_NAME="${projectName}"
-VITE_APP_ENV=development
-`;
-          await fs.writeFile(envPath, envContent);
-          console.log(chalk.green('✅ Supabase configured in .env'));
-        }
-
-        // GitHub configuration
-        const { configureGitHub } = await inquirer.prompt([
-          {
-            type: 'confirm',
-            name: 'configureGitHub',
-            message: 'Would you like to connect to a GitHub repository?',
-            default: true
-          }
-        ]);
-
-        if (configureGitHub) {
-          gitHubConfigured = true;
-          const { repoUrl } = await inquirer.prompt([
-            {
-              type: 'input',
-              name: 'repoUrl',
-              message: 'GitHub repository URL (optional):',
-              validate: (input) => {
-                if (!input) return true; // Optional
-                if (input.includes('github.com')) return true;
-                return 'Please enter a valid GitHub URL (e.g., https://github.com/username/repo)';
-              }
-            }
-          ]);
-
-          if (repoUrl) {
-            try {
-              execSync(`git remote add origin ${repoUrl}`, { cwd: targetDir });
-              console.log(chalk.green('✅ GitHub remote added'));
-              
-              // Ask about labels
-              const { setupLabels } = await inquirer.prompt([
-                {
-                  type: 'confirm',
-                  name: 'setupLabels',
-                  message: 'Would you like to set up GitHub labels now?',
-                  default: true
-                }
-              ]);
-
-              if (setupLabels) {
-                // Check for GitHub CLI
-                try {
-                  execSync('gh --version', { stdio: 'ignore' });
-                  // Run labels setup
-                  console.log(chalk.blue('\n🏷️  Setting up GitHub labels...'));
-                  execSync('fsd labels', { cwd: targetDir, stdio: 'inherit' });
-                } catch {
-                  console.log(chalk.yellow('⚠️  GitHub CLI not installed.'));
-                  console.log(chalk.gray('   Visit: https://cli.github.com/'));
-                  console.log(chalk.gray('   After installing, run: gh auth login'));
-                  console.log(chalk.gray('   Then run: fsd labels'));
-                }
-              }
-            } catch (error) {
-              console.log(chalk.yellow('⚠️  Could not add GitHub remote:'));
-              console.log(formatError(error, { command: 'git remote add' }));
-            }
-          }
-        }
-      }
-
-      console.log(chalk.green('\n✅ Project created successfully!\n'));
-      console.log(chalk.white('Next steps:'));
-      console.log(chalk.gray(`  cd ${projectName}`));
-      if (!supabaseConfigured) {
-        console.log(chalk.gray('  cp .env.example .env'));
-        console.log(chalk.gray('  # Edit .env with your Supabase credentials'));
-      }
-      console.log(chalk.gray('  npm install'));
-      console.log(chalk.gray('  npm run dev\n'));
-      if (!gitHubConfigured) {
-        console.log(chalk.yellow('💡 Tip: Run "fsd labels" after creating your GitHub repo\n'));
-      }
-
+      await legacyOnboarding(projectName, options);
     } catch (error) {
       console.error(chalk.red('❌ Error creating project:'), error.message);
       process.exit(1);
@@ -556,6 +215,74 @@ program
     console.log(logo);
     const exitCode = await runDoctor(options);
     process.exit(exitCode);
+  });
+
+// Security commands
+const securityCmd = program
+  .command('security')
+  .description('Security tools and scanning');
+
+securityCmd
+  .command('scan')
+  .description('Scan project for secrets and security issues')
+  .option('--verbose', 'Show detailed output')
+  .option('--report', 'Generate security report')
+  .action(async (options) => {
+    console.log(logo);
+    const scanner = new SecurityScanner(options);
+    const results = await scanner.scanProject();
+    
+    if (results.criticalIssues > 0 || results.highIssues > 0) {
+      process.exit(1);
+    }
+  });
+
+securityCmd
+  .command('setup')
+  .description('Set up security tools and templates')
+  .action(async () => {
+    console.log(logo);
+    const scanner = new SecurityScanner();
+    await scanner.setupSecurity();
+  });
+
+securityCmd
+  .command('check')
+  .description('Check repository security status')
+  .action(async () => {
+    console.log(logo);
+    const scanner = new SecurityScanner();
+    const repoStatus = await scanner.checkRepositoryVisibility();
+    
+    console.log(chalk.blue('\n🔍 Repository Security Status:\n'));
+    
+    switch (repoStatus.status) {
+      case 'not-git':
+        console.log(chalk.gray('📁 Local project (no git repository)'));
+        break;
+      case 'github':
+        if (repoStatus.public) {
+          console.log(chalk.red('🌍 PUBLIC GitHub repository'));
+          console.log(chalk.yellow('⚠️  Extra security precautions recommended'));
+        } else {
+          console.log(chalk.green('🔒 PRIVATE GitHub repository'));
+          console.log(chalk.green('✅ Safe for sensitive data'));
+        }
+        break;
+      case 'github-no-cli':
+        console.log(chalk.yellow('🔍 GitHub repository (visibility unknown)'));
+        console.log(chalk.gray('Install GitHub CLI for visibility detection'));
+        break;
+      default:
+        console.log(chalk.gray(`Repository status: ${repoStatus.status}`));
+    }
+  });
+
+// Default action for security command
+securityCmd
+  .action(() => {
+    console.log(logo);
+    securityCmd.outputHelp();
   });
 
 // Help command

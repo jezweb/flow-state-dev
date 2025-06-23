@@ -2,22 +2,37 @@
 
 [![npm version](https://badge.fury.io/js/flow-state-dev.svg)](https://www.npmjs.com/package/flow-state-dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Security: Built-in](https://img.shields.io/badge/Security-Built--in-green.svg)](https://github.com/jezweb/flow-state-dev/blob/main/docs/MODULAR_ONBOARDING.md)
 
 > The fastest way to start a modern web project that both you and Claude Code will love.
 
 ## What is Flow State Dev?
 
-Flow State Dev (FSD) provides simple, opinionated project templates and workflows for building modern web applications. It's designed to eliminate the friction between human developers and AI coding assistants by standardizing project structure and documentation.
+Flow State Dev (FSD) is an intelligent project scaffolding tool that creates production-ready web applications with **built-in security**, comprehensive documentation, and AI-optimized workflows. It's designed to eliminate the friction between human developers and AI coding assistants while ensuring your projects start with security best practices from day one.
 
-## 🎉 What's New in v0.5.0
+### ✨ Key Features
 
-**Comprehensive Documentation Structure** - Every new project now includes:
+- 🔒 **Security-First** - Automatic repository detection, secret protection, pre-commit hooks
+- 🤖 **AI-Optimized** - Claude Code ready with comprehensive context files
+- 📚 **Documentation Rich** - 21+ templates included from day one
+- 🔧 **Modular Architecture** - Extensible plugin-based onboarding system
+- 🏷️ **GitHub Integration** - 66 labels for comprehensive project management
+- 🚀 **Modern Stack** - Vue 3, Vuetify, Supabase, Vite (React coming soon)
+
+## 🎉 What's New
+
+### v0.6.0 - Security & Modular Architecture
+- 🔒 **Automatic Security Detection** - Detects public/private repositories and adapts configuration
+- 🛡️ **Built-in Secret Protection** - Prevents accidental credential exposure with smart validation
+- 🔧 **Modular Onboarding System** - Extensible, plugin-based project initialization
+- 🔍 **Security Scanner** - Built-in tools to scan for exposed secrets
+- 📝 **Security Templates** - Enhanced .gitignore, pre-commit hooks, and security docs
+
+### v0.5.0 - Comprehensive Documentation
 - 📚 Complete `docs/` folder with context, guides, API docs, and architecture decisions
 - 🤖 AI-specific `.claude/` folder with personality, code style, and avoid patterns
 - 📝 21 pre-filled documentation templates following best practices
 - 🏗️ Architecture Decision Records (ADR) system built-in
-
-Your projects start with excellent documentation from day one!
 
 ## Quick Start (2 minutes)
 
@@ -36,11 +51,28 @@ fsd init
 ```
 *The `-g` flag installs globally so you can use `fsd` from anywhere*
 
-The interactive setup will guide you through:
-- 🎨 Choosing your framework (Vue, React, and more coming soon)
-- ✅ Configuring Supabase credentials
-- ✅ Connecting to GitHub repository
-- ✅ Setting up GitHub labels
+The intelligent setup will guide you through:
+- 🔍 **Security Analysis** - Automatic detection of repository visibility
+- 🎨 **Framework Selection** - Choose Vue, React, and more (coming soon)
+- 🔒 **Secure Configuration** - Context-aware Supabase credential setup
+- ✅ **GitHub Integration** - Repository connection and label management
+- 🛡️ **Security Templates** - Auto-generated .gitignore and security docs
+
+#### Example: Security-Aware Setup
+
+```bash
+$ fsd init my-app
+
+🔍 Repository Analysis
+⚠️  PUBLIC repository detected: github.com/user/my-app
+
+🚨 SECURITY WARNING: This is a PUBLIC repository!
+   Anyone can see your code and any secrets you commit.
+
+🔒 Using placeholder values for security
+📄 Created .env.example with safe templates
+📚 Created security documentation
+```
 
 ### 3. Start developing
 
@@ -66,12 +98,13 @@ fsd init my-app --here       # Use current directory
 
 You now have a fully configured project with:
 - 🎨 Your choice of framework and UI library
-- ✅ Proper project structure
-- ✅ Claude-ready documentation
-- ✅ Supabase integration
-- ✅ Modern UI components
-- ✅ Type-safe development
-- ✅ GitHub-ready with proper .gitignore
+- 🔒 Security-first configuration based on repository visibility
+- 📚 Comprehensive documentation structure (21+ templates)
+- 🤖 Claude-ready with AI-optimized context files
+- ⚡ Supabase integration with secure credential handling
+- 🛡️ Pre-commit hooks for secret detection
+- ✅ GitHub-ready with enhanced .gitignore
+- 🔍 Built-in security scanning tools
 
 ## What's Included?
 
@@ -106,18 +139,38 @@ npx flow-state-dev init           # Create a new project
 npx flow-state-dev doctor         # Run diagnostics
 npx flow-state-dev memory init    # Setup Claude memory
 npx flow-state-dev labels         # Setup GitHub labels
+npx flow-state-dev security scan  # Scan for exposed secrets
 ```
 
 ### Using global installation
 
 ```bash
+# Project Creation
 fsd init                # Create a new project (interactive)
 fsd init --no-interactive  # Skip interactive setup
+fsd init --here         # Use current directory
+fsd init --subfolder    # Create in subfolder (default)
+
+# Security Tools
+fsd security scan       # Scan project for exposed secrets
+fsd security check      # Check repository security status
+fsd security setup      # Configure security tools
+
+# GitHub Integration
 fsd labels              # Set up GitHub labels for current repo
+
+# Development Tools
 fsd doctor              # Run diagnostics on your project
 fsd doctor --fix        # Auto-fix common issues
+
+# Claude Memory Management
 fsd memory init         # Create your Claude Code memory file
 fsd memory show         # Display your memory file
+fsd memory edit         # Edit memory file in your editor
+fsd memory validate     # Validate memory structure
+fsd memory fix          # Auto-fix memory issues
+
+# Help
 fsd help               # Show all commands
 ```
 
@@ -134,30 +187,85 @@ my-app/
 │   ├── views/          # Page components
 │   ├── App.vue         # Root component
 │   └── main.js         # App entry point
-├── docs/               # 📚 Comprehensive documentation (NEW in v0.5.0!)
+├── docs/               # 📚 Comprehensive documentation
 │   ├── context/        # Project context for AI & humans
 │   ├── guides/         # How-to guides
 │   ├── api/            # API documentation
-│   └── architecture/   # Technical decisions
-├── .claude/            # 🤖 AI-specific context files (NEW in v0.5.0!)
+│   ├── architecture/   # Technical decisions
+│   └── SECURITY.md     # 🔒 Security best practices
+├── .claude/            # 🤖 AI-specific context files
 │   ├── personality.md  # How AI should interact
 │   ├── code-style.md   # Coding preferences
 │   └── avoid.md        # Anti-patterns to avoid
+├── .security/          # 🛡️ Security configuration
+│   └── secret-patterns.json  # Secret detection patterns
+├── .githooks/          # 🪝 Git hooks for security
+│   └── pre-commit      # Automatic secret scanning
 ├── public/             # Static assets
-├── .env.example        # Environment template
+├── .env.example        # Environment template (safe to commit)
+├── .gitignore          # Enhanced with 60+ security patterns
 ├── CLAUDE.md          # AI assistant instructions
 └── README.md          # Your project docs
 ```
 
-### 📚 New: Comprehensive Documentation Structure (v0.5.0)
+### 🔒 Security-First Approach
 
-Every Flow State Dev project now includes:
-- **21 pre-filled documentation templates** to maintain best practices
-- **AI-optimized context files** for better Claude Code assistance
-- **Architecture Decision Records (ADR)** system
-- **Team conventions and coding standards** templates
+Flow State Dev automatically adapts to your repository's security context:
 
-See [docs/DEFAULT_DOCS_STRUCTURE.md](docs/DEFAULT_DOCS_STRUCTURE.md) for details.
+#### Public Repository Mode
+- Uses placeholder values for all credentials
+- Creates `.env.example` with safe templates
+- Generates comprehensive security warnings
+- Provides detailed setup instructions
+
+#### Private Repository Mode
+- Allows real credential configuration
+- Creates `.env` files for immediate use
+- Enables team collaboration features
+- Supports production deployments
+
+#### Built-in Security Features
+- **Secret Detection**: 9 built-in patterns for common secrets
+- **Pre-commit Hooks**: Automatic scanning before commits
+- **Enhanced .gitignore**: 60+ patterns for sensitive files
+- **Security Scanner**: `fsd security scan` command
+- **Repository Analysis**: Automatic visibility detection
+
+## 🔒 Security Tools
+
+### Scan for Exposed Secrets
+```bash
+fsd security scan         # Scan entire project
+fsd security scan --verbose  # Show detailed results
+```
+
+Detects:
+- Supabase service keys and credentials
+- Database URLs with passwords
+- JWT secrets and API keys
+- Private keys and certificates
+- AWS/OpenAI/Stripe credentials
+
+### Check Repository Security
+```bash
+fsd security check
+```
+
+Shows:
+- Repository visibility (public/private)
+- Security recommendations
+- Configuration suggestions
+
+### Setup Security Tools
+```bash
+fsd security setup
+```
+
+Creates:
+- Enhanced .gitignore with 60+ patterns
+- Pre-commit hooks for secret detection
+- Security documentation
+- Secret detection patterns
 
 ## Setting Up GitHub Labels
 
@@ -169,11 +277,11 @@ fsd labels
 ```
 
 This will create a comprehensive set of labels for better issue tracking:
-- **Priority**: 🔴 `priority:high` / 🟡 `priority:medium` / 🟢 `priority:low`
-- **Types**: 🐛 `bug`, ✨ `feature`, 📝 `documentation`, ♻️ `refactor`
-- **Components**: 🎨 `frontend`, 🔧 `backend`, 🗄️ `database`, 💻 `cli`
-- **Workflow**: 🚧 `in-progress`, 🚫 `blocked`, ✅ `ready-for-review`
-- **And more**: `ux`, `testing`, `security`, `performance`, etc.
+- **Epic/Feature/Task/Bug**: Issue type hierarchy
+- **Status**: `planning`, `in-progress`, `review`, `done`, `blocked`
+- **Priority**: `critical`, `high`, `medium`, `low`
+- **Effort**: `tiny`, `small`, `medium`, `large`, `xlarge`
+- **And 50+ more**: Components, tech stack, workflow states
 
 See [docs/LABELS.md](docs/LABELS.md) for complete label usage guidelines.
 
@@ -209,13 +317,29 @@ Memory files help Claude Code understand your preferences across all projects:
 
 ## Working with Claude Code
 
-The generated `CLAUDE.md` file helps Claude Code understand your project immediately:
-- Your tech stack and versions
+Flow State Dev creates multiple files to optimize AI assistance:
+
+### CLAUDE.md - Project Instructions
+- Tech stack and versions
 - Project structure and conventions
 - Common patterns and utilities
-- How to run and test the project
+- Development commands
+- Troubleshooting guides
 
-Just open your project in Claude Code and start building!
+### .claude/ Folder - AI Context
+- **personality.md**: How Claude should communicate
+- **code-style.md**: Preferred coding patterns
+- **avoid.md**: Anti-patterns to prevent
+- **settings.json**: Pre-approved commands for smoother workflow
+
+### Security Integration
+Claude Code automatically understands:
+- Repository security context
+- Safe credential handling
+- Security best practices
+- Project-specific security requirements
+
+Just open your project in Claude Code and start building securely!
 
 ## Using npx (No Installation Needed!)
 
@@ -250,12 +374,23 @@ Benefits of using npx:
 
 ## Why Flow State Dev?
 
+### 🔒 Security First
+- **Automatic Repository Detection**: Knows if your repo is public or private
+- **Context-Aware Configuration**: Different behavior for different security contexts
+- **Built-in Secret Protection**: Prevents accidental credential exposure
+- **Pre-commit Security Hooks**: Catches secrets before they're committed
+
+### 🚀 Developer Experience
 - **Zero Configuration**: Start coding immediately
 - **Best Practices Built-in**: Proper structure from day one
 - **AI-Friendly**: Claude Code understands your project instantly
-- **Multiple Frameworks**: Choose the stack that works for you
-- **Minimal**: Just what you need, nothing more
-- **Future-Ready**: Easy to add new frameworks and templates
+- **Comprehensive Documentation**: 21+ templates included
+
+### 🔧 Extensibility
+- **Modular Architecture**: Plugin-based onboarding system
+- **Multiple Frameworks**: Vue now, React/Svelte coming soon
+- **Custom Steps**: Add your own onboarding modules
+- **Future-Ready**: Easy to extend and customize
 
 ## Troubleshooting
 
@@ -325,14 +460,47 @@ Flow State Dev auto-fixes project names:
 - If you're already in `my-project/` folder and it's empty, Flow State Dev will offer to use it
 - Files always go where you expect them!
 
+## Advanced Features
+
+### Modular Onboarding System
+Flow State Dev uses a plugin-based architecture for project initialization:
+- Extensible step-based workflow
+- Custom onboarding modules
+- Context-aware execution
+- Dependency resolution
+
+See [docs/MODULAR_ONBOARDING.md](docs/MODULAR_ONBOARDING.md) for creating custom steps.
+
+### Enhanced GitHub Project Management
+Comprehensive label system with:
+- Issue hierarchy (Epic → Feature → Task)
+- Sprint and release tracking
+- Effort and impact estimation
+- Smart label combinations
+
+See [docs/GITHUB_PROJECT_MANAGEMENT.md](docs/GITHUB_PROJECT_MANAGEMENT.md) for workflows.
+
 ## Getting Help
 
 - **Issues**: [GitHub Issues](https://github.com/jezweb/flow-state-dev/issues)
+- **Security**: [Security Guide](https://github.com/jezweb/flow-state-dev/blob/main/docs/SECURITY.md)
 - **Docs**: [Full Documentation](https://github.com/jezweb/flow-state-dev/tree/main/docs)
+- **Examples**: [Custom Plugins](https://github.com/jezweb/flow-state-dev/tree/main/examples)
 
 ## License
 
 MIT © [Jezweb](https://jezweb.com.au)
+
+## Security Philosophy
+
+Flow State Dev believes that security should be built-in, not bolted-on. Every project starts with:
+
+- 🔍 **Automatic Detection** - Knows your security context before asking for credentials
+- 🛡️ **Safe Defaults** - Placeholder values in public repos, real values only when safe
+- 🚨 **Active Protection** - Pre-commit hooks and scanning tools prevent accidents
+- 📚 **Education** - Clear warnings and documentation guide best practices
+
+We make it nearly impossible to accidentally expose secrets while maintaining excellent developer experience.
 
 ---
 
