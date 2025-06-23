@@ -1,25 +1,80 @@
-# Documentation
-docs/archive/
-*.md
-!README.md
-!templates/**/*.md
+# Development and testing
+test/
+test-tmp/
+test-install/
+debug/
+examples/
 
-# Git
+# Documentation (keep only essentials)
+docs/archive/
+docs/philosophy.md
+docs/youtube-video-prompt.md
+docs/TESTING.md
+docs/DOCTOR.md
+docs/MEMORY*.md
+docs/SLASH_COMMANDS_PLAN.md
+docs/future-features.md
+docs/publishing-to-npm.md
+
+# GitHub
+.github/
 .git/
 .gitignore
 
-# Development
-.vscode/
-.idea/
+# Build artifacts
+*.tgz
 *.log
 .DS_Store
 
-# Test projects
-test/
-examples/
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
 
-# GitHub specific
-.github/
+# Coverage
+coverage/
+.nyc_output/
 
-# Build artifacts
-*.tgz
+# Environment files (never publish these)
+.env
+.env.*
+!.env.example
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# npm/yarn files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npmrc
+
+# Config files
+.eslintrc*
+.prettierrc*
+.editorconfig
+
+# Security test files
+.security/test-files/
+
+# Keep essential files
+!README.md
+!LICENSE
+!CHANGELOG.md
+!templates/**/*.md
+!templates/**/.env.example
+!docs/README.md
+!docs/SECURITY.md
+!docs/CONTRIBUTING.md
+!docs/RELEASE_PROCESS.md
+!scripts/post-install.cjs
+!scripts/verify-package.js
+!scripts/test-local-install.js
