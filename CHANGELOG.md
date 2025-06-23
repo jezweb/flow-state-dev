@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2025-06-23
+
+### Added
+- **Quick Action Slash Commands** - Level 1 commands for daily development workflow
+  - `/build` - Run project build with environment options and watch mode
+  - `/test` - Run tests with coverage, watch mode, and file-specific testing
+  - `/lint` - Code linting with auto-fix and formatting options
+  - `/fix` - Combined auto-fix for linting and formatting issues
+  - `/typecheck` - TypeScript type checking with watch mode
+  - `/status` - Enhanced git status with categorized changes and branch information
+  - `/commit` - Interactive conventional commit with suggested messages
+  - `/push` - Push to current branch with upstream and force options
+  - Smart package.json script detection for build, test, lint, and typecheck commands
+  - Single-letter aliases for quick access (b, t, l, tc, st, c, p)
+
+- **Extended Thinking Slash Commands** - Level 3 commands for deep analysis and planning
+  - `/plan` - Comprehensive planning with explicit extended thinking mode and ADR generation
+  - `/investigate` - Multi-source research and analysis with gap identification
+  - `/decide` - Architectural decision making with multi-criteria evaluation and ADR creation
+  - `/estimate` - Complex estimation with risk analysis and multiple estimation methods
+  - `/debug:strategy` - Systematic debugging approach with hypothesis generation
+  - `/optimize:plan` - Performance optimization strategy with bottleneck analysis
+  - `/refactor:plan` - Incremental refactoring planning with risk assessment
+  - `/research` - Deep multi-source research with synthesis and recommendations
+  - `/alternatives` - Alternative solution exploration with constraint analysis
+  - All commands include explicit `<extended-thinking>` mode demonstration
+  - Automatic ADR (Architecture Decision Record) generation for decisions
+  - Comprehensive analysis reports with multiple output formats
+
+### Enhanced
+- **Slash Command Framework** - Now supports 67+ commands across 6 categories
+  - Quick Actions category for immediate workflow tasks
+  - Extended Thinking category for complex analysis and planning
+  - Enhanced help system with categorized command listings
+  - Improved argument parsing and validation
+  - Better error handling and user guidance
+
+### Developer Experience
+- **Daily Workflow Integration** - Quick commands for build, test, lint, git operations
+- **AI-Assisted Analysis** - Extended thinking commands demonstrate deep analytical processes
+- **Decision Documentation** - Automatic ADR creation for architectural decisions
+- **Planning Reports** - Comprehensive reports saved as markdown files
+- **Intelligent Detection** - Automatic detection of project scripts and configurations
+
 ## [0.12.0] - 2025-06-23
 
 ### Added

@@ -22,6 +22,17 @@ Flow State Dev (FSD) is an intelligent project scaffolding tool that creates pro
 
 ## 🎉 What's New
 
+### v0.13.0 - Complete Slash Command System 🔧
+- ⚡ **Quick Action Commands** - Daily workflow automation with build, test, lint, git operations
+- 🧠 **Extended Thinking Commands** - Deep analysis with explicit extended thinking mode
+- 📋 **67+ Total Commands** - Comprehensive command system across 6 categories
+- 🎯 **ADR Generation** - Automatic Architecture Decision Records for planning and decisions
+- 🔍 **Smart Detection** - Intelligent project script and configuration detection
+- 💾 **Analysis Reports** - Comprehensive reports saved as markdown files
+- 🏃 **Quick Aliases** - Single-letter shortcuts for instant command access (b, t, l, etc.)
+
+**Perfect for AI-assisted development** - Commands demonstrate extended thinking processes and create structured documentation. From quick daily tasks to complex architectural decisions!
+
 ### v0.11.0 - Smart Environment Detection
 - 🔍 **Auto-Detection** - Automatically detects development environment and tools
 - 🛠️ **Tool Discovery** - Finds installed package managers, databases, CLI tools
@@ -260,6 +271,23 @@ fsd slash "/analyze:scope --requirements 'requirements'" # Detailed scope analys
 # Examples with issue creation
 fsd slash "/breakdown --scope 'user auth system' --create-issues --milestone 'v2.0'"
 fsd slash "/epic:breakdown --epic 'dashboard redesign' --create-issues --assignee johndoe"
+
+# Quick Action Commands
+fsd slash "/build"              # Run project build command
+fsd slash "/test --coverage"    # Run tests with coverage report
+fsd slash "/lint --fix"         # Run linter with auto-fix
+fsd slash "/typecheck"          # Run TypeScript type checking
+fsd slash "/status"             # Enhanced git status with categorization
+fsd slash "/commit"             # Interactive conventional commit
+fsd slash "/push"               # Push to current branch
+
+# Extended Thinking Commands (Deep Analysis)
+fsd slash "/plan --topic 'feature architecture' --create-adr"    # Comprehensive planning with ADR
+fsd slash "/investigate --question 'performance bottlenecks'"     # Multi-source research
+fsd slash "/decide --decision 'database choice' --alternatives 3" # Decision analysis with ADR
+fsd slash "/estimate --work 'API refactoring' --method story-points" # Complex estimation
+fsd slash "/debug:strategy --problem 'memory leak' --urgency high"   # Systematic debugging
+fsd slash "/research --topic 'microservices patterns'"           # Deep research analysis
 
 # Project Upgrade & Retrofit System
 fsd upgrade            # Safely add Flow State Dev features to existing projects
