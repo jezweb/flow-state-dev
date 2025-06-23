@@ -19,6 +19,7 @@ import { executeSupabaseCommand } from '../lib/supabase-commands.js';
 import { generateStore } from '../lib/generate-store.js';
 import { labelsManager } from '../lib/labels-manager.js';
 import { executeSlashCommand } from '../lib/slash-commands.js';
+import { ProjectRetrofitEngine, executeRollback, listBackups } from '../lib/project-retrofit.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +37,7 @@ const logo = chalk.cyan(`
 program
   .name('fsd')
   .description('Flow State Dev - Vue 3 + Supabase project generator')
-  .version('0.11.1');
+  .version('0.12.0');
 
 // Init command
 program
@@ -325,6 +326,51 @@ program
     console.log(logo);
     try {
       await executeSlashCommand(command);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Upgrade command
+program
+  .command('upgrade')
+  .description('Safely add Flow State Dev features to existing project')
+  .option('--preview', 'Show what would change without applying')
+  .option('--features <features>', 'Specific features to add (comma-separated)')
+  .option('--rollback <backup-id>', 'Rollback to previous backup')
+  .option('--list-backups', 'Show available backups')
+  .option('--force', 'Skip confirmations (dangerous)')
+  .option('--auto-rollback', 'Automatically rollback on failure')
+  .action(async (options) => {
+    console.log(logo);
+    
+    try {
+      // Handle rollback option
+      if (options.rollback) {
+        const success = await executeRollback(options.rollback, { force: options.force });
+        process.exit(success ? 0 : 1);
+        return;
+      }
+      
+      // Handle list backups option
+      if (options.listBackups) {
+        await listBackups();
+        return;
+      }
+      
+      // Execute main retrofit
+      const engine = new ProjectRetrofitEngine();
+      const result = await engine.executeRetrofit(options);
+      
+      if (result.success) {
+        console.log(chalk.green('✅ Upgrade completed successfully'));
+        process.exit(0);
+      } else {
+        console.error(chalk.red('❌ Upgrade failed'));
+        process.exit(1);
+      }
+      
     } catch (error) {
       console.error(chalk.red('❌ Error:'), error.message);
       process.exit(1);

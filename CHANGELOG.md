@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2025-06-23
+
+### Added
+- **Project Retrofit System** - Safely add Flow State Dev features to existing projects
+  - `fsd upgrade` command for interactive feature addition to existing projects
+  - Comprehensive project analysis engine that detects current Flow State Dev version and missing features
+  - Automatic backup system with timestamped backups and complete rollback capability
+  - Modular feature system allowing selective upgrade of specific components
+  - Change preview system showing exactly what will be modified before applying changes
+  - Enhanced safety checks with conflict detection and file preservation
+  - Documentation retrofit module with 21+ comprehensive templates
+  - CLI options for preview (`--preview`), feature selection (`--features`), and rollback (`--rollback`)
+
+### Enhanced
+- **Enhanced Safety Checks** - Improved directory analysis for existing project detection
+  - Comprehensive file pattern detection (60+ patterns) for source code, config files, and build artifacts
+  - Git repository intelligence with commit and branch analysis
+  - Risk-based categorization (blocking issues, warnings, notices) with specific solutions
+  - Better error messages and user guidance for unsafe operations
+
+### Infrastructure
+- **Modular Architecture** - Extensible plugin-based retrofit system
+  - Abstract base class for retrofit modules with standard interface
+  - Module registry with dependency resolution and conflict detection
+  - Template system with variable substitution for project-specific content
+  - Safe file operations with backup and validation capabilities
+
 ## [0.11.1] - 2025-01-23
 
 ### Added
