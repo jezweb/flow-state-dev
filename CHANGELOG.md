@@ -7,71 +7,85 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2025-01-23
+
 ### Added
-- **Automated Release Process** - Streamlined release workflow with new scripts
-  - `npm run release:patch/minor/major` for version management
-  - `npm run release:validate` for comprehensive pre-release checks
-  - `npm run release:publish` for automated publishing
-- **Local Supabase Development** - Complete offline development setup
+- **Smart Environment Detection** (#21) - Automatically detects development environment and tools
+  - System information (OS version, shell, hardware specs)
+  - Development tools (package managers, CLI tools, databases)
+  - Project patterns (frameworks, testing tools, project structure)
+  - Editor/IDE detection (VS Code, WebStorm, etc.)
+  - Git configuration (user info, GitHub username)
+  - Opt-in detection with transparent results display
+  - Smart defaults pre-fill memory setup with detected values
+
+- **Enhanced Memory System** (#16, #17, #19, #20) - Comprehensive memory configuration
+  - Enhanced setup mode with section-by-section configuration
+  - 6 pre-built persona templates (minimal, standard, vue-developer, full-stack, ai-engineer, comprehensive)
+  - Modular section library for custom configurations
+  - Template variable substitution system
+  - Progress saving and resume functionality
+  - Integration with `fsd init` using `--memory` flag
+
+- **Slash Commands for Project Management** (#55) - Powerful project management commands
+  - Comprehensive slash command framework with `fsd slash "/command"`
+  - Sprint management with capacity tracking
+  - Epic creation and management
+  - Issue operations and bulk updates
+  - Progress reporting (weekly/monthly)
+  - Deep GitHub CLI integration
+  - Workflow automation commands
+
+- **Pinia Store Generator** (#53) - State management made easy
+  - New `fsd store <name>` command for generating stores
+  - Multiple templates: default, auth, supabase, minimal
+  - Supabase integration with real-time subscriptions
+  - Smart imports and type safety
+  - Comprehensive documentation
+
+- **Local Supabase Development** (#58) - Complete offline development
   - Automated Docker and Supabase CLI installation
-  - New commands: `fsd supabase start/stop/reset/migrate/seed`
-  - Local development guide with best practices
+  - New commands: `fsd setup-local`, `fsd supabase start/stop/reset/migrate/seed`
+  - Local development environment templates
+  - Offline-first development workflow
+
+- **Modular Onboarding System** - Plugin-based architecture
+  - Extensible onboarding framework
+  - Memory setup integration step
+  - Custom onboarding plugins support
+  - Dependency resolution
+
+- **Enhanced Labels System** (#69) - Better GitHub issue management
+  - Multiple label collections: minimal, standard, ai-enhanced, full
+  - Emoji support with prefix/suffix positioning
+  - Interactive collection selection with preview
+  - Label export functionality
+  - 66 labels in full collection
+
 - **Security Documentation Suite** - Comprehensive security guides
   - Main security guide covering all aspects
   - Security checklist for every development stage
   - Best practices quick reference
   - Supabase-specific security configuration
-- **Enhanced Build Process**
+
+- **Automated Release Process** - Streamlined workflow
+  - Release scripts for version management (patch/minor/major)
   - Automated changelog generation from commits
-  - GitHub Actions workflow for releases
-  - Package validation and security scanning
-  - Release process documentation
+  - Package validation and verification
+  - GitHub Actions workflows for CI/CD
 
 ### Changed
 - **Default project name** now uses the current directory name instead of 'my-app' (#68)
-- **Enhanced labels command** with multiple collections and emoji options (#69)
-  - Choose from minimal, standard, AI-enhanced, or full label sets
-  - Option to include emojis in label names (prefix or suffix)
-  - New subcommands: `labels create`, `labels list`, `labels export`
-  - Interactive collection selection with preview
-- Improved release workflow with automated version bumping
-- Enhanced .npmignore for smaller package size
+- Enhanced doctor command with better diagnostics
+- Improved template defaults and environment variable handling
 - Updated GitHub workflows for better automation
+- Enhanced .npmignore for smaller package size
 
 ### Fixed
+- Memory file creation in template mode
 - Version consistency validation in release scripts
 - Test installation script compatibility
 
-## [0.8.0] - 2025-01-23
-
-### Added
-- **Pinia Store Generator** - New `fsd store <name>` command for generating state management stores
-- **Multiple store templates**:
-  - Default template with full CRUD operations
-  - Supabase template with real-time subscriptions
-  - Authentication template with complete auth flows
-  - Minimal template for simple use cases
-- **Smart store generation features**:
-  - Automatic name transformation (camelCase, PascalCase, kebab-case)
-  - Built-in error handling and loading states
-  - TypeScript-ready structure
-  - Comprehensive inline documentation
-- **Supabase store enhancements**:
-  - Real-time change subscriptions
-  - Row Level Security aware error handling
-  - Optimistic updates for better UX
-  - Filter support in fetch operations
-- **CLI options for store customization**:
-  - `--minimal` for lightweight stores
-  - `--auth` for authentication stores
-  - `--supabase` for database-connected stores
-  - `--table` to specify custom table names
-  - `--force` to overwrite existing stores
-
-### Documentation
-- Created comprehensive `docs/STORE_GENERATOR.md` guide
-- Added store generator examples to README
-- Updated CLI help with new commands
 
 ## [0.5.0] - 2025-01-23
 
