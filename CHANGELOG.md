@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-01-23
+
+### Added
+- **Comprehensive documentation structure** for all new projects:
+  - `docs/` folder with context, guides, API docs, and architecture decisions
+  - `.claude/` folder with AI-specific context files (personality, code style, avoid patterns)
+  - 21 pre-filled documentation templates to maintain best practices
+  - Architecture Decision Records (ADR) template system
+- **GitHub Project Management System guide** for using GitHub Issues as complete PM solution
+- **Slash Commands Plan** with 13 detailed GitHub issues for implementing custom commands
+- **Project context templates** including:
+  - Business rules documentation
+  - User personas definitions
+  - Technical debt tracking
+  - Current development focus
+- **AI-optimized documentation** helping Claude and other assistants understand projects immediately
+- **Team conventions template** for consistent coding standards
+
+### Enhanced
+- New projects now include comprehensive documentation from day one
+- Better onboarding experience with pre-filled getting-started guides
+- Improved AI assistance through structured context files
+- Added development workflow templates and team process documentation
+
+### Documentation
+- Created `docs/DEFAULT_DOCS_STRUCTURE.md` explaining the new documentation system
+- Added `docs/GITHUB_PROJECT_MANAGEMENT.md` for project management best practices
+- Created `docs/SLASH_COMMANDS_PLAN.md` with implementation roadmap
+- Updated main CLAUDE.md to reference new documentation structure
+
 ## [0.4.0] - 2025-01-23
 
 ### Added
@@ -197,6 +227,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript-ready configuration
 - Netlify deployment ready
 
+[0.5.0]: https://github.com/jezweb/flow-state-dev/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/jezweb/flow-state-dev/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/jezweb/flow-state-dev/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/jezweb/flow-state-dev/compare/v0.3.0...v0.3.1
