@@ -1,0 +1,408 @@
+{
+  "minimal": {
+    "name": "Minimal",
+    "description": "Essential labels for basic project management",
+    "labels": [
+      {
+        "name": "bug",
+        "color": "dc2626",
+        "description": "🐛 Something isn't working"
+      },
+      {
+        "name": "feature",
+        "color": "10b981",
+        "description": "✨ New functionality"
+      },
+      {
+        "name": "enhancement",
+        "color": "10b981",
+        "description": "⬆️ Improvement to existing features"
+      },
+      {
+        "name": "docs",
+        "color": "3b82f6",
+        "description": "📚 Documentation updates"
+      },
+      {
+        "name": "priority:high",
+        "color": "ef4444",
+        "description": "🔴 Important, should be addressed soon"
+      },
+      {
+        "name": "priority:medium",
+        "color": "f59e0b",
+        "description": "🟡 Normal priority"
+      },
+      {
+        "name": "priority:low",
+        "color": "10b981",
+        "description": "🟢 Nice to have, can wait"
+      },
+      {
+        "name": "status:in-progress",
+        "color": "d97706",
+        "description": "🟠 Active development"
+      },
+      {
+        "name": "status:done",
+        "color": "16a34a",
+        "description": "🟢 Completed"
+      },
+      {
+        "name": "good-first-issue",
+        "color": "7c3aed",
+        "description": "👋 Good for newcomers"
+      }
+    ]
+  },
+  "standard": {
+    "name": "Standard",
+    "description": "Comprehensive labels for typical software projects",
+    "labels": [
+      {
+        "name": "epic",
+        "color": "6366f1",
+        "description": "🎯 Large initiative spanning multiple features"
+      },
+      {
+        "name": "feature",
+        "color": "10b981",
+        "description": "✨ New functionality"
+      },
+      {
+        "name": "task",
+        "color": "3b82f6",
+        "description": "📋 Specific work item"
+      },
+      {
+        "name": "bug",
+        "color": "dc2626",
+        "description": "🐛 Something isn't working"
+      },
+      {
+        "name": "enhancement",
+        "color": "10b981",
+        "description": "⬆️ Improvement to existing features"
+      },
+      {
+        "name": "refactor",
+        "color": "8b5cf6",
+        "description": "♻️ Code restructuring without changing behavior"
+      },
+      {
+        "name": "chore",
+        "color": "6b7280",
+        "description": "🔧 Maintenance task"
+      },
+      {
+        "name": "docs",
+        "color": "3b82f6",
+        "description": "📚 Documentation updates"
+      },
+      {
+        "name": "performance",
+        "color": "f59e0b",
+        "description": "🚀 Performance improvements"
+      },
+      {
+        "name": "security",
+        "color": "dc2626",
+        "description": "🔒 Security vulnerabilities or improvements"
+      },
+      {
+        "name": "priority:critical",
+        "color": "dc2626",
+        "description": "🚨 Show-stopper, needs immediate attention"
+      },
+      {
+        "name": "priority:high",
+        "color": "ef4444",
+        "description": "🔴 Important, should be addressed soon"
+      },
+      {
+        "name": "priority:medium",
+        "color": "f59e0b",
+        "description": "🟡 Normal priority"
+      },
+      {
+        "name": "priority:low",
+        "color": "10b981",
+        "description": "🟢 Nice to have, can wait"
+      },
+      {
+        "name": "status:planning",
+        "color": "0969da",
+        "description": "🔵 In design/planning phase"
+      },
+      {
+        "name": "status:ready",
+        "color": "fbca04",
+        "description": "🟡 Ready to start work"
+      },
+      {
+        "name": "status:in-progress",
+        "color": "d97706",
+        "description": "🟠 Active development"
+      },
+      {
+        "name": "status:review",
+        "color": "8b5cf6",
+        "description": "🟣 In code review"
+      },
+      {
+        "name": "status:testing",
+        "color": "92400e",
+        "description": "🟤 In QA/testing"
+      },
+      {
+        "name": "status:done",
+        "color": "16a34a",
+        "description": "🟢 Completed"
+      },
+      {
+        "name": "status:blocked",
+        "color": "dc2626",
+        "description": "🔴 Blocked by dependency"
+      },
+      {
+        "name": "needs:review",
+        "color": "f59e0b",
+        "description": "👀 Needs code review"
+      },
+      {
+        "name": "needs:testing",
+        "color": "f59e0b",
+        "description": "🧪 Needs testing"
+      },
+      {
+        "name": "good-first-issue",
+        "color": "7c3aed",
+        "description": "👋 Good for newcomers"
+      },
+      {
+        "name": "help-wanted",
+        "color": "10b981",
+        "description": "🆘 Extra attention needed"
+      },
+      {
+        "name": "wontfix",
+        "color": "6b7280",
+        "description": "🚫 Won't be worked on"
+      },
+      {
+        "name": "duplicate",
+        "color": "6b7280",
+        "description": "👯 Duplicate of another issue"
+      },
+      {
+        "name": "invalid",
+        "color": "6b7280",
+        "description": "❌ Not a valid issue"
+      },
+      {
+        "name": "question",
+        "color": "6b7280",
+        "description": "❓ Further information requested"
+      }
+    ]
+  },
+  "ai-enhanced": {
+    "name": "AI-Enhanced",
+    "description": "Standard labels plus AI-specific workflow labels",
+    "extends": "standard",
+    "labels": [
+      {
+        "name": "ai:generated",
+        "color": "8b5cf6",
+        "description": "🤖 Code primarily generated by AI"
+      },
+      {
+        "name": "ai:assisted",
+        "color": "8b5cf6",
+        "description": "🤝 Human-written with AI assistance"
+      },
+      {
+        "name": "ai:review-needed",
+        "color": "8b5cf6",
+        "description": "🔍 AI-generated code needs human review"
+      },
+      {
+        "name": "ai:prompt-update",
+        "color": "8b5cf6",
+        "description": "📝 Prompt/context needs improvement"
+      },
+      {
+        "name": "ai:refactor-candidate",
+        "color": "8b5cf6",
+        "description": "🔄 Good candidate for AI refactoring"
+      },
+      {
+        "name": "ai:test-generation",
+        "color": "8b5cf6",
+        "description": "🧪 Tests can be generated by AI"
+      },
+      {
+        "name": "ai:needs-validation",
+        "color": "f59e0b",
+        "description": "⚠️ AI output needs verification"
+      },
+      {
+        "name": "ai:optimization-needed",
+        "color": "f59e0b",
+        "description": "⚡ AI code works but needs optimization"
+      }
+    ]
+  },
+  "full": {
+    "name": "Full (All Labels)",
+    "description": "Complete label set including all categories",
+    "extends": "ai-enhanced",
+    "labels": [
+      {
+        "name": "component:frontend",
+        "color": "06b6d4",
+        "description": "🎨 Frontend/client-side"
+      },
+      {
+        "name": "component:backend",
+        "color": "06b6d4",
+        "description": "⚙️ Backend/server-side"
+      },
+      {
+        "name": "component:api",
+        "color": "06b6d4",
+        "description": "🔌 API-related"
+      },
+      {
+        "name": "component:database",
+        "color": "06b6d4",
+        "description": "🗄️ Database-related"
+      },
+      {
+        "name": "component:ui",
+        "color": "06b6d4",
+        "description": "🖼️ User interface"
+      },
+      {
+        "name": "component:auth",
+        "color": "06b6d4",
+        "description": "🔐 Authentication/authorization"
+      },
+      {
+        "name": "component:deployment",
+        "color": "06b6d4",
+        "description": "🚀 Deployment/CI/CD"
+      },
+      {
+        "name": "tech:vue",
+        "color": "42b883",
+        "description": "💚 Vue.js related"
+      },
+      {
+        "name": "tech:react",
+        "color": "61dafb",
+        "description": "⚛️ React related"
+      },
+      {
+        "name": "tech:typescript",
+        "color": "3178c6",
+        "description": "🔷 TypeScript related"
+      },
+      {
+        "name": "tech:javascript",
+        "color": "f7df1e",
+        "description": "💛 JavaScript related"
+      },
+      {
+        "name": "tech:supabase",
+        "color": "3ecf8e",
+        "description": "🟩 Supabase related"
+      },
+      {
+        "name": "needs:discussion",
+        "color": "f59e0b",
+        "description": "💬 Needs team discussion"
+      },
+      {
+        "name": "needs:ux-review",
+        "color": "f59e0b",
+        "description": "🎨 Needs UX/design review"
+      },
+      {
+        "name": "effort:trivial",
+        "color": "d1fae5",
+        "description": "🟢 < 1 hour"
+      },
+      {
+        "name": "effort:small",
+        "color": "fef3c7",
+        "description": "🟡 1-4 hours"
+      },
+      {
+        "name": "effort:medium",
+        "color": "fed7aa",
+        "description": "🟠 4-16 hours (0.5-2 days)"
+      },
+      {
+        "name": "effort:large",
+        "color": "fecaca",
+        "description": "🔴 16-40 hours (2-5 days)"
+      },
+      {
+        "name": "effort:xlarge",
+        "color": "e9d5ff",
+        "description": "🟣 > 40 hours (requires breakdown)"
+      },
+      {
+        "name": "impact:breaking",
+        "color": "dc2626",
+        "description": "💥 Breaking changes"
+      },
+      {
+        "name": "impact:high",
+        "color": "d97706",
+        "description": "🟠 Affects multiple components"
+      },
+      {
+        "name": "impact:medium",
+        "color": "f59e0b",
+        "description": "🟡 Affects single component"
+      },
+      {
+        "name": "impact:low",
+        "color": "16a34a",
+        "description": "🟢 Isolated change"
+      },
+      {
+        "name": "sprint:current",
+        "color": "1d4ed8",
+        "description": "🏃 Current sprint"
+      },
+      {
+        "name": "sprint:next",
+        "color": "3b82f6",
+        "description": "📅 Next sprint"
+      },
+      {
+        "name": "sprint:backlog",
+        "color": "6b7280",
+        "description": "📋 Product backlog"
+      },
+      {
+        "name": "release:v1.0",
+        "color": "059669",
+        "description": "🎯 Target release v1.0"
+      },
+      {
+        "name": "release:next",
+        "color": "10b981",
+        "description": "🚀 Next release"
+      },
+      {
+        "name": "release:shipped",
+        "color": "065f46",
+        "description": "🚢 Included in release"
+      }
+    ]
+  }
+}
