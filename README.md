@@ -9,6 +9,16 @@
 
 Flow State Dev (FSD) provides simple, opinionated project templates and workflows for building modern web applications. It's designed to eliminate the friction between human developers and AI coding assistants by standardizing project structure and documentation.
 
+## 🎉 What's New in v0.5.0
+
+**Comprehensive Documentation Structure** - Every new project now includes:
+- 📚 Complete `docs/` folder with context, guides, API docs, and architecture decisions
+- 🤖 AI-specific `.claude/` folder with personality, code style, and avoid patterns
+- 📝 21 pre-filled documentation templates following best practices
+- 🏗️ Architecture Decision Records (ADR) system built-in
+
+Your projects start with excellent documentation from day one!
+
 ## Quick Start (2 minutes)
 
 ### Option 1: Use without installation (recommended)
@@ -124,11 +134,30 @@ my-app/
 │   ├── views/          # Page components
 │   ├── App.vue         # Root component
 │   └── main.js         # App entry point
+├── docs/               # 📚 Comprehensive documentation (NEW in v0.5.0!)
+│   ├── context/        # Project context for AI & humans
+│   ├── guides/         # How-to guides
+│   ├── api/            # API documentation
+│   └── architecture/   # Technical decisions
+├── .claude/            # 🤖 AI-specific context files (NEW in v0.5.0!)
+│   ├── personality.md  # How AI should interact
+│   ├── code-style.md   # Coding preferences
+│   └── avoid.md        # Anti-patterns to avoid
 ├── public/             # Static assets
 ├── .env.example        # Environment template
 ├── CLAUDE.md          # AI assistant instructions
 └── README.md          # Your project docs
 ```
+
+### 📚 New: Comprehensive Documentation Structure (v0.5.0)
+
+Every Flow State Dev project now includes:
+- **21 pre-filled documentation templates** to maintain best practices
+- **AI-optimized context files** for better Claude Code assistance
+- **Architecture Decision Records (ADR)** system
+- **Team conventions and coding standards** templates
+
+See [docs/DEFAULT_DOCS_STRUCTURE.md](docs/DEFAULT_DOCS_STRUCTURE.md) for details.
 
 ## Setting Up GitHub Labels
 
