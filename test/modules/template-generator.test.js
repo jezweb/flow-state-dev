@@ -1,422 +1,272 @@
 /**
- * Tests for TemplateGenerator
+ * Tests for Template Generator
  */
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import { TemplateGenerator } from '../../lib/modules/template-generator.js';
-import { createTestDir, createTestProject, assertFileExists, assertFileContains } from '../utils/test-helpers.js';
-import { getMockModule } from '../utils/mock-modules.js';
+import { readFile, pathExists, remove } from 'fs-extra';
 import { join } from 'path';
-import fs from 'fs-extra';
+import { tmpdir } from 'os';
 
 describe('TemplateGenerator', () => {
   let generator;
-  let projectDir;
-  let modules;
+  let testDir;
   
-  beforeEach(async () => {
-    projectDir = await createTestDir('template-generator-test');
-    modules = [
-      getMockModule('vue-base'),
-      getMockModule('vuetify'),
-      getMockModule('supabase')
-    ];
-    generator = new TemplateGenerator(modules, projectDir);
+  beforeEach(() => {
+    generator = new TemplateGenerator();
+    testDir = join(tmpdir(), `template-test-${Date.now()}`);
   });
   
-  describe('Template Collection', () => {
-    test('should collect templates from all modules', async () => {
-      const context = { projectName: 'test-project' };
-      
-      await generator.collectTemplates(context);
-      
-      expect(generator.templates.size).toBeGreaterThan(0);
-      expect(generator.templates.has('src/main.js')).toBe(true);
-      expect(generator.templates.has('package.json')).toBe(true);
+  afterEach(async () => {
+    if (await pathExists(testDir)) {
+      await remove(testDir);
+    }
+  });
+  
+  describe('Constructor and Helpers', () => {
+    it('should initialize with empty state', () => {
+      expect(generator.templates).toBeDefined();
+      expect(generator.templates.size).toBe(0);
+      expect(generator.conflicts).toEqual([]);
+      expect(generator.conflictResolver).toBeDefined();
     });
     
-    test('should handle modules without templates', async () => {
-      const moduleWithoutTemplates = {
-        name: 'no-templates',
-        version: '1.0.0',
-        category: 'other',
-        description: 'Module without templates'
-        // No getFileTemplates method
+    it('should register Handlebars helpers', () => {
+      const Handlebars = require('handlebars');
+      
+      // Test some helpers exist
+      expect(Handlebars.helpers.ifModule).toBeDefined();
+      expect(Handlebars.helpers.camelCase).toBeDefined();
+      expect(Handlebars.helpers.json).toBeDefined();
+    });
+  });
+  
+  describe('Variable Substitution', () => {
+    it('should render basic variables', async () => {
+      const template = 'Project: {{projectName}}, Version: {{projectVersion}}';
+      const result = await generator.renderTemplate(template);
+      
+      // Should return template as-is since no variables set
+      expect(result).toBe(template);
+      
+      // Set variables and render again
+      generator.variables = {
+        projectName: 'test-app',
+        projectVersion: '1.0.0'
       };
       
-      const testGenerator = new TemplateGenerator([moduleWithoutTemplates], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.collectTemplates(context);
-      
-      expect(testGenerator.templates.size).toBe(0);
+      const rendered = await generator.renderTemplate(template);
+      expect(rendered).toBe('Project: test-app, Version: 1.0.0');
     });
     
-    test('should track module priority for templates', async () => {
-      const context = { projectName: 'test-project' };
+    it('should handle case conversion helpers', async () => {
+      generator.variables = { projectName: 'my-test-app' };
       
-      await generator.collectTemplates(context);
+      const cases = {
+        '{{camelCase projectName}}': 'myTestApp',
+        '{{pascalCase projectName}}': 'MyTestApp',
+        '{{kebabCase "myTestApp"}}': 'my-test-app',
+        '{{snakeCase "myTestApp"}}': 'my_test_app'
+      };
       
-      const packageJsonSources = generator.templates.get('package.json');
-      expect(packageJsonSources).toBeDefined();
-      expect(packageJsonSources[0]).toHaveProperty('priority');
-      expect(packageJsonSources[0]).toHaveProperty('module');
+      for (const [template, expected] of Object.entries(cases)) {
+        const result = await generator.renderTemplate(template);
+        expect(result).toBe(expected);
+      }
+    });
+    
+    it('should handle module conditionals', async () => {
+      generator.variables = {
+        modules: {
+          vue3: { name: 'vue3', version: '3.4.0' },
+          vuetify: { name: 'vuetify', version: '3.4.0' }
+        }
+      };
+      
+      const template = '{{#ifModule "vue3"}}Has Vue{{else}}No Vue{{/ifModule}}';
+      const result = await generator.renderTemplate(template);
+      expect(result).toBe('Has Vue');
+      
+      const template2 = '{{#ifModule "react"}}Has React{{else}}No React{{/ifModule}}';
+      const result2 = await generator.renderTemplate(template2);
+      expect(result2).toBe('No React');
+    });
+  });
+  
+  describe('Module Map Creation', () => {
+    it('should create module map from modules array', () => {
+      const modules = [
+        {
+          name: 'vue3',
+          version: '3.4.0',
+          displayName: 'Vue 3',
+          moduleType: 'frontend-framework',
+          config: { ssr: true }
+        },
+        {
+          name: 'vuetify',
+          version: '3.4.0',
+          displayName: 'Vuetify',
+          moduleType: 'ui-library'
+        }
+      ];
+      
+      const moduleMap = generator.createModuleMap(modules);
+      
+      expect(moduleMap.vue3).toBeDefined();
+      expect(moduleMap.vue3.name).toBe('vue3');
+      expect(moduleMap.vue3.config.ssr).toBe(true);
+      
+      // Check type mapping
+      expect(moduleMap['frontend-framework']).toBeDefined();
+      expect(moduleMap['frontend-framework'].name).toBe('vue3');
+    });
+  });
+  
+  describe('Merge Strategies', () => {
+    it('should determine correct merge strategy by file type', async () => {
+      const module = { name: 'test' };
+      
+      const strategies = {
+        'package.json': { strategy: 'merge', type: 'package.json' },
+        '.env': { strategy: 'append', unique: true },
+        'config.json': { strategy: 'merge', type: 'json' },
+        '.gitignore': { strategy: 'append', unique: true },
+        'main.js': { strategy: 'replace' }
+      };
+      
+      for (const [file, expected] of Object.entries(strategies)) {
+        const strategy = await generator.getMergeStrategy(module, file);
+        expect(strategy).toEqual(expected);
+      }
+    });
+    
+    it('should respect module-defined strategies', async () => {
+      const module = {
+        name: 'test',
+        mergeStrategies: {
+          'custom.txt': { strategy: 'append', unique: false }
+        }
+      };
+      
+      const strategy = await generator.getMergeStrategy(module, 'custom.txt');
+      expect(strategy).toEqual({ strategy: 'append', unique: false });
     });
   });
   
   describe('Conflict Detection', () => {
-    test('should detect template conflicts', async () => {
-      const context = { projectName: 'test-project' };
+    it('should detect when templates can be merged', () => {
+      const templates = [
+        { mergeStrategy: { strategy: 'merge', type: 'json' } },
+        { mergeStrategy: { strategy: 'merge', type: 'json' } }
+      ];
       
-      await generator.collectTemplates(context);
-      const conflicts = generator.detectConflicts();
-      
-      // package.json should have conflicts (multiple modules provide it)
-      const packageJsonConflict = conflicts.find(c => c.path === 'package.json');
-      expect(packageJsonConflict).toBeDefined();
-      expect(packageJsonConflict.sources.length).toBeGreaterThan(1);
+      expect(generator.canMerge(templates)).toBe(true);
     });
     
-    test('should not detect conflicts for unique templates', async () => {
-      const moduleWithUniqueTemplate = {
-        name: 'unique-module',
-        version: '1.0.0',
-        category: 'other',
-        description: 'Module with unique template',
-        getFileTemplates: () => ({
-          'unique-file.js': {
-            content: 'unique content',
-            merge: 'replace'
-          }
-        })
-      };
+    it('should detect when templates cannot be merged', () => {
+      const templates = [
+        { mergeStrategy: { strategy: 'replace' } },
+        { mergeStrategy: { strategy: 'merge' } }
+      ];
       
-      const testGenerator = new TemplateGenerator([moduleWithUniqueTemplate], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.collectTemplates(context);
-      const conflicts = testGenerator.detectConflicts();
-      
-      expect(conflicts).toHaveLength(0);
-    });
-    
-    test('should detect merge strategy conflicts', async () => {
-      const module1 = {
-        name: 'module-1',
-        getFileTemplates: () => ({
-          'conflict.js': { content: 'content1', merge: 'replace' }
-        })
-      };
-      
-      const module2 = {
-        name: 'module-2',
-        getFileTemplates: () => ({
-          'conflict.js': { content: 'content2', merge: 'append' }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module1, module2], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.collectTemplates(context);
-      const conflicts = testGenerator.detectConflicts();
-      
-      expect(conflicts).toHaveLength(1);
-      expect(conflicts[0].strategies).toEqual(['replace', 'append']);
+      expect(generator.canMerge(templates)).toBe(false);
     });
   });
   
-  describe('File Generation', () => {
-    test('should generate single file template', async () => {
-      const module = {
-        name: 'single-file-module',
-        getFileTemplates: () => ({
-          'test-file.js': {
-            content: 'console.log("test");',
-            merge: 'replace'
-          }
-        })
+  describe('Template Generation', () => {
+    it('should generate files from templates', async () => {
+      // Create mock modules with templates
+      const modules = [
+        {
+          name: 'base',
+          templatePath: null,
+          priority: 10
+        }
+      ];
+      
+      // Manually add templates for testing
+      generator.templates.set('index.js', [{
+        module: 'base',
+        content: 'console.log("{{projectName}}");',
+        priority: 10,
+        mergeStrategy: { strategy: 'replace' }
+      }]);
+      
+      generator.variables = {
+        projectName: 'test-app'
       };
       
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = { projectName: 'test-project' };
+      const result = await generator.generate({
+        modules,
+        projectPath: testDir,
+        projectName: 'test-app'
+      });
       
-      await testGenerator.generate(context);
+      expect(result.success).toBe(true);
+      expect(result.generated).toContain('index.js');
       
-      const filePath = join(projectDir, 'test-file.js');
-      await assertFileExists(filePath);
-      await assertFileContains(filePath, 'console.log("test");');
+      // Check file was created
+      const filePath = join(testDir, 'index.js');
+      expect(await pathExists(filePath)).toBe(true);
+      
+      const content = await readFile(filePath, 'utf-8');
+      expect(content).toBe('console.log("test-app");');
     });
     
-    test('should merge JSON files correctly', async () => {
-      const module1 = {
-        name: 'json-module-1',
-        getFileTemplates: () => ({
-          'config.json': {
-            content: { name: 'test', version: '1.0.0' },
-            merge: 'merge-json'
-          }
-        })
+    it('should handle file conflicts', async () => {
+      // Add conflicting templates
+      generator.templates.set('config.json', [
+        {
+          module: 'module1',
+          content: '{"name": "{{projectName}}", "version": "1.0.0"}',
+          priority: 20,
+          mergeStrategy: { strategy: 'merge', type: 'json' }
+        },
+        {
+          module: 'module2',
+          content: '{"name": "{{projectName}}", "debug": true}',
+          priority: 10,
+          mergeStrategy: { strategy: 'merge', type: 'json' }
+        }
+      ]);
+      
+      generator.variables = {
+        projectName: 'test-app'
       };
       
-      const module2 = {
-        name: 'json-module-2',
-        getFileTemplates: () => ({
-          'config.json': {
-            content: { scripts: { dev: 'vite' } },
-            merge: 'merge-json'
-          }
-        })
-      };
+      const result = await generator.generate({
+        modules: [],
+        projectPath: testDir,
+        projectName: 'test-app'
+      });
       
-      const testGenerator = new TemplateGenerator([module1, module2], projectDir);
-      const context = { projectName: 'test-project' };
+      expect(result.success).toBe(true);
       
-      await testGenerator.generate(context);
+      // Should merge JSON files
+      const filePath = join(testDir, 'config.json');
+      const content = await readFile(filePath, 'utf-8');
+      const config = JSON.parse(content);
       
-      const configPath = join(projectDir, 'config.json');
-      await assertFileExists(configPath);
-      
-      const config = await fs.readJson(configPath);
-      expect(config.name).toBe('test');
+      expect(config.name).toBe('test-app');
       expect(config.version).toBe('1.0.0');
-      expect(config.scripts.dev).toBe('vite');
-    });
-    
-    test('should append content correctly', async () => {
-      const module1 = {
-        name: 'append-module-1',
-        getFileTemplates: () => ({
-          'append-file.txt': {
-            content: 'Line 1',
-            merge: 'append'
-          }
-        })
-      };
-      
-      const module2 = {
-        name: 'append-module-2',
-        getFileTemplates: () => ({
-          'append-file.txt': {
-            content: 'Line 2',
-            merge: 'append'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module1, module2], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.generate(context);
-      
-      const filePath = join(projectDir, 'append-file.txt');
-      await assertFileExists(filePath);
-      
-      const content = await fs.readFile(filePath, 'utf-8');
-      expect(content).toContain('Line 1');
-      expect(content).toContain('Line 2');
-    });
-    
-    test('should append unique content only', async () => {
-      const module1 = {
-        name: 'unique-module-1',
-        getFileTemplates: () => ({
-          'unique-file.txt': {
-            content: 'Line 1\nLine 2',
-            merge: 'append-unique'
-          }
-        })
-      };
-      
-      const module2 = {
-        name: 'unique-module-2',
-        getFileTemplates: () => ({
-          'unique-file.txt': {
-            content: 'Line 2\nLine 3',
-            merge: 'append-unique'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module1, module2], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.generate(context);
-      
-      const filePath = join(projectDir, 'unique-file.txt');
-      await assertFileExists(filePath);
-      
-      const content = await fs.readFile(filePath, 'utf-8');
-      const lines = content.split('\n').filter(line => line.trim());
-      
-      // Should only have unique lines
-      expect(lines.filter(line => line === 'Line 2')).toHaveLength(1);
-      expect(lines).toContain('Line 1');
-      expect(lines).toContain('Line 3');
+      expect(config.debug).toBe(true);
     });
   });
   
-  describe('Template Processing', () => {
-    test('should process template variables', async () => {
-      const module = {
-        name: 'template-module',
-        getFileTemplates: (context) => ({
-          'template-file.js': {
-            content: 'const projectName = "{{projectName}}";',
-            template: true,
-            merge: 'replace'
-          }
-        })
-      };
+  describe('Performance', () => {
+    it('should generate project quickly', async () => {
+      const startTime = Date.now();
       
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = { projectName: 'my-awesome-project' };
+      const result = await generator.generate({
+        modules: [],
+        projectPath: testDir,
+        projectName: 'perf-test'
+      });
       
-      await testGenerator.generate(context);
+      const duration = Date.now() - startTime;
       
-      const filePath = join(projectDir, 'template-file.js');
-      await assertFileExists(filePath);
-      await assertFileContains(filePath, 'const projectName = "my-awesome-project";');
-    });
-    
-    test('should handle complex template context', async () => {
-      const module = {
-        name: 'complex-template-module',
-        getFileTemplates: (context) => ({
-          'complex-template.js': {
-            content: '// {{description}}\nexport const config = {\n  name: "{{name}}",\n  version: "{{version}}"\n};',
-            template: true,
-            merge: 'replace'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = {
-        name: 'test-app',
-        version: '1.0.0',
-        description: 'A test application'
-      };
-      
-      await testGenerator.generate(context);
-      
-      const filePath = join(projectDir, 'complex-template.js');
-      await assertFileExists(filePath);
-      await assertFileContains(filePath, '// A test application');
-      await assertFileContains(filePath, 'name: "test-app"');
-      await assertFileContains(filePath, 'version: "1.0.0"');
-    });
-  });
-  
-  describe('Directory Creation', () => {
-    test('should create nested directories', async () => {
-      const module = {
-        name: 'nested-module',
-        getFileTemplates: () => ({
-          'src/components/App.vue': {
-            content: '<template><div>App</div></template>',
-            merge: 'replace'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.generate(context);
-      
-      const filePath = join(projectDir, 'src/components/App.vue');
-      await assertFileExists(filePath);
-      await assertFileContains(filePath, '<template><div>App</div></template>');
-    });
-    
-    test('should handle deep directory structures', async () => {
-      const module = {
-        name: 'deep-module',
-        getFileTemplates: () => ({
-          'very/deep/nested/directory/file.js': {
-            content: 'console.log("deep");',
-            merge: 'replace'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.generate(context);
-      
-      const filePath = join(projectDir, 'very/deep/nested/directory/file.js');
-      await assertFileExists(filePath);
-    });
-  });
-  
-  describe('Priority Resolution', () => {
-    test('should use higher priority template in conflicts', async () => {
-      const lowPriorityModule = {
-        name: 'low-priority',
-        priority: 50,
-        getFileTemplates: () => ({
-          'priority-test.js': {
-            content: 'low priority content',
-            merge: 'replace'
-          }
-        })
-      };
-      
-      const highPriorityModule = {
-        name: 'high-priority',
-        priority: 100,
-        getFileTemplates: () => ({
-          'priority-test.js': {
-            content: 'high priority content',
-            merge: 'replace'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([lowPriorityModule, highPriorityModule], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await testGenerator.generate(context);
-      
-      const filePath = join(projectDir, 'priority-test.js');
-      await assertFileExists(filePath);
-      await assertFileContains(filePath, 'high priority content');
-    });
-  });
-  
-  describe('Error Handling', () => {
-    test('should handle invalid JSON in merge-json strategy', async () => {
-      const module = {
-        name: 'invalid-json-module',
-        getFileTemplates: () => ({
-          'invalid.json': {
-            content: 'invalid json content',
-            merge: 'merge-json'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await expect(testGenerator.generate(context)).rejects.toThrow();
-    });
-    
-    test('should handle missing source files gracefully', async () => {
-      const module = {
-        name: 'missing-source-module',
-        getFileTemplates: () => ({
-          'from-source.js': {
-            src: '/non/existent/file.js',
-            merge: 'replace'
-          }
-        })
-      };
-      
-      const testGenerator = new TemplateGenerator([module], projectDir);
-      const context = { projectName: 'test-project' };
-      
-      await expect(testGenerator.generate(context)).rejects.toThrow();
+      expect(result.success).toBe(true);
+      expect(duration).toBeLessThan(1000); // Should complete in under 1 second
     });
   });
 });

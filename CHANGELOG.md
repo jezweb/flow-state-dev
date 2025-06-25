@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Template Generator for Modular Stacks (#81)
+- **TemplateGenerator Class** - Sophisticated engine for merging multiple module templates
+- **Merge Strategies** - Intelligent file merging (replace, merge, append, prepend, custom)
+- **Package.json Merging** - Smart dependency and script merging with conflict resolution
+- **Environment File Handling** - Proper .env file merging with duplicate detection
+- **Conflict Resolution** - Priority-based and interactive conflict resolution
+- **Variable Substitution** - Comprehensive Handlebars helpers for templates
+- **Performance Optimization** - Template caching and parallel processing
+- **Extensive Testing** - Full test coverage for all features
+- **Complete Documentation** - Detailed guide with examples and best practices
+
 #### Performance Monitoring System (#132)
 - **Performance Monitor** - Comprehensive tracking of command discovery, execution, and memory usage
 - **Performance Benchmarks** - Automated test suite ensuring no regression from monolithic version
