@@ -26,6 +26,7 @@ import { ProjectRetrofitEngine, executeRollback, listBackups } from '../lib/proj
 import { ProjectAnalyzer } from '../lib/migration/analyzer.js';
 import { ProjectMigrator } from '../lib/migration/migrator.js';
 import { BackupManager } from '../lib/migration/backup.js';
+import { setupModuleCommands } from '../lib/cli/module-commands.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -793,6 +794,9 @@ program
     console.log(logo);
     program.outputHelp();
   });
+
+// Setup module commands
+setupModuleCommands(program);
 
 // Parse arguments
 program.parse(process.argv);

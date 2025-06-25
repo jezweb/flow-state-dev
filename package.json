@@ -75,7 +75,9 @@
     "semver": "^7.5.4",
     "handlebars": "^4.7.8",
     "ajv": "^8.12.0",
-    "ajv-formats": "^2.1.1"
+    "ajv-formats": "^2.1.1",
+    "fuse.js": "^7.0.0",
+    "cli-table3": "^0.6.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",

@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Enhanced Module Registry System (#90)
+- **Multi-Source Module Loading** - Load modules from project, user, npm, and built-in sources
+- **Advanced Version Management** - Semantic versioning with conflict resolution
+- **Fuzzy Search Engine** - Fast module search with relevance scoring and suggestions
+- **Performance Caching** - Memory and disk caching with LRU eviction
+- **CLI Module Commands** - New `fsd modules` command group for module management
+- **Module Statistics** - Track registry performance and module usage
+- **Compatibility Checking** - Verify module compatibility before installation
+- **Module Hot Reloading** - Reload modules during development without restart
+
+### Closed Issues
+- Closed #141 - SvelteKit + Better Auth (fully implemented)
+- Closed #130 - Integration tests for modular slash commands (comprehensive test suite created)
+
 #### SvelteKit & Better Auth Support (#141)
 - **SvelteKit Module** - Complete SvelteKit 2.0 framework integration with TypeScript
 - **Better Auth Module** - Modern authentication system with email/OAuth providers
