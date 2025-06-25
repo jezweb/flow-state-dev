@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### SvelteKit & Better Auth Support (#141)
+- **SvelteKit Module** - Complete SvelteKit 2.0 framework integration with TypeScript
+- **Better Auth Module** - Modern authentication system with email/OAuth providers
+- **Full Stack Presets** - New SvelteKit presets for full-stack, frontend, and minimal setups
+- **Authentication Routes** - Pre-configured auth pages and API routes
+- **Testing Setup** - Vitest for unit tests, Playwright for E2E tests out of the box
+- **Server-Side Rendering** - Full SSR/SSG support with SvelteKit's architecture
+- **File-based Routing** - SvelteKit's powerful routing system configured
+- **Better Auth Features** - Email/password, OAuth providers, session management
+- **Integration Tests** - Comprehensive test suite for SvelteKit module
+
 #### React & Tailwind CSS Support
 - **React Module** - Complete React 18 framework integration with TypeScript and modern tooling
 - **Tailwind CSS Module** - Utility-first CSS framework with PostCSS integration and custom components

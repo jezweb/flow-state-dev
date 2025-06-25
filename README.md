@@ -18,9 +18,17 @@ Flow State Dev (FSD) is an intelligent project scaffolding tool that creates pro
 - 🔧 **Modular Architecture** - Extensible plugin-based onboarding system
 - 🏷️ **GitHub Integration** - 66 labels for comprehensive project management
 - ⚡ **Slash Commands** - Powerful project management commands for sprints, epics, and issues
-- 🚀 **Modern Stack** - Vue 3, Vuetify, Supabase, Vite (React coming soon)
+- 🚀 **Modern Stack** - Vue 3, React, SvelteKit with Vuetify, Tailwind CSS, Better Auth
 
 ## 🎉 What's New
+
+### v0.4.0 - SvelteKit + Better Auth Support 🎯
+- 🚀 **SvelteKit Framework** - Full support for SvelteKit 2.0 with TypeScript
+- 🔐 **Better Auth Integration** - Modern authentication system with email/OAuth support
+- 📦 **New Stack Presets** - SvelteKit Full Stack, Frontend, and Minimal configurations
+- ⚡ **File-based Routing** - SvelteKit's powerful routing system out of the box
+- 🧪 **Testing Ready** - Vitest for unit tests, Playwright for E2E tests
+- 🎨 **Works with Tailwind** - Full compatibility with Tailwind CSS for styling
 
 ### v2.1 - Minimal Setup for Beginners 📦
 - 📦 **Minimal Setup Option** - Start without a framework, choose later
@@ -129,6 +137,25 @@ fsd init
 ```
 *The `-g` flag installs globally so you can use `fsd` from anywhere*
 
+### Quick Start Examples
+
+```bash
+# Create a SvelteKit project with authentication
+fsd init my-app --preset sveltekit-full-stack
+
+# Create a React project with Tailwind
+fsd init my-app --preset react-frontend  
+
+# Create a Vue project with Vuetify
+fsd init my-app --preset vue-full-stack
+
+# Create a minimal project (no framework)
+fsd init my-app --preset minimal
+
+# Use specific modules
+fsd init my-app --modules sveltekit,better-auth,tailwind
+```
+
 > **Linux Users**: If you get an EACCES permission error, **don't use sudo**! See our [Linux Troubleshooting Guide](docs/LINUX-TROUBLESHOOTING.md) for safe solutions, or just use `npx` (Option 1) to avoid installation issues entirely.
 
 The intelligent setup will guide you through:
@@ -207,10 +234,26 @@ You now have a fully configured project with:
 - **Pinia** for state management
 - **Vite** for lightning-fast builds
 
+#### ✅ React (Available Now)
+- **React 18** with TypeScript support
+- **React Router** for navigation
+- **Tailwind CSS** for styling
+- **Vite** for fast development
+- **Vitest** for testing
+- **ESLint + Prettier** configured
+
+#### ✅ SvelteKit (Available Now)
+- **SvelteKit 2.0** with TypeScript
+- **File-based routing** built-in
+- **Better Auth** for authentication
+- **Tailwind CSS** compatible
+- **Vitest + Playwright** for testing
+- **Server-side rendering** support
+
 #### 🔜 Coming Soon
-- **React + Material UI** - React with Material Design
-- **Vue 3 + Tailwind** - Vue with utility-first CSS
-- **SvelteKit + Skeleton UI** - Full-stack with SSR
+- **Next.js** - React with SSR/SSG
+- **Nuxt 3** - Vue with SSR/SSG
+- **Remix** - Full-stack React framework
 
 ### Developer Tools
 - `CLAUDE.md` file pre-configured with project info
