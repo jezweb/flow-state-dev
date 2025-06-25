@@ -1,8 +1,41 @@
 # Slash Commands
 
-Flow State Dev includes a comprehensive set of slash commands for project management, development workflow, and GitHub integration. With 67+ commands across 6 categories, these commands streamline everything from daily coding tasks to complex project planning.
+Flow State Dev includes a comprehensive set of slash commands for project management, development workflow, and GitHub integration. With 67+ commands across 10 categories using a modern modular architecture, these commands streamline everything from daily coding tasks to complex project planning.
 
-## ✨ What's New in v0.13.0
+## Architecture
+
+The slash command system uses a modular architecture where each command is a separate module that extends the BaseSlashCommand or GitHubSlashCommand class. This design enables:
+
+- **Easy extensibility** - Add new commands by creating a single file
+- **Plugin support** - Load custom commands from external packages
+- **Better performance** - Commands are loaded on-demand
+- **Improved maintainability** - Each command is self-contained
+- **Consistent interface** - All commands follow the same pattern
+
+## ✨ What's New in v2.0
+
+### Modular Command Architecture
+All 67+ commands have been refactored into a modular system with:
+- Individual command files in `lib/commands/` directory
+- Category-based organization
+- Dynamic command discovery
+- Plugin support for custom commands
+- Performance improvements (command discovery <25ms, execution <100ms)
+
+### Command Categories
+Commands are now organized into 10 logical categories:
+- **utility** - Help and system commands
+- **quick-action** - Daily development tasks (build, test, commit, etc.)
+- **project** - Project management (issues, milestones, labels)
+- **analysis** - Code and project analysis
+- **workflow** - CI/CD and deployment
+- **sprint** - Sprint planning and management
+- **issue** - Issue operations and dependencies
+- **estimation** - Work estimation and capacity planning
+- **planning** - Feature planning and scope analysis
+- **thinking** - Extended thinking and research commands
+
+## ✨ Features Added in Previous Versions
 
 ### Quick Action Commands
 8 new commands for instant access to daily development tasks:
@@ -41,13 +74,13 @@ These commands demonstrate extended thinking processes and generate comprehensiv
 # View all available commands
 fsd slash "/help"
 
-# Quick Action Commands (NEW in v0.13.0)
+# Quick Action Commands
 fsd slash "/build"              # Run project build
 fsd slash "/test --coverage"    # Run tests with coverage
 fsd slash "/lint --fix"         # Lint with auto-fix
 fsd slash "/b"                  # Alias for build
 
-# Extended Thinking Commands (NEW in v0.13.0)
+# Extended Thinking Commands
 fsd slash "/plan --topic 'microservices architecture'"
 fsd slash "/investigate --question 'performance issues'"
 fsd slash "/decide --decision 'database choice' --alternatives 3"
@@ -66,9 +99,73 @@ fsd slash "/progress:report --period week --format markdown"
 fsd slash "/workflow:status"
 ```
 
+## All Available Commands
+
+### Command Discovery
+
+View all available commands with enhanced help:
+
+```bash
+# List all commands by category
+fsd slash "/help"
+
+# Get help for a specific command
+fsd slash "/help build"
+fsd slash "/help sprint:plan"
+
+# Search for commands
+fsd slash "/help test"  # Shows all test-related commands
+```
+
 ## Command Categories
 
-### Quick Action Commands (NEW in v0.13.0)
+### Utility Commands
+
+Core system commands for help and configuration.
+
+#### `/help`
+Display all available commands organized by category.
+
+**Features:**
+- Category-based command listing
+- Command search functionality
+- Detailed help for specific commands
+- Shows aliases and usage examples
+
+**Example:**
+```bash
+fsd slash "/help"
+fsd slash "/help commit"
+```
+
+#### `/sync`
+Synchronize your local repository with remote.
+
+**Features:**
+- Fetches latest changes
+- Updates all branches
+- Prunes deleted remote branches
+
+**Example:**
+```bash
+fsd slash "/sync"
+```
+
+#### `/clean`
+Clean up your project directory.
+
+**Features:**
+- Removes build artifacts
+- Cleans node_modules (with confirmation)
+- Removes temporary files
+- Git clean options
+
+**Example:**
+```bash
+fsd slash "/clean"
+```
+
+### Quick Action Commands
 
 Quick Action Commands provide instant access to common development tasks. These commands are designed for rapid execution during your daily workflow.
 
@@ -184,7 +281,48 @@ fsd slash "/push"
 fsd slash "/p --set-upstream"
 ```
 
-### Extended Thinking Commands (NEW in v0.13.0)
+#### `/add`
+Interactive staging of files for commit.
+
+**Aliases:** `/a`
+
+**Options:**
+- `[pattern]` - File pattern to stage
+- `--all` - Stage all changes
+- `--patch` - Interactive patch mode
+
+**Features:**
+- Smart file categorization
+- Interactive selection with checkboxes
+- Bulk staging options
+- Pattern matching support
+
+**Example:**
+```bash
+fsd slash "/add"              # Interactive selection
+fsd slash "/add src/"         # Stage by pattern
+fsd slash "/a --all"          # Stage everything
+fsd slash "/add --patch"      # Patch mode
+```
+
+#### `/pr`
+Manage pull requests.
+
+**Aliases:** `/pull-request`
+
+**Features:**
+- Create new pull requests
+- List open PRs
+- Review PR status
+- Merge pull requests
+
+**Example:**
+```bash
+fsd slash "/pr"               # Interactive PR management
+fsd slash "/pull-request"     # Same as /pr
+```
+
+### Extended Thinking Commands
 
 Extended Thinking Commands enable deep analysis and planning with explicit extended thinking mode. These commands generate comprehensive reports and Architecture Decision Records (ADRs).
 
@@ -377,10 +515,166 @@ fsd slash "/alternatives --for 'state management library' --criteria 'bundle-siz
 fsd slash "/alt --for 'deployment platform' --count 7"
 ```
 
+### Project Management Commands
+
+#### `/issues`
+Comprehensive issue management.
+
+**Aliases:** `/i`
+
+**Features:**
+- List issues with filters
+- Create new issues
+- Update issue status
+- Bulk operations
+
+**Example:**
+```bash
+fsd slash "/issues"           # List all issues
+fsd slash "/i"                # Short alias
+```
+
+#### `/milestones`
+Manage project milestones.
+
+**Aliases:** `/m`
+
+**Features:**
+- List milestones with progress
+- Create new milestones
+- Update milestone details
+- Close completed milestones
+
+**Example:**
+```bash
+fsd slash "/milestones"       # Manage milestones
+fsd slash "/m"                # Short alias
+```
+
+#### `/labels`
+GitHub label management.
+
+**Features:**
+- List all labels
+- Create label collections
+- Apply AI-enhanced label sets
+- Sync labels across repositories
+
+**Example:**
+```bash
+fsd slash "/labels"           # List labels
+fsd slash "/labels create"    # Create label collection
+```
+
+### Analysis Commands
+
+#### `/metrics`
+Code and project metrics analysis.
+
+**Features:**
+- Code complexity metrics
+- Test coverage analysis
+- Performance metrics
+- Quality indicators
+
+**Example:**
+```bash
+fsd slash "/metrics"
+```
+
+#### `/dependencies`
+Dependency analysis and management.
+
+**Aliases:** `/deps`
+
+**Features:**
+- List all dependencies
+- Check for updates
+- Security vulnerability scan
+- License compliance check
+
+**Example:**
+```bash
+fsd slash "/dependencies"
+fsd slash "/deps"             # Short alias
+```
+
+#### `/quality`
+Code quality analysis.
+
+**Aliases:** `/qa`
+
+**Features:**
+- Code smell detection
+- Complexity analysis
+- Best practices check
+- Technical debt assessment
+
+**Example:**
+```bash
+fsd slash "/quality"
+fsd slash "/qa"               # Short alias
+```
+
+### Workflow Commands
+
+#### `/deploy`
+Deployment management.
+
+**Aliases:** `/release`
+
+**Features:**
+- Deploy to environments
+- Rollback deployments
+- View deployment history
+- Environment configuration
+
+**Example:**
+```bash
+fsd slash "/deploy"
+fsd slash "/release"          # Same as deploy
+```
+
+#### `/pipeline`
+CI/CD pipeline management.
+
+**Aliases:** `/ci`
+
+**Features:**
+- View pipeline status
+- Trigger pipeline runs
+- Pipeline configuration
+- Build logs access
+
+**Example:**
+```bash
+fsd slash "/pipeline"
+fsd slash "/ci"               # Short alias
+```
+
+#### `/environments`
+Environment management.
+
+**Aliases:** `/envs`
+
+**Features:**
+- List environments
+- Environment variables
+- Configuration management
+- Environment health checks
+
+**Example:**
+```bash
+fsd slash "/environments"
+fsd slash "/envs"             # Short alias
+```
+
 ### Sprint Management
 
 #### `/sprint:plan`
 Plan your next sprint with intelligent capacity management.
+
+**Aliases:** `/sp:plan`
 
 **Options:**
 - `--weeks <number>` - Sprint duration in weeks (default: 2)
@@ -400,6 +694,8 @@ fsd slash "/sprint:plan --capacity 60 --weeks 3"
 #### `/sprint:review`
 Review sprint progress and calculate velocity metrics.
 
+**Aliases:** `/sp:review`
+
 **Options:**
 - `--milestone <name>` - Specific milestone to review (interactive selection if not provided)
 
@@ -417,11 +713,192 @@ fsd slash "/sprint:review --milestone 'Sprint 2024-01-15'"
 #### `/sprint:close`
 Close completed sprints and move remaining issues.
 
+**Aliases:** `/sp:close`
+
 **Options:**
 - `--milestone <name>` - Sprint to close
 - `--next-milestone <name>` - Target for moved issues
 
-*Note: Full implementation coming soon*
+### Issue Operations
+
+#### `/issue:bulk`
+Perform bulk operations on multiple issues efficiently.
+
+**Aliases:** `/i:bulk`
+
+**Options:**
+- `--action <string>` - Action to perform: label, milestone, assign, close (required)
+- `--filter <string>` - Issue filter: label:name, assignee:user, state:open
+
+**Supported Actions:**
+- **label** - Add labels to issues
+- **milestone** - Assign milestone to issues
+- **assign** - Assign issues to users
+- **close** - Close multiple issues
+
+**Filter Examples:**
+- `label:bug` - Issues with "bug" label
+- `assignee:username` - Issues assigned to user
+- `state:open` - Open issues
+
+**Example:**
+```bash
+fsd slash "/issue:bulk --action label --filter state:open"
+fsd slash "/issue:bulk --action milestone --filter label:enhancement"
+fsd slash "/issue:bulk --action close --filter label:duplicate"
+```
+
+#### `/issue:dependencies`
+Map and analyze issue dependencies and blockers.
+
+**Aliases:** `/i:deps`, `/i:dependencies`
+
+**Options:**
+- `--issue <number>` - Issue number to analyze
+- `--format <string>` - Output format: tree, graph (default: tree)
+
+**Features:**
+- Dependency detection from issue references
+- Blocker identification
+- Visual dependency mapping
+- Risk assessment
+
+**Example:**
+```bash
+fsd slash "/issue:dependencies --issue 456 --format tree"
+```
+
+### Estimation Commands
+
+#### `/estimate:bulk`
+Analyze issue complexity and suggest story point estimates.
+
+**Aliases:** `/est:bulk`, `/est:b`
+
+**Options:**
+- `--filter <string>` - Filter issues to estimate
+- `--scale <string>` - Estimation scale: fibonacci, linear (default: fibonacci)
+
+**Features:**
+- AI-powered complexity analysis
+- Batch estimation
+- Consistency checking
+- Historical comparison
+
+**Example:**
+```bash
+fsd slash "/estimate:bulk --filter label:needs-estimate"
+fsd slash "/est:b --scale fibonacci"
+```
+
+#### `/estimate:sprint`
+Calculate sprint capacity and team velocity.
+
+**Aliases:** `/est:sprint`, `/est:s`
+
+**Options:**
+- `--milestone <string>` - Sprint milestone name
+- `--history <number>` - Number of past sprints to analyze (default: 3)
+
+**Features:**
+- Velocity calculation
+- Capacity recommendations
+- Trend analysis
+- Risk assessment
+
+**Example:**
+```bash
+fsd slash "/estimate:sprint --history 5"
+fsd slash "/est:s --milestone 'Sprint 24'"
+```
+
+### Workflow Commands
+
+#### `/workflow:status`
+Analyze CI/CD workflow performance and health.
+
+**Aliases:** `/w:s`
+
+**Options:**
+- `--period <string>` - Analysis period: week, month (default: week)
+
+**Features:**
+- Recent workflow run analysis
+- Success rate calculations
+- Failure pattern identification
+- Performance trending
+
+**Example:**
+```bash
+fsd slash "/workflow:status --period week"
+```
+
+### Planning Commands
+
+#### `/breakdown`
+Break down work into manageable tasks.
+
+**Features:**
+- Scope analysis
+- Task generation
+- Dependency mapping
+- Effort estimation
+
+**Example:**
+```bash
+fsd slash "/breakdown"
+```
+
+#### `/epic:breakdown`
+Break down epics into sub-issues.
+
+**Aliases:** `/epic:break`, `/epic:split`
+
+**Features:**
+- Epic decomposition
+- Story generation
+- Task creation
+- Dependency setup
+
+**Example:**
+```bash
+fsd slash "/epic:breakdown"
+fsd slash "/epic:split"       # Same as breakdown
+```
+
+#### `/feature:plan`
+Complete feature planning workflow.
+
+**Aliases:** `/feature:planning`, `/plan:feature`
+
+**Features:**
+- Requirements analysis
+- Technical design
+- Task breakdown
+- Risk assessment
+
+**Example:**
+```bash
+fsd slash "/feature:plan"
+fsd slash "/plan:feature"     # Alternative alias
+```
+
+#### `/analyze:scope`
+Detailed scope analysis.
+
+**Aliases:** `/scope:analyze`, `/scope:analysis`
+
+**Features:**
+- Complexity assessment
+- Risk identification
+- Resource requirements
+- Timeline estimation
+
+**Example:**
+```bash
+fsd slash "/analyze:scope"
+fsd slash "/scope:analyze"    # Alternative alias
+```
 
 ### Epic Management
 
@@ -449,7 +926,16 @@ Track epic progress and identify blockers.
 **Options:**
 - `--epic <number>` - Epic issue number
 
-*Note: Full implementation coming soon*
+**Features:**
+- Progress visualization
+- Blocker detection
+- Timeline tracking
+- Resource utilization
+
+**Example:**
+```bash
+fsd slash "/epic:status --epic 123"
+```
 
 ### Progress Reporting
 
@@ -477,90 +963,15 @@ Analyze team performance and capacity.
 **Options:**
 - `--members <list>` - Filter by specific team members
 
-*Note: Full implementation coming soon*
-
-### Issue Operations
-
-#### `/issue:bulk`
-Perform bulk operations on multiple issues efficiently.
-
-**Options:**
-- `--action <string>` - Action to perform: label, milestone, assign, close (required)
-- `--filter <string>` - Issue filter: label:name, assignee:user, state:open
-
-**Supported Actions:**
-- **label** - Add labels to issues
-- **milestone** - Assign milestone to issues
-- **assign** - Assign issues to users
-- **close** - Close multiple issues
-
-**Filter Examples:**
-- `label:bug` - Issues with "bug" label
-- `assignee:username` - Issues assigned to user
-- `state:open` - Open issues
-
-**Example:**
-```bash
-fsd slash "/issue:bulk --action label --filter state:open"
-fsd slash "/issue:bulk --action milestone --filter label:enhancement"
-fsd slash "/issue:bulk --action close --filter label:duplicate"
-```
-
-#### `/issue:dependencies`
-Map and analyze issue dependencies and blockers.
-
-**Options:**
-- `--issue <number>` - Issue number to analyze
-- `--format <string>` - Output format: tree, graph (default: tree)
-
 **Features:**
-- Dependency detection from issue references
-- Blocker identification
-- Visual dependency mapping
-- Risk assessment
+- Individual contributions
+- Team velocity
+- Workload distribution
+- Performance trends
 
 **Example:**
 ```bash
-fsd slash "/issue:dependencies --issue 456 --format tree"
-```
-
-### Estimation Commands
-
-#### `/estimate:bulk`
-Analyze issue complexity and suggest story point estimates.
-
-**Options:**
-- `--filter <string>` - Filter issues to estimate
-- `--scale <string>` - Estimation scale: fibonacci, linear (default: fibonacci)
-
-*Note: Full implementation coming soon*
-
-#### `/estimate:sprint`
-Calculate sprint capacity and team velocity.
-
-**Options:**
-- `--milestone <string>` - Sprint milestone name
-- `--history <number>` - Number of past sprints to analyze (default: 3)
-
-*Note: Full implementation coming soon*
-
-### Workflow Commands
-
-#### `/workflow:status`
-Analyze CI/CD workflow performance and health.
-
-**Options:**
-- `--period <string>` - Analysis period: week, month (default: week)
-
-**Features:**
-- Recent workflow run analysis
-- Success rate calculations
-- Failure pattern identification
-- Performance trending
-
-**Example:**
-```bash
-fsd slash "/workflow:status --period week"
+fsd slash "/progress:team --members alice,bob"
 ```
 
 #### `/milestone:create`
@@ -578,11 +989,12 @@ fsd slash "/milestone:create --title 'Q1 Release' --due 2024-03-31 --description
 
 ## Command Aliases
 
-For faster usage, all commands support short aliases:
+For faster usage, most commands support short aliases:
 
 ### Quick Action Command Aliases
 | Full Command | Alias | Description |
 |--------------|-------|-------------|
+| `/add` | `/a` | Stage files |
 | `/build` | `/b` | Run build command |
 | `/test` | `/t` | Run tests |
 | `/lint` | `/l` | Run linter |
@@ -591,8 +1003,51 @@ For faster usage, all commands support short aliases:
 | `/status` | `/s` | Git status |
 | `/commit` | `/c` | Commit helper |
 | `/push` | `/p` | Push changes |
+| `/pr` | `/pull-request` | Pull requests |
 
-### Extended Thinking Command Aliases
+### Project Management Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/issues` | `/i` | Issue management |
+| `/milestones` | `/m` | Milestones |
+| `/dependencies` | `/deps` | Dependencies |
+| `/quality` | `/qa` | Quality analysis |
+
+### Workflow Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/deploy` | `/release` | Deployment |
+| `/pipeline` | `/ci` | CI/CD pipeline |
+| `/environments` | `/envs` | Environments |
+| `/workflow:status` | `/w:s` | Workflow status |
+
+### Sprint Management Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/sprint:plan` | `/sp:plan` | Sprint planning |
+| `/sprint:review` | `/sp:review` | Sprint review |
+| `/sprint:close` | `/sp:close` | Sprint close |
+
+### Issue Operations Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/issue:bulk` | `/i:bulk` | Bulk operations |
+| `/issue:dependencies` | `/i:deps`, `/i:dependencies` | Dependencies |
+
+### Estimation Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/estimate:bulk` | `/est:bulk`, `/est:b` | Bulk estimation |
+| `/estimate:sprint` | `/est:sprint`, `/est:s` | Sprint estimation |
+
+### Planning Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/epic:breakdown` | `/epic:break`, `/epic:split` | Epic breakdown |
+| `/feature:plan` | `/feature:planning`, `/plan:feature` | Feature planning |
+| `/analyze:scope` | `/scope:analyze`, `/scope:analysis` | Scope analysis |
+
+### Extended Thinking Aliases
 | Full Command | Alias | Description |
 |--------------|-------|-------------|
 | `/plan` | `/pl` | Deep planning |
@@ -601,23 +1056,6 @@ For faster usage, all commands support short aliases:
 | `/estimate` | `/est` | Work estimation |
 | `/research` | `/res` | Technical research |
 | `/alternatives` | `/alt` | Find alternatives |
-
-### Sprint & Project Management Aliases
-| Full Command | Alias | Description |
-|--------------|-------|-------------|
-| `/sprint:plan` | `/s:p` | Sprint planning |
-| `/sprint:review` | `/s:r` | Sprint review |
-| `/sprint:close` | `/s:c` | Sprint close |
-| `/epic:create` | `/e:c` | Epic creation |
-| `/epic:status` | `/e:s` | Epic status |
-| `/progress:report` | `/p:r` | Progress report |
-| `/progress:team` | `/p:t` | Team progress |
-| `/issue:bulk` | `/i:b` | Bulk operations |
-| `/issue:dependencies` | `/i:d` | Dependencies |
-| `/estimate:bulk` | `/est:b` | Bulk estimation |
-| `/estimate:sprint` | `/est:s` | Sprint estimation |
-| `/workflow:status` | `/w:s` | Workflow status |
-| `/milestone:create` | `/m:c` | Milestone creation |
 
 **Example using aliases:**
 ```bash
@@ -631,8 +1069,8 @@ fsd slash "/pl --topic 'api design' --create-adr"
 fsd slash "/inv --question 'performance bottleneck'"
 
 # Sprint management
-fsd slash "/s:p --capacity 50"
-fsd slash "/i:b --action label"
+fsd slash "/sp:plan --capacity 50"
+fsd slash "/i:bulk --action label"
 fsd slash "/p:r --period week"
 ```
 
@@ -745,15 +1183,36 @@ fsd slash "/issue:bulk --action milestone --filter label:dashboard"
 fsd slash "/progress:report --period week"
 ```
 
+## Extending with Custom Commands
+
+The modular architecture supports custom command development. See [SLASH_COMMAND_DEVELOPMENT.md](./SLASH_COMMAND_DEVELOPMENT.md) for details on:
+
+- Creating custom commands
+- Command plugin development
+- Publishing command packages
+- Command best practices
+
+## Performance
+
+The modular command system achieves excellent performance:
+
+- **Command Discovery**: <25ms (loads all 67+ commands)
+- **Command Execution**: <100ms for first run, <20ms for subsequent runs
+- **Memory Usage**: <10MB overhead
+- **Startup Time**: Minimal impact on CLI startup
+
 ## Future Enhancements
 
+- Plugin marketplace for community commands
 - Advanced filtering with GitHub search syntax
 - Integration with external project management tools
 - Automated sprint retrospective generation
 - Team performance analytics
-- Custom command creation
+- Custom command creation UI
 - Slack/Discord notifications
 - Time tracking integration
+- Command composition and chaining
+- Batch command execution
 
 ---
 

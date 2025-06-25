@@ -7,6 +7,13 @@
   "bin": {
     "fsd": "bin/fsd.js"
   },
+  "exports": {
+    ".": "./bin/fsd.js",
+    "./commands": "./lib/commands/index.js",
+    "./commands/base": "./lib/commands/base.js",
+    "./commands/executor": "./lib/commands/executor.js",
+    "./commands/registry": "./lib/commands/registry.js"
+  },
   "scripts": {
     "test": "node test/test-runner.js",
     "test:quick": "./test/run-tests.sh",
@@ -22,6 +29,8 @@
     "test:unit": "jest --testMatch='**/test/modules/**/*.test.js'",
     "test:migration": "jest --testMatch='**/test/migration/**/*.test.js'",
     "test:performance": "jest --testMatch='**/test/performance/**/*.test.js'",
+    "test:commands": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --testMatch='**/test/commands/**/*.test.js'",
+    "validate:commands": "node test/tools/migration-checker.js",
     "postinstall": "node scripts/post-install.cjs",
     "verify": "node scripts/verify-package.js",
     "test:install": "node scripts/test-local-install.js",

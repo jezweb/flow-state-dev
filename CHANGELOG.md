@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Minimal Setup Option
+- **No Framework Pathway** - New option to start without a framework for undecided users
+- **Framework Selection Guide** - Comprehensive guide comparing Vue, React, and Svelte
+- **Basic Project Structure** - Includes Vite, ESLint, Prettier out of the box
+- **Upgrade Path** - Support for `fsd upgrade --add-framework` (implementation pending)
+- **Default Selection** - Minimal setup now appears first in framework selection
+- **Educational Content** - CHOOSING_A_FRAMEWORK.md guide generated in all minimal projects
+
+### Changed
+- **Framework Selection** - Minimal setup is now the default option in interactive mode
+- **README Updates** - Added documentation for minimal setup option
+
+### Technical
+- **Test Suite** - Added minimal-setup.test.js for integration testing
+- **Environment Variable** - FSD_DEFAULT_FRAMEWORK for testing non-interactive mode
+
+## [2.1.0] - 2025-06-25
+
+### Added
+
+#### Documentation
+- **SLASH_COMMANDS.md** - Complete rewrite documenting modular architecture and all 67+ commands
+- **SLASH_COMMAND_DEVELOPMENT.md** - Comprehensive guide for creating custom commands
+- **SLASH_COMMAND_PLUGINS.md** - Plugin system documentation for extending FSD
+- **SLASH_COMMAND_MIGRATION.md** - Migration guide from v1.x to v2.x
+- **SLASH_COMMAND_API.md** - Complete API reference for command development
+
+#### Developer Experience
+- **Plugin Support** - npm package exports for creating command plugins
+- **CLI Reference Update** - Added slash command details and examples
+- **README Updates** - Highlighted v2.0 modular architecture
+
+### Changed
+
+- **Package Exports** - Added exports for command system modules
+- **Performance Documentation** - Added metrics showing command discovery <25ms
+- **Category Documentation** - Documented all 10 command categories
+
+### Technical Improvements
+
+- **JSDoc Comments** - Enhanced documentation for base classes
+- **Code Cleanup** - Removed obsolete files and TODOs
+- **Build Process** - Updated entry points for modular system
+
 ## [2.0.1] - 2025-06-25
 
 ### Fixed

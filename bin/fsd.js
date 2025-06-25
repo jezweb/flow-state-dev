@@ -508,6 +508,8 @@ program
   .description('Safely add Flow State Dev features to existing project')
   .option('--preview', 'Show what would change without applying')
   .option('--features <features>', 'Specific features to add (comma-separated)')
+  .option('--add-framework <framework>', 'Add a framework to minimal setup')
+  .option('--list-frameworks', 'List available frameworks')
   .option('--rollback <backup-id>', 'Rollback to previous backup')
   .option('--list-backups', 'Show available backups')
   .option('--force', 'Skip confirmations (dangerous)')
@@ -516,6 +518,36 @@ program
     console.log(logo);
     
     try {
+      // Handle list frameworks option
+      if (options.listFrameworks) {
+        console.log(chalk.blue('\n📦 Available frameworks:\n'));
+        frameworks.filter(f => f.available && f.value !== 'minimal').forEach(f => {
+          console.log(`  ${f.name}`);
+          if (f.description) {
+            console.log(`    ${chalk.gray(f.description)}`);
+          }
+        });
+        console.log('\n' + chalk.gray('Use: fsd upgrade --add-framework [framework-name]'));
+        return;
+      }
+      
+      // Handle add framework option
+      if (options.addFramework) {
+        console.log(chalk.blue('\n🚀 Adding framework to minimal project...\n'));
+        
+        // Check if we're in a minimal project
+        const packageJsonPath = path.join(process.cwd(), 'package.json');
+        if (!fs.existsSync(packageJsonPath)) {
+          console.error(chalk.red('❌ No package.json found. Are you in a project directory?'));
+          process.exit(1);
+        }
+        
+        // TODO: Implement framework addition logic
+        console.log(chalk.yellow('⚠️  Framework addition is coming soon!'));
+        console.log(chalk.gray('This feature will allow you to upgrade from minimal setup to a full framework.'));
+        return;
+      }
+      
       // Handle rollback option
       if (options.rollback) {
         const success = await executeRollback(options.rollback, { force: options.force });

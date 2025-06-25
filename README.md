@@ -22,14 +22,21 @@ Flow State Dev (FSD) is an intelligent project scaffolding tool that creates pro
 
 ## 🎉 What's New
 
-### v0.13.0 - Complete Slash Command System 🔧
-- ⚡ **Quick Action Commands** - Daily workflow automation with build, test, lint, git operations
-- 🧠 **Extended Thinking Commands** - Deep analysis with explicit extended thinking mode
-- 📋 **67+ Total Commands** - Comprehensive command system across 6 categories
-- 🎯 **ADR Generation** - Automatic Architecture Decision Records for planning and decisions
-- 🔍 **Smart Detection** - Intelligent project script and configuration detection
-- 💾 **Analysis Reports** - Comprehensive reports saved as markdown files
-- 🏃 **Quick Aliases** - Single-letter shortcuts for instant command access (b, t, l, etc.)
+### v2.1 - Minimal Setup for Beginners 📦
+- 📦 **Minimal Setup Option** - Start without a framework, choose later
+- 📚 **Framework Selection Guide** - Comprehensive comparison of Vue, React, Svelte
+- 🎯 **No Decision Paralysis** - Perfect for beginners or exploration
+- ⚡ **Easy Upgrade Path** - Add framework later with `fsd upgrade --add-framework`
+- 🔧 **Basic Tooling** - Vite, ESLint, Prettier included from the start
+
+### v2.0 - Modular Slash Command Architecture 🚀
+- 🏗️ **Modular Architecture** - All 67+ commands refactored into individual modules
+- ⚡ **Enhanced Performance** - Command discovery <25ms, execution <100ms
+- 🔌 **Plugin Support** - Extensible system for custom commands
+- 📁 **Category Organization** - Commands organized into 10 logical categories
+- 🎯 **Dynamic Discovery** - Commands loaded on-demand for better performance
+- 🧩 **Consistent Interface** - All commands extend BaseSlashCommand class
+- 📊 **100% Migration** - Complete transition from monolithic to modular system
 
 **Perfect for AI-assisted development** - Commands demonstrate extended thinking processes and create structured documentation. From quick daily tasks to complex architectural decisions!
 
@@ -126,7 +133,8 @@ fsd init
 
 The intelligent setup will guide you through:
 - 🔍 **Security Analysis** - Automatic detection of repository visibility
-- 🎨 **Framework Selection** - Choose Vue, React, and more (coming soon)
+- 🎨 **Framework Selection** - Choose Vue, React, or start minimal (no framework)
+- 📦 **NEW: Minimal Setup** - Start without a framework, add one later when ready
 - 🔒 **Secure Configuration** - Context-aware Supabase credential setup
 - ✅ **GitHub Integration** - Repository connection and label management
 - 🛡️ **Security Templates** - Auto-generated .gitignore and security docs
@@ -182,6 +190,14 @@ You now have a fully configured project with:
 ## What's Included?
 
 ### Available Frameworks
+
+#### ✅ Minimal Setup (NEW - Available Now)
+- **No Framework** - Start with basic HTML/CSS/JS
+- **Vite** for fast builds and hot module replacement
+- **ESLint + Prettier** for code quality
+- **Framework Guide** - Comprehensive guide to help you choose
+- **Easy Upgrade Path** - Add a framework when you're ready with `fsd upgrade --add-framework`
+- **Perfect for beginners** or when you want to explore options first
 
 #### ✅ Vue 3 + Vuetify (Available Now)
 - **Vue 3** with Composition API
@@ -304,7 +320,7 @@ fsd help               # Show all commands
 
 ## Slash Commands System
 
-Flow State Dev includes a comprehensive slash command system with 67 commands across 10 categories. All commands use a modular architecture for better maintainability and extensibility.
+Flow State Dev includes a comprehensive slash command system with 67+ commands across 10 categories. All commands use a modular architecture where each command is a separate module, enabling better performance, maintainability, and extensibility.
 
 ### Command Categories
 
@@ -345,12 +361,15 @@ fsd slash "/alternatives 'State management for React'"
 
 ### Command Features
 
+- **Modular Architecture**: Each command is a separate module for easy extensibility
 - **Interactive Prompts**: All commands support interactive mode when arguments are omitted
 - **GitHub Integration**: Deep integration with GitHub API for issue/PR management
 - **Smart Detection**: Automatically detects project configuration and scripts
 - **Extended Thinking**: Some commands show AI-style thinking process
 - **Report Generation**: Many commands can generate markdown reports
 - **ADR Creation**: Planning commands can create Architecture Decision Records
+- **Plugin Support**: Add custom commands by creating new command modules
+- **Performance**: Command discovery <25ms, execution <100ms
 
 For a complete list of commands, run:
 ```bash

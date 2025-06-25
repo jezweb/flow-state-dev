@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{projectName}}</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Welcome to {{projectName}}</h1>
+      <p>This is a minimal setup without any framework.</p>
+      <p>When you're ready, you can add a framework using:</p>
+      <pre><code>fsd upgrade --add-framework [framework-name]</code></pre>
+      <p>Check out <a href="/docs/CHOOSING_A_FRAMEWORK.md">the framework guide</a> to help you decide!</p>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

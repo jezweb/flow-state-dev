@@ -1,0 +1,36 @@
+{
+  "name": "minimal-base",
+  "version": "1.0.0",
+  "description": "Minimal setup with basic HTML/CSS/JS and Vite build tooling - no framework",
+  "category": "frontend-framework",
+  "tags": ["minimal", "vanilla", "basic", "starter"],
+  "provides": ["frontend-framework", "minimal"],
+  "requires": [],
+  "dependencies": [],
+  "compatibleWith": ["supabase"],
+  "incompatibleWith": ["vue-base", "react-base", "angular-base", "vuetify", "tailwind"],
+  "recommended": true,
+  "author": "Flow State Dev",
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/flow-state-dev",
+  "templatePath": "./templates",
+  "packageDependencies": {
+    "vite": "^5.0.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.49.0",
+    "prettier": "^3.0.3"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "format": "prettier --write ."
+  },
+  "mergeStrategies": {
+    "package.json": "merge",
+    "vite.config.js": "replace"
+  },
+  "upgradeInstructions": "You can add a framework later using: fsd upgrade --add-framework [framework-name]"
+}

@@ -1,0 +1,150 @@
+# Choosing a Frontend Framework
+
+Welcome to [PROJECT_NAME]! You've started with a minimal setup, which gives you time to explore and choose the right framework for your project. This guide will help you make an informed decision.
+
+## Available Frameworks
+
+### Vue.js 3
+**Best for:** Gradual adoption, template-based syntax, excellent documentation
+
+#### Pros:
+- Gentle learning curve
+- Excellent documentation and community
+- Flexible - can be used for simple or complex apps
+- Great TypeScript support
+- Powerful template syntax
+- Built-in reactivity system
+
+#### Cons:
+- Smaller ecosystem than React
+- Fewer job opportunities compared to React
+- Some concepts (like reactivity) are Vue-specific
+
+#### When to choose Vue:
+- You're new to frontend frameworks
+- You prefer template-based syntax
+- You want a progressive framework (can adopt gradually)
+- You value simplicity and developer experience
+
+**Try it out:** [Vue.js Interactive Tutorial](https://vuejs.org/tutorial/)
+
+### React
+**Best for:** Large applications, maximum ecosystem, job opportunities
+
+#### Pros:
+- Largest ecosystem and community
+- Most job opportunities
+- Excellent for large-scale applications
+- Great TypeScript support
+- Can be used for web and mobile (React Native)
+- Huge selection of component libraries
+
+#### Cons:
+- Steeper learning curve
+- More boilerplate code
+- Need to choose many additional libraries
+- JSX syntax can be confusing initially
+
+#### When to choose React:
+- You want maximum ecosystem and library choices
+- You're building a large-scale application
+- You want to maximize job opportunities
+- You might need mobile development later
+
+**Try it out:** [React Tutorial](https://react.dev/learn)
+
+### Svelte/SvelteKit
+**Best for:** Performance-critical apps, minimal bundle size
+
+#### Pros:
+- No virtual DOM - compiles to vanilla JS
+- Excellent performance
+- Very small bundle sizes
+- Simple, intuitive syntax
+- Built-in state management
+- Great developer experience
+
+#### Cons:
+- Smaller ecosystem
+- Fewer learning resources
+- Less mature than Vue/React
+- Fewer job opportunities
+
+#### When to choose Svelte:
+- Performance is critical
+- You want minimal bundle size
+- You prefer compile-time optimizations
+- You like trying newer technologies
+
+**Try it out:** [Svelte Interactive Tutorial](https://learn.svelte.dev/)
+
+## Making Your Decision
+
+### Consider these factors:
+
+1. **Your Experience Level**
+   - Beginner: Vue or Svelte
+   - Intermediate/Advanced: Any framework
+
+2. **Project Requirements**
+   - Small/Medium project: Any framework
+   - Large enterprise: React or Vue
+   - Performance critical: Svelte
+
+3. **Team Considerations**
+   - Existing team skills
+   - Hiring availability in your area
+   - Long-term maintenance
+
+4. **Ecosystem Needs**
+   - Need lots of pre-built components: React
+   - Want official solutions: Vue
+   - Prefer minimal dependencies: Svelte
+
+## How to Add Your Chosen Framework
+
+Once you've decided, adding a framework is easy:
+
+```bash
+# Add Vue.js with Vuetify UI
+fsd upgrade --add-framework vue-vuetify
+
+# Add React (coming soon)
+fsd upgrade --add-framework react-mui
+
+# Add SvelteKit (coming soon)
+fsd upgrade --add-framework sveltekit
+```
+
+## Still Unsure?
+
+That's okay! Here are some suggestions:
+
+1. **Try the tutorials** - Spend 30 minutes with each framework's tutorial
+2. **Build a small component** - Try building the same simple component in each
+3. **Check job market** - Look at job postings in your area
+4. **Ask the community** - Join Discord/Reddit communities and ask questions
+
+## Resources
+
+### General Resources
+- [State of JS Survey](https://stateofjs.com/) - See what developers are using
+- [Framework Comparison](https://www.builder.io/blog/framework-benchmarks) - Performance comparisons
+- [Reddit: r/webdev](https://www.reddit.com/r/webdev/) - Active community discussions
+
+### Framework-Specific
+- [Vue.js Docs](https://vuejs.org/)
+- [React Docs](https://react.dev/)
+- [Svelte Docs](https://svelte.dev/)
+
+### Learning Platforms
+- [FreeCodeCamp](https://www.freecodecamp.org/)
+- [The Odin Project](https://www.theodinproject.com/)
+- [Frontend Masters](https://frontendmasters.com/)
+- [Scrimba](https://scrimba.com/)
+
+---
+
+Remember: There's no "wrong" choice. All these frameworks are excellent and can build amazing applications. The best framework is the one that helps you build your project effectively.
+
+When you're ready, run `fsd upgrade --add-framework [framework-name]` to continue!
