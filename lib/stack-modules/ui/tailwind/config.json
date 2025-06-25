@@ -1,0 +1,101 @@
+{
+  "id": "tailwind",
+  "type": "ui-library",
+  "name": "Tailwind CSS",
+  "displayName": "Tailwind CSS",
+  "version": "3.4.0",
+  "description": "A utility-first CSS framework for rapid UI development",
+  "author": "Tailwind Labs",
+  "license": "MIT",
+  "homepage": "https://tailwindcss.com",
+  "repository": "https://github.com/tailwindlabs/tailwindcss",
+  "category": "ui-library",
+  "priority": 10,
+  "recommended": false,
+  "tags": ["css", "utility-first", "responsive", "customizable", "design-system"],
+  "keywords": ["tailwind", "css", "utility", "styling", "responsive", "mobile-first"],
+  "features": {
+    "type": "utility-css",
+    "designSystem": "utility-first",
+    "components": false,
+    "styling": true,
+    "themes": true,
+    "darkMode": true,
+    "responsive": true,
+    "customization": true,
+    "treeShaking": true,
+    "jit": true,
+    "plugins": ["forms", "typography", "aspect-ratio", "line-clamp", "container-queries"]
+  },
+  "compatibility": {
+    "frontend": ["vue3", "react", "svelte", "angular", "solid", "preact"],
+    "backend": ["*"],
+    "buildTools": ["vite", "webpack", "rollup", "parcel", "esbuild"],
+    "componentLibraries": ["headless-ui", "radix-ui", "shadcn-ui", "catalyst-ui"],
+    "deployment": ["*"]
+  },
+  "conflicts": ["vuetify", "material-ui", "ant-design", "bootstrap", "bulma", "foundation"],
+  "provides": ["ui-library", "styling-system", "utility-classes"],
+  "requires": [],
+  "options": {
+    "darkMode": {
+      "type": "string",
+      "enum": ["class", "media", false],
+      "default": "class",
+      "description": "Dark mode strategy"
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["forms", "typography", "aspect-ratio", "line-clamp", "container-queries", "animation"]
+      },
+      "default": ["forms"],
+      "description": "Tailwind plugins to include"
+    },
+    "componentExamples": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include example UI components"
+    },
+    "customColors": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include custom color palette"
+    },
+    "preflight": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include Tailwind's base styles reset"
+    }
+  },
+  "config": {
+    "content": {
+      "description": "Paths to scan for class names",
+      "default": ["./index.html", "./src/**/*.{js,ts,jsx,tsx,vue,svelte}"]
+    },
+    "theme": {
+      "description": "Design system configuration",
+      "sections": ["colors", "spacing", "typography", "screens", "shadows", "animations"]
+    }
+  },
+  "integrations": {
+    "headlessui": {
+      "description": "Unstyled, accessible UI components",
+      "compatible": ["vue3", "react"]
+    },
+    "radixui": {
+      "description": "Low-level UI primitives",
+      "compatible": ["react"]
+    },
+    "shadcnui": {
+      "description": "Copy-paste component library",
+      "compatible": ["react"]
+    }
+  },
+  "hooks": {
+    "beforeInstall": "./hooks/before-install.js",
+    "afterInstall": "./hooks/after-install.js",
+    "configure": "./hooks/configure.js"
+  }
+}

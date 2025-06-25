@@ -13,13 +13,19 @@ import { runDoctor } from '../lib/doctor.js';
 import { formatError } from '../lib/errors.js';
 import { analyzeDirectory, formatDirectoryInfo, performSafetyChecks } from '../lib/directory-utils.js';
 import { legacyOnboarding } from '../lib/onboarding/index.js';
+import { ModuleRegistry } from '../lib/modules/registry.js';
+import { StackPresetManager } from '../lib/onboarding/stack-presets.js';
+import { TemplateGenerator } from '../lib/modules/template-generator.js';
 import { SecurityScanner } from '../lib/security-scanner.js';
 import { runSetupLocal } from '../lib/setup-local.js';
 import { executeSupabaseCommand } from '../lib/supabase-commands.js';
 import { generateStore } from '../lib/generate-store.js';
 import { labelsManager } from '../lib/labels-manager.js';
-import { executeSlashCommand } from '../lib/slash-commands.js';
+import { executeSlashCommand } from '../lib/slash-commands-wrapper.js';
 import { ProjectRetrofitEngine, executeRollback, listBackups } from '../lib/project-retrofit.js';
+import { ProjectAnalyzer } from '../lib/migration/analyzer.js';
+import { ProjectMigrator } from '../lib/migration/migrator.js';
+import { BackupManager } from '../lib/migration/backup.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,22 +48,186 @@ program
 // Init command
 program
   .command('init [project-name]')
-  .description('Create a new project with your choice of framework')
+  .description('Create a new project with modular stack selection')
   .option('--no-interactive', 'Skip interactive setup')
   .option('--here', 'Create project in current directory')
   .option('--subfolder', 'Create project in subfolder (default)')
   .option('--force', 'Skip safety confirmations (use with caution)')
   .option('--memory', 'Set up Claude memory file during initialization')
   .option('--no-memory', 'Skip memory file setup')
+  .option('--preset <preset>', 'Use a stack preset (e.g., vue-full-stack, react-frontend)')
+  .option('--modules <modules>', 'Comma-separated list of modules to include')
+  .option('--legacy', 'Use legacy framework-based selection')
+  .option('--verbose', 'Show detailed error information')
   .action(async (projectName, options) => {
     console.log(logo);
     
     try {
-      await legacyOnboarding(projectName, options);
+      if (options.legacy) {
+        await legacyOnboarding(projectName, options);
+      } else {
+        await newModularOnboarding(projectName, options);
+      }
     } catch (error) {
-      console.error(chalk.red('❌ Error creating project:'), error.message);
+      console.error(formatError(error, { command: 'init', verbose: options.verbose }));
       process.exit(1);
     }
+  });
+
+// Modules command with subcommands
+const modulesCmd = program
+  .command('modules')
+  .description('Manage project modules and stacks');
+
+modulesCmd
+  .command('list')
+  .description('List available modules')
+  .option('-c, --category <category>', 'Filter by category')
+  .option('-t, --tag <tag>', 'Filter by tag')
+  .option('-v, --verbose', 'Show detailed module information')
+  .action(async (options) => {
+    console.log(logo);
+    try {
+      const registry = new ModuleRegistry();
+      await registry.discover();
+      await listModules(registry, options);
+    } catch (error) {
+      console.error(formatError(error, { command: 'modules list', verbose: options.verbose }));
+      process.exit(1);
+    }
+  });
+
+modulesCmd
+  .command('info <module>')
+  .description('Show detailed information about a module')
+  .action(async (moduleId) => {
+    console.log(logo);
+    try {
+      const registry = new ModuleRegistry();
+      await registry.discover();
+      await showModuleInfo(registry, moduleId);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+modulesCmd
+  .command('validate <module>')
+  .description('Validate a module implementation')
+  .action(async (moduleId) => {
+    console.log(logo);
+    try {
+      const registry = new ModuleRegistry();
+      await registry.discover();
+      await validateModule(registry, moduleId);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+modulesCmd
+  .command('docs')
+  .description('Generate module documentation')
+  .option('-o, --output <dir>', 'Output directory', './docs/modules')
+  .option('-j, --json', 'Also generate JSON data')
+  .action(async (options) => {
+    console.log(logo);
+    try {
+      const registry = new ModuleRegistry();
+      await registry.discover();
+      const { DocumentationGenerator } = await import('../lib/modules/documentation/generator.js');
+      const generator = new DocumentationGenerator(registry);
+      await generator.generateAll({ generateJson: options.json });
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+modulesCmd
+  .command('search <query>')
+  .description('Search for modules by name, description, or tags')
+  .option('-c, --category <category>', 'Filter by category')
+  .option('-l, --limit <number>', 'Maximum results to show', '10')
+  .action(async (query, options) => {
+    console.log(logo);
+    try {
+      const registry = new ModuleRegistry();
+      await registry.discover();
+      await searchModules(registry, query, options);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Default action for modules command
+modulesCmd
+  .action(async () => {
+    console.log(logo);
+    const registry = new ModuleRegistry();
+    await registry.discover();
+    await listModules(registry, {});
+  });
+
+// Presets command with subcommands  
+const presetsCmd = program
+  .command('presets')
+  .description('Manage stack presets');
+
+presetsCmd
+  .command('list')
+  .description('List available stack presets')
+  .option('-t, --tags <tags>', 'Filter by tags (comma-separated)')
+  .option('-d, --difficulty <level>', 'Filter by difficulty level')
+  .action(async (options) => {
+    console.log(logo);
+    try {
+      const presetManager = new StackPresetManager();
+      await listPresets(presetManager, options);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+presetsCmd
+  .command('info <preset>')
+  .description('Show detailed information about a preset')
+  .action(async (presetId) => {
+    console.log(logo);
+    try {
+      const presetManager = new StackPresetManager();
+      presetManager.displayPreset(presetId);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+presetsCmd
+  .command('create <name>')
+  .description('Create a custom preset from modules')
+  .option('-d, --description <desc>', 'Preset description')
+  .option('-m, --modules <modules>', 'Comma-separated list of modules')
+  .action(async (name, options) => {
+    console.log(logo);
+    try {
+      await createCustomPreset(name, options);
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Default action for presets command
+presetsCmd
+  .action(async () => {
+    console.log(logo);
+    const presetManager = new StackPresetManager();
+    presetManager.listPresets();
   });
 
 // Labels command with subcommands
@@ -377,6 +547,212 @@ program
     }
   });
 
+// Migration commands
+const migrateCmd = program
+  .command('migrate')
+  .description('Migrate existing projects to Flow State Dev');
+
+migrateCmd
+  .command('analyze [path]')
+  .description('Analyze project for migration possibilities')
+  .option('-v, --verbose', 'Show detailed analysis')
+  .option('-j, --json', 'Output results as JSON')
+  .action(async (projectPath, options) => {
+    console.log(logo);
+    try {
+      const analyzer = new ProjectAnalyzer(projectPath);
+      const analysis = await analyzer.analyze();
+      
+      if (options.json) {
+        console.log(JSON.stringify(analysis, null, 2));
+      } else {
+        analyzer.displayResults();
+      }
+    } catch (error) {
+      console.error(chalk.red('❌ Analysis error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+migrateCmd
+  .command('execute [path]')
+  .description('Execute project migration')
+  .option('--dry-run', 'Preview changes without applying them')
+  .option('--no-backup', 'Skip creating backup (not recommended)')
+  .option('--no-confirm', 'Skip confirmation prompts')
+  .option('-v, --verbose', 'Show detailed migration progress')
+  .action(async (projectPath, options) => {
+    console.log(logo);
+    try {
+      const migrator = new ProjectMigrator(projectPath, {
+        dryRun: options.dryRun,
+        autoBackup: options.backup !== false,
+        confirmSteps: options.confirm !== false,
+        verbose: options.verbose
+      });
+      
+      const result = await migrator.migrate();
+      
+      if (result.success) {
+        console.log(chalk.green('\n✅ Migration completed successfully!'));
+      } else {
+        console.log(chalk.red('\n❌ Migration failed'));
+        process.exit(1);
+      }
+    } catch (error) {
+      console.error(chalk.red('❌ Migration error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+migrateCmd
+  .command('backup [path]')
+  .description('Create backup of project before migration')
+  .option('-d, --description <desc>', 'Backup description')
+  .option('--include-node-modules', 'Include node_modules in backup')
+  .option('--include-git', 'Include .git directory in backup')
+  .action(async (projectPath, options) => {
+    console.log(logo);
+    try {
+      const backupManager = new BackupManager(projectPath);
+      const backupId = await backupManager.createBackup({
+        description: options.description || 'Manual backup',
+        includeNodeModules: options.includeNodeModules,
+        includeGit: options.includeGit
+      });
+      
+      console.log(chalk.green(`✅ Backup created: ${backupId}`));
+    } catch (error) {
+      console.error(chalk.red('❌ Backup error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+migrateCmd
+  .command('restore <backup-id> [path]')
+  .description('Restore from backup')
+  .option('--no-confirm', 'Skip confirmation prompts')
+  .option('--no-current-backup', 'Skip creating backup of current state')
+  .action(async (backupId, projectPath, options) => {
+    console.log(logo);
+    try {
+      const backupManager = new BackupManager(projectPath);
+      await backupManager.restoreBackup(backupId, {
+        confirmOverwrite: options.confirm !== false,
+        createCurrentBackup: options.currentBackup !== false
+      });
+      
+      console.log(chalk.green('✅ Restore completed successfully!'));
+    } catch (error) {
+      console.error(chalk.red('❌ Restore error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+migrateCmd
+  .command('backups [path]')
+  .description('List available backups')
+  .action(async (projectPath) => {
+    console.log(logo);
+    try {
+      const backupManager = new BackupManager(projectPath);
+      await backupManager.displayBackups();
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+migrateCmd
+  .command('cleanup [path]')
+  .description('Clean up old backups')
+  .option('--max-age <days>', 'Maximum age in days', '30')
+  .option('--max-count <count>', 'Maximum number of backups to keep', '10')
+  .action(async (projectPath, options) => {
+    console.log(logo);
+    try {
+      const backupManager = new BackupManager(projectPath);
+      const result = await backupManager.cleanupOldBackups({
+        maxAge: parseInt(options.maxAge),
+        maxCount: parseInt(options.maxCount)
+      });
+      
+      console.log(chalk.green(`✅ ${result.message}`));
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Default action for migrate command
+migrateCmd
+  .action(() => {
+    console.log(logo);
+    migrateCmd.outputHelp();
+  });
+
+// Test command
+program
+  .command('test [pattern]')
+  .description('Run project tests with comprehensive coverage')
+  .option('-u, --unit', 'Run unit tests only')
+  .option('-i, --integration', 'Run integration tests only')
+  .option('-c, --coverage', 'Generate coverage report')
+  .option('-w, --watch', 'Run tests in watch mode')
+  .option('-v, --verbose', 'Show verbose test output')
+  .option('--modules', 'Test module system specifically')
+  .option('--migration', 'Test migration tools specifically')
+  .action(async (pattern, options) => {
+    console.log(logo);
+    
+    try {
+      let testCommand = 'npm test';
+      const args = [];
+      
+      // Build Jest command
+      if (options.unit) {
+        args.push('--testPathPattern=test/modules');
+      } else if (options.integration) {
+        args.push('--testPathPattern=test/integration');
+      } else if (options.modules) {
+        args.push('--testPathPattern=test/modules');
+      } else if (options.migration) {
+        args.push('--testPathPattern=test/migration');
+      }
+      
+      if (pattern) {
+        args.push(`--testNamePattern="${pattern}"`);
+      }
+      
+      if (options.coverage) {
+        args.push('--coverage');
+      }
+      
+      if (options.watch) {
+        args.push('--watch');
+      }
+      
+      if (options.verbose) {
+        args.push('--verbose');
+      }
+      
+      if (args.length > 0) {
+        testCommand += ' -- ' + args.join(' ');
+      }
+      
+      console.log(chalk.blue(`🧪 Running tests: ${testCommand}\n`));
+      
+      execSync(testCommand, { 
+        stdio: 'inherit',
+        cwd: process.cwd()
+      });
+      
+    } catch (error) {
+      console.error(chalk.red('❌ Tests failed'));
+      process.exit(1);
+    }
+  });
+
 // Help command
 program
   .command('help')
@@ -393,4 +769,259 @@ program.parse(process.argv);
 if (!process.argv.slice(2).length) {
   console.log(logo);
   program.outputHelp();
+}
+
+// Helper functions for new modular commands
+
+async function newModularOnboarding(projectName, options) {
+  const { OnboardingOrchestrator } = await import('../lib/onboarding/base.js');
+  const { ProjectNameStep } = await import('../lib/onboarding/steps/project-name.js');
+  const { StackSelectionStep } = await import('../lib/onboarding/steps/stack-selection.js');
+  const { ProjectGenerationStep } = await import('../lib/onboarding/steps/project-generation.js');
+  
+  const orchestrator = new OnboardingOrchestrator();
+  
+  // Register steps
+  orchestrator.registerStep(new ProjectNameStep());
+  orchestrator.registerStep(new StackSelectionStep());
+  orchestrator.registerStep(new ProjectGenerationStep());
+  
+  // Set initial context
+  const initialContext = {
+    projectName,
+    interactive: options.interactive !== false,
+    here: options.here,
+    subfolder: !options.here,
+    force: options.force,
+    memory: options.memory,
+    noMemory: options.noMemory
+  };
+  
+  // Handle preset option
+  if (options.preset) {
+    initialContext.stackPreset = options.preset;
+  }
+  
+  // Handle modules option
+  if (options.modules) {
+    initialContext.selectedModules = options.modules.split(',').map(m => m.trim());
+  }
+  
+  return await orchestrator.execute(initialContext);
+}
+
+async function listModules(registry, options) {
+  let modules = registry.getAllModules();
+  
+  // Apply filters
+  if (options.category) {
+    modules = modules.filter(m => m.category === options.category);
+  }
+  
+  if (options.tag) {
+    modules = modules.filter(m => m.tags && m.tags.includes(options.tag));
+  }
+  
+  console.log(chalk.blue('\n📦 Available Modules:\n'));
+  
+  if (modules.length === 0) {
+    console.log(chalk.gray('No modules found matching criteria.'));
+    return;
+  }
+  
+  // Group by category
+  const byCategory = {};
+  for (const module of modules) {
+    if (!byCategory[module.category]) {
+      byCategory[module.category] = [];
+    }
+    byCategory[module.category].push(module);
+  }
+  
+  for (const [category, categoryModules] of Object.entries(byCategory)) {
+    console.log(chalk.cyan(`\n${getCategoryIcon(category)} ${getCategoryName(category)}:`));
+    
+    for (const module of categoryModules) {
+      const recommended = module.recommended ? chalk.green(' ⭐') : '';
+      const version = chalk.gray(`(v${module.version})`);
+      
+      console.log(chalk.green(`  ✓ ${module.name} ${version}${recommended}`));
+      
+      if (options.verbose) {
+        console.log(chalk.gray(`    ${module.description}`));
+        if (module.dependencies && module.dependencies.length > 0) {
+          console.log(chalk.gray(`    Dependencies: ${module.dependencies.join(', ')}`));
+        }
+        if (module.tags && module.tags.length > 0) {
+          console.log(chalk.gray(`    Tags: ${module.tags.join(', ')}`));
+        }
+      } else {
+        console.log(chalk.gray(`    ${module.description}`));
+      }
+    }
+  }
+}
+
+async function showModuleInfo(registry, moduleId) {
+  const module = registry.getModule(moduleId);
+  
+  if (!module) {
+    console.log(chalk.red(`❌ Module '${moduleId}' not found`));
+    process.exit(1);
+  }
+  
+  console.log(chalk.blue(`\n📦 ${module.name}`));
+  if (module.recommended) {
+    console.log(chalk.green('⭐ Recommended'));
+  }
+  console.log(chalk.gray(`${module.description}\n`));
+  
+  console.log(chalk.cyan(`📊 Category: ${getCategoryName(module.category)}`));
+  console.log(chalk.cyan(`🏷️  Version: ${module.version}`));
+  
+  if (module.dependencies && module.dependencies.length > 0) {
+    console.log(chalk.cyan(`🔗 Dependencies: ${module.dependencies.join(', ')}`));
+  }
+  
+  if (module.provides && module.provides.length > 0) {
+    console.log(chalk.cyan(`✅ Provides: ${module.provides.join(', ')}`));
+  }
+  
+  if (module.requires && module.requires.length > 0) {
+    console.log(chalk.cyan(`📋 Requires: ${module.requires.join(', ')}`));
+  }
+  
+  if (module.compatibleWith && module.compatibleWith.length > 0) {
+    console.log(chalk.green(`✓ Compatible with: ${module.compatibleWith.join(', ')}`));
+  }
+  
+  if (module.incompatibleWith && module.incompatibleWith.length > 0) {
+    console.log(chalk.red(`✗ Incompatible with: ${module.incompatibleWith.join(', ')}`));
+  }
+  
+  if (module.tags && module.tags.length > 0) {
+    console.log(chalk.gray(`\n🏷️  Tags: ${module.tags.join(', ')}`));
+  }
+}
+
+async function validateModule(registry, moduleId) {
+  const module = registry.getModule(moduleId);
+  
+  if (!module) {
+    console.log(chalk.red(`❌ Module '${moduleId}' not found`));
+    process.exit(1);
+  }
+  
+  console.log(chalk.blue(`\n🔍 Validating module: ${module.name}\n`));
+  
+  const validationResult = await registry.validateModule(module);
+  
+  if (validationResult.valid) {
+    console.log(chalk.green('✅ Module validation passed'));
+  } else {
+    console.log(chalk.red('❌ Module validation failed:'));
+    for (const error of validationResult.errors) {
+      console.log(chalk.red(`  • ${error}`));
+    }
+    process.exit(1);
+  }
+}
+
+async function listPresets(presetManager, options) {
+  let presets = presetManager.getAvailablePresets();
+  
+  // Apply filters
+  if (options.tags) {
+    const tags = options.tags.split(',').map(t => t.trim());
+    presets = presetManager.getPresetsByTags(tags);
+  }
+  
+  if (options.difficulty) {
+    presets = presetManager.getPresetsByDifficulty(options.difficulty);
+  }
+  
+  if (presets.length === 0) {
+    console.log(chalk.gray('No presets found matching criteria.'));
+    return;
+  }
+  
+  presetManager.listPresets();
+}
+
+async function createCustomPreset(name, options) {
+  const presetManager = new StackPresetManager();
+  
+  if (!options.modules) {
+    console.log(chalk.red('❌ Please specify modules with --modules option'));
+    process.exit(1);
+  }
+  
+  const modules = options.modules.split(',').map(m => m.trim());
+  const description = options.description || `Custom preset: ${modules.join(', ')}`;
+  
+  try {
+    const preset = presetManager.createCustomPreset(name, description, modules);
+    console.log(chalk.green(`✅ Created custom preset: ${preset.name}`));
+    console.log(chalk.gray(`ID: ${preset.id}`));
+    console.log(chalk.gray(`Modules: ${modules.join(', ')}`));
+  } catch (error) {
+    console.log(chalk.red(`❌ Failed to create preset: ${error.message}`));
+    process.exit(1);
+  }
+}
+
+function getCategoryIcon(category) {
+  const icons = {
+    'frontend-framework': '🖼️',
+    'ui-library': '🎨', 
+    'backend-service': '🔧',
+    'auth-provider': '🔐',
+    'backend-framework': '⚙️',
+    'database': '💾',
+    'other': '📦'
+  };
+  return icons[category] || '📦';
+}
+
+function getCategoryName(category) {
+  const names = {
+    'frontend-framework': 'Frontend Framework',
+    'ui-library': 'UI Library',
+    'backend-service': 'Backend Service', 
+    'auth-provider': 'Authentication',
+    'backend-framework': 'Backend Framework',
+    'database': 'Database',
+    'other': 'Other'
+  };
+  return names[category] || category;
+}
+
+async function searchModules(registry, query, options) {
+  const searchOptions = {
+    category: options.category,
+    limit: parseInt(options.limit) || 10
+  };
+  
+  const results = registry.searchModules(query, searchOptions);
+  
+  if (results.length === 0) {
+    console.log(chalk.gray(`\nNo modules found matching "${query}"`));
+    return;
+  }
+  
+  console.log(chalk.blue(`\n🔍 Search results for "${query}":\n`));
+  
+  for (const module of results) {
+    const recommended = module.recommended ? chalk.green(' ⭐') : '';
+    const version = chalk.gray(`(v${module.version})`);
+    const category = chalk.cyan(`[${getCategoryName(module.category)}]`);
+    
+    console.log(`${category} ${chalk.green(module.name)} ${version}${recommended}`);
+    console.log(chalk.gray(`  ${module.description}`));
+    
+    if (module.tags && module.tags.length > 0) {
+      console.log(chalk.gray(`  Tags: ${module.tags.join(', ')}`));
+    }
+    console.log('');
+  }
 }

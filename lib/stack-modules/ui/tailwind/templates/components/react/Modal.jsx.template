@@ -1,0 +1,102 @@
+import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import { cn } from '@/utils/cn'
+
+const Modal = ({
+  open,
+  onClose,
+  title,
+  children,
+  footer,
+  size = 'md',
+  showClose = true,
+  closeOnBackdrop = true,
+  closeOnEsc = true,
+  className
+}) => {
+  const modalRef = useRef(null)
+  
+  const sizeClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-lg',
+    lg: 'max-w-2xl',
+    xl: 'max-w-4xl',
+    full: 'max-w-[90vw]'
+  }
+  
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (closeOnEsc && event.key === 'Escape' && open) {
+        onClose()
+      }
+    }
+    
+    if (open) {
+      document.addEventListener('keydown', handleEsc)
+      document.body.style.overflow = 'hidden'
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleEsc)
+      document.body.style.overflow = ''
+    }
+  }, [open, onClose, closeOnEsc])
+  
+  if (!open) return null
+  
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in"
+        onClick={closeOnBackdrop ? onClose : undefined}
+      />
+      
+      {/* Modal */}
+      <div
+        ref={modalRef}
+        className={cn(
+          'relative z-50 w-full bg-background rounded-lg shadow-lg animate-in zoom-in-90',
+          sizeClasses[size],
+          'max-h-[85vh] overflow-auto',
+          className
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        {(title || showClose) && (
+          <div className="flex items-center justify-between p-6 pb-4">
+            {title && <h2 className="text-lg font-semibold">{title}</h2>}
+            
+            {showClose && (
+              <button
+                onClick={onClose}
+                className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ml-auto"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span className="sr-only">Close</span>
+              </button>
+            )}
+          </div>
+        )}
+        
+        {/* Content */}
+        <div className="p-6 pt-0">
+          {children}
+        </div>
+        
+        {/* Footer */}
+        {footer && (
+          <div className="flex items-center justify-end gap-2 p-6 pt-4">
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  )
+}
+
+export default Modal

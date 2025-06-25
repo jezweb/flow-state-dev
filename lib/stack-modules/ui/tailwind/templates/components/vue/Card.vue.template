@@ -1,0 +1,81 @@
+<template>
+  <div :class="cardClasses">
+    <div v-if="$slots.header || title" class="card-header">
+      <slot name="header">
+        <h3 v-if="title" class="card-title">{{ title }}</h3>
+        <p v-if="description" class="card-description">{{ description }}</p>
+      </slot>
+    </div>
+    
+    <div class="card-content">
+      <slot />
+    </div>
+    
+    <div v-if="$slots.footer" class="card-footer">
+      <slot name="footer" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { cn } from '@/utils/cn'
+
+const props = defineProps({
+  title: String,
+  description: String,
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (value) => ['default', 'bordered', 'ghost'].includes(value)
+  },
+  padding: {
+    type: String,
+    default: 'md',
+    validator: (value) => ['sm', 'md', 'lg', 'none'].includes(value)
+  }
+})
+
+const variantClasses = {
+  default: 'bg-card text-card-foreground shadow-sm',
+  bordered: 'border border-border bg-card text-card-foreground',
+  ghost: 'bg-transparent'
+}
+
+const paddingClasses = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8'
+}
+
+const cardClasses = computed(() => {
+  return cn(
+    'rounded-lg',
+    variantClasses[props.variant],
+    props.padding !== 'none' && 'space-y-4'
+  )
+})
+</script>
+
+<style scoped>
+.card-header {
+  @apply space-y-1.5;
+}
+
+.card-title {
+  @apply text-2xl font-semibold leading-none tracking-tight;
+}
+
+.card-description {
+  @apply text-sm text-muted-foreground;
+}
+
+.card-content {
+  @apply pt-0;
+}
+
+.card-footer {
+  @apply flex items-center pt-0;
+}
+</style>

@@ -1,0 +1,83 @@
+{
+  "id": "react",
+  "type": "frontend-framework",
+  "name": "React",
+  "displayName": "React",
+  "version": "18.2.0",
+  "description": "A JavaScript library for building user interfaces",
+  "author": "Meta",
+  "license": "MIT",
+  "homepage": "https://react.dev",
+  "repository": "https://github.com/facebook/react",
+  "category": "frontend-framework",
+  "priority": 20,
+  "recommended": false,
+  "tags": ["frontend", "spa", "jsx", "component-based", "virtual-dom"],
+  "keywords": ["react", "frontend", "ui", "components", "jsx", "hooks"],
+  "features": {
+    "language": "javascript",
+    "typescript": true,
+    "buildTool": "vite",
+    "packageManager": ["npm", "yarn", "pnpm"],
+    "routing": "react-router-dom",
+    "stateManagement": ["context", "redux", "zustand", "mobx"],
+    "styling": ["css", "css-modules", "styled-components", "emotion"],
+    "testing": ["vitest", "jest", "react-testing-library"],
+    "components": true,
+    "hooks": true,
+    "ssr": false,
+    "concurrent": true
+  },
+  "compatibility": {
+    "node": ">=14.0.0",
+    "frontend": ["react"],
+    "ui": ["tailwind", "material-ui", "chakra-ui", "ant-design", "bootstrap"],
+    "backend": ["supabase", "firebase", "express", "nestjs", "django", "rails"],
+    "auth": ["supabase", "firebase", "auth0", "clerk"],
+    "database": ["*"],
+    "deployment": ["vercel", "netlify", "aws", "docker"]
+  },
+  "conflicts": ["vue3", "angular", "svelte", "solid"],
+  "provides": ["frontend-framework", "react-framework", "spa-framework"],
+  "requires": [],
+  "options": {
+    "typescript": {
+      "type": "boolean",
+      "default": true,
+      "description": "Use TypeScript"
+    },
+    "router": {
+      "type": "boolean", 
+      "default": true,
+      "description": "Include React Router"
+    },
+    "stateManagement": {
+      "type": "string",
+      "enum": ["context", "redux", "zustand", "mobx"],
+      "default": "context",
+      "description": "State management solution"
+    },
+    "testing": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include testing setup"
+    },
+    "eslint": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include ESLint configuration"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "test": "vitest"
+  },
+  "hooks": {
+    "beforeInstall": "./hooks/before-install.js",
+    "afterInstall": "./hooks/after-install.js",
+    "configure": "./hooks/configure.js"
+  }
+}

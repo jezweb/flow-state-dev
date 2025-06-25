@@ -1,0 +1,40 @@
+{
+  "name": "{{projectName}}",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "{{#if typescript}}tsc && {{/if}}vite build",
+    "lint": "eslint . --ext js,jsx{{#if typescript}},ts,tsx{{/if}} --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"{{#if testing}},
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"{{/if}}
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"{{#if router}},
+    "react-router-dom": "^6.21.3"{{/if}}{{#if (eq stateManagement "redux")}},
+    "@reduxjs/toolkit": "^2.1.0",
+    "react-redux": "^9.1.0"{{/if}}{{#if (eq stateManagement "zustand")}},
+    "zustand": "^4.5.0"{{/if}}
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5"{{#if typescript}},
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "typescript": "^5.3.3"{{/if}}{{#if testing}},
+    "vitest": "^1.2.0",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/jest-dom": "^6.2.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@vitest/ui": "^1.2.0",
+    "jsdom": "^24.0.0"{{/if}}
+  }
+}

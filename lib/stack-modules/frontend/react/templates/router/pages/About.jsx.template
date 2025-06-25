@@ -1,0 +1,17 @@
+import { Link } from 'react-router-dom'
+
+function About() {
+  return (
+    <div>
+      <h1>About {{projectName}}</h1>
+      <p>
+        This project was generated using Flow State Dev with the React module.
+      </p>
+      <p>
+        <Link to="/">Back to Home</Link>
+      </p>
+    </div>
+  )
+}
+
+export default About

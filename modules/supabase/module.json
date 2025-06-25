@@ -1,0 +1,30 @@
+{
+  "name": "supabase",
+  "version": "1.0.0",
+  "description": "Supabase backend-as-a-service with authentication, database, and real-time subscriptions",
+  "category": "backend-service",
+  "tags": ["supabase", "backend", "database", "auth", "realtime"],
+  "provides": ["backend", "database", "auth", "storage"],
+  "requires": [],
+  "dependencies": [],
+  "compatibleWith": ["vue-base", "vuetify", "pinia"],
+  "incompatibleWith": ["firebase"],
+  "recommended": true,
+  "author": "Flow State Dev",
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/flow-state-dev",
+  "templatePath": "./templates",
+  "packageDependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "mergeStrategies": {
+    "package.json": "merge",
+    "src/lib/supabase.js": "replace",
+    ".env.example": "merge"
+  },
+  "hooks": {
+    "afterInstall": "./hooks/after-install.js"
+  }
+}

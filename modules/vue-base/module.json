@@ -1,0 +1,42 @@
+{
+  "name": "vue-base",
+  "version": "1.0.0",
+  "description": "Vue 3 framework with Composition API, Vue Router, and Vite",
+  "category": "frontend-framework",
+  "tags": ["vue", "frontend", "spa", "composition-api"],
+  "provides": ["frontend-framework", "routing", "vue"],
+  "requires": [],
+  "dependencies": [],
+  "compatibleWith": ["vuetify", "tailwind", "supabase", "pinia"],
+  "incompatibleWith": ["react-base", "angular-base"],
+  "recommended": true,
+  "author": "Flow State Dev",
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/flow-state-dev",
+  "templatePath": "./templates",
+  "packageDependencies": {
+    "vue": "^3.4.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "vue-router": "^4.2.5",
+    "vite": "^5.0.8"
+  },
+  "devDependencies": {
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "mergeStrategies": {
+    "package.json": "merge",
+    "vite.config.js": "replace",
+    "src/main.js": "replace"
+  },
+  "hooks": {
+    "afterInstall": "./hooks/after-install.js"
+  }
+}

@@ -1,0 +1,5 @@
+// Vuetify integration
+import vuetify from './plugins/vuetify'
+
+// Register Vuetify plugin
+app.use(vuetify)

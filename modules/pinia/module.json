@@ -1,0 +1,30 @@
+{
+  "name": "pinia",
+  "version": "1.0.0",
+  "description": "Pinia state management library for Vue 3",
+  "category": "state-management",
+  "tags": ["pinia", "state", "store", "vue"],
+  "provides": ["state-management", "stores"],
+  "requires": ["frontend-framework"],
+  "dependencies": ["vue-base"],
+  "compatibleWith": ["vue-base", "vuetify", "supabase"],
+  "incompatibleWith": ["vuex"],
+  "recommended": true,
+  "author": "Flow State Dev",
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/flow-state-dev",
+  "templatePath": "./templates",
+  "packageDependencies": {
+    "pinia": "^2.1.7"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "mergeStrategies": {
+    "package.json": "merge",
+    "src/main.js": "merge",
+    "src/stores/counter.js": "replace"
+  },
+  "hooks": {
+    "afterInstall": "./hooks/after-install.js"
+  }
+}

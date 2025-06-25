@@ -1,0 +1,18 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+{{#if router}}import { BrowserRouter } from 'react-router-dom'
+{{/if}}{{#if (eq stateManagement "redux")}}import { Provider } from 'react-redux'
+import { store } from './store'
+{{/if}}import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    {{#if (eq stateManagement "redux")}}<Provider store={store}>
+      {{/if}}{{#if router}}<BrowserRouter>
+        {{/if}}<App />
+      {{#if router}}</BrowserRouter>
+    {{/if}}{{#if (eq stateManagement "redux")}}</Provider>
+    {{/if}}
+  </React.StrictMode>,
+)

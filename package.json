@@ -1,6 +1,6 @@
 {
   "name": "flow-state-dev",
-  "version": "0.13.0",
+  "version": "2.0.1",
   "description": "The fastest way to start a modern web project that both you and Claude Code will love",
   "type": "module",
   "main": "bin/fsd.js",
@@ -12,6 +12,16 @@
     "test:quick": "./test/run-tests.sh",
     "test:interactive": "node test/interactive-test.js",
     "test:all": "npm run test:quick && npm run test",
+    "test:modules": "jest --testMatch='**/test/modules/**/*.test.js'",
+    "test:modules:watch": "jest --testMatch='**/test/modules/**/*.test.js' --watch",
+    "test:modules:coverage": "jest --testMatch='**/test/modules/**/*.test.js' --coverage",
+    "test:jest": "NODE_OPTIONS=\"--experimental-vm-modules\" jest",
+    "test:jest:watch": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --watch",
+    "test:jest:coverage": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --coverage",
+    "test:integration": "jest --testMatch='**/test/integration/**/*.test.js'",
+    "test:unit": "jest --testMatch='**/test/modules/**/*.test.js'",
+    "test:migration": "jest --testMatch='**/test/migration/**/*.test.js'",
+    "test:performance": "jest --testMatch='**/test/performance/**/*.test.js'",
     "postinstall": "node scripts/post-install.cjs",
     "verify": "node scripts/verify-package.js",
     "test:install": "node scripts/test-local-install.js",
@@ -51,7 +61,13 @@
     "inquirer": "^9.2.12",
     "marked": "^11.0.0",
     "node-fetch": "^3.3.2",
-    "semver": "^7.5.4"
+    "semver": "^7.5.4",
+    "handlebars": "^4.7.8",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   },
   "engines": {
     "node": ">=18.0.0"

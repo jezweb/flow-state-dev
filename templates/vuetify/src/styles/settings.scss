@@ -1,0 +1,126 @@
+// Vuetify SASS Variables
+// https://vuetifyjs.com/en/features/sass-variables/
+
+// Color palette
+$primary: #1976D2;
+$secondary: #424242;
+$accent: #82B1FF;
+$error: #FF5252;
+$info: #2196F3;
+$success: #4CAF50;
+$warning: #FFC107;
+
+// Material Design 3 color tokens
+$md-primary: #1976D2;
+$md-on-primary: #FFFFFF;
+$md-primary-container: #D3E3FD;
+$md-on-primary-container: #001C3B;
+
+$md-secondary: #424242;
+$md-on-secondary: #FFFFFF;
+$md-secondary-container: #E1E2EC;
+$md-on-secondary-container: #1A1C22;
+
+// Surface colors
+$md-surface: #FFFFFF;
+$md-on-surface: #1A1C22;
+$md-surface-variant: #E1E2EC;
+$md-on-surface-variant: #44474E;
+
+// Spacing system
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 4,
+  7: $spacer * 5,
+  8: $spacer * 6,
+  9: $spacer * 8,
+  10: $spacer * 10,
+  11: $spacer * 12,
+  12: $spacer * 14,
+  13: $spacer * 16,
+  14: $spacer * 18,
+  15: $spacer * 20,
+  16: $spacer * 24
+);
+
+// Typography
+$body-font-family: 'Roboto', sans-serif;
+$heading-font-family: 'Roboto', sans-serif;
+
+$font-weights: (
+  thin: 100,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
+  black: 900
+);
+
+// Border radius
+$border-radius-root: 4px;
+$border-radius-sm: 2px;
+$border-radius-lg: 8px;
+$border-radius-xl: 12px;
+
+// Elevation
+$elevation-umbra: rgba(0, 0, 0, 0.2);
+$elevation-penumbra: rgba(0, 0, 0, 0.14);
+$elevation-ambient: rgba(0, 0, 0, 0.12);
+
+// Grid breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 960px,
+  lg: 1264px,
+  xl: 1904px,
+  xxl: 2560px
+);
+
+// Container max widths
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+);
+
+// Transitions
+$transition: (
+  fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1),
+  linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1),
+  fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1),
+  ease-in-out: cubic-bezier(0.4, 0, 0.6, 1),
+  fast-in-fast-out: cubic-bezier(0.25, 0.8, 0.25, 1),
+  swing: cubic-bezier(0.25, 0.8, 0.5, 1)
+);
+
+// Component specific overrides
+$btn-height: 36px;
+$btn-padding: 0 16px;
+$btn-font-size: 14px;
+$btn-font-weight: 500;
+
+$card-border-radius: 8px;
+$card-elevation: 2;
+
+$text-field-border-radius: 4px;
+$text-field-height: 56px;
+
+// Dark theme overrides
+@media (prefers-color-scheme: dark) {
+  :root {
+    --v-theme-primary: #{$primary};
+    --v-theme-secondary: #{$secondary};
+    --v-theme-surface: #212121;
+    --v-theme-background: #121212;
+    --v-theme-on-surface: #FFFFFF;
+  }
+}

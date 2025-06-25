@@ -1,6 +1,33 @@
 # Slash Commands
 
-Flow State Dev includes a comprehensive set of slash commands for project management and GitHub integration. These commands streamline sprint planning, issue management, and team collaboration.
+Flow State Dev includes a comprehensive set of slash commands for project management, development workflow, and GitHub integration. With 67+ commands across 6 categories, these commands streamline everything from daily coding tasks to complex project planning.
+
+## ✨ What's New in v0.13.0
+
+### Quick Action Commands
+8 new commands for instant access to daily development tasks:
+- **`/build`** (`/b`) - Run your project's build command
+- **`/test`** (`/t`) - Execute tests with optional coverage
+- **`/lint`** (`/l`) - Run linter with auto-fix support
+- **`/fix`** (`/f`) - Auto-fix all linting and formatting issues
+- **`/typecheck`** (`/tc`) - Run TypeScript type checking
+- **`/status`** (`/s`) - Enhanced git status with categorization
+- **`/commit`** (`/c`) - Interactive conventional commit helper
+- **`/push`** (`/p`) - Push changes to remote repository
+
+### Extended Thinking Commands
+9 new commands for deep analysis with explicit extended thinking mode:
+- **`/plan`** (`/pl`) - Comprehensive planning with ADR generation
+- **`/investigate`** (`/inv`) - Multi-source technical investigation
+- **`/decide`** (`/dec`) - Structured decision-making with alternatives
+- **`/estimate`** (`/est`) - Complex work estimation with confidence intervals
+- **`/debug:strategy`** - Strategic debugging approach
+- **`/optimize:plan`** - Performance optimization planning
+- **`/refactor:plan`** - Refactoring strategy development
+- **`/research`** (`/res`) - In-depth technical research
+- **`/alternatives`** (`/alt`) - Generate and evaluate alternatives
+
+These commands demonstrate extended thinking processes and generate comprehensive reports saved as markdown files in your project.
 
 ## Prerequisites
 
@@ -14,29 +41,341 @@ Flow State Dev includes a comprehensive set of slash commands for project manage
 # View all available commands
 fsd slash "/help"
 
-# Plan a new sprint
-fsd slash "/sprint:plan --capacity 40 --weeks 2"
+# Quick Action Commands (NEW in v0.13.0)
+fsd slash "/build"              # Run project build
+fsd slash "/test --coverage"    # Run tests with coverage
+fsd slash "/lint --fix"         # Lint with auto-fix
+fsd slash "/b"                  # Alias for build
 
-# Review current sprint
+# Extended Thinking Commands (NEW in v0.13.0)
+fsd slash "/plan --topic 'microservices architecture'"
+fsd slash "/investigate --question 'performance issues'"
+fsd slash "/decide --decision 'database choice' --alternatives 3"
+
+# Sprint Management
+fsd slash "/sprint:plan --capacity 40 --weeks 2"
 fsd slash "/sprint:review"
 
-# Create an epic
+# Issue Management
 fsd slash "/epic:create --title 'User Authentication System'"
-
-# Generate progress report
-fsd slash "/progress:report --period week --format markdown"
-
-# Analyze issue dependencies
+fsd slash "/issue:bulk --action label --filter state:open"
 fsd slash "/issue:dependencies --issue 123"
 
-# Bulk operations on issues
-fsd slash "/issue:bulk --action label --filter state:open"
-
-# Check workflow status
+# Reporting
+fsd slash "/progress:report --period week --format markdown"
 fsd slash "/workflow:status"
 ```
 
 ## Command Categories
+
+### Quick Action Commands (NEW in v0.13.0)
+
+Quick Action Commands provide instant access to common development tasks. These commands are designed for rapid execution during your daily workflow.
+
+#### `/build`
+Run your project's build command.
+
+**Aliases:** `/b`
+
+**Options:**
+- `--watch` - Run in watch mode (if supported)
+- `--prod` - Build for production
+
+**Example:**
+```bash
+fsd slash "/build"
+fsd slash "/b --prod"
+```
+
+#### `/test`
+Execute your project's test suite.
+
+**Aliases:** `/t`
+
+**Options:**
+- `--coverage` - Generate coverage report
+- `--watch` - Run in watch mode
+- `--filter <pattern>` - Filter tests by pattern
+
+**Example:**
+```bash
+fsd slash "/test --coverage"
+fsd slash "/t --filter user"
+```
+
+#### `/lint`
+Run your project's linter.
+
+**Aliases:** `/l`
+
+**Options:**
+- `--fix` - Auto-fix issues where possible
+
+**Example:**
+```bash
+fsd slash "/lint --fix"
+fsd slash "/l"
+```
+
+#### `/fix`
+Auto-fix linting and formatting issues.
+
+**Aliases:** `/f`
+
+**Example:**
+```bash
+fsd slash "/fix"
+```
+
+#### `/typecheck`
+Run TypeScript type checking.
+
+**Aliases:** `/tc`
+
+**Example:**
+```bash
+fsd slash "/typecheck"
+```
+
+#### `/status`
+Enhanced git status with file categorization.
+
+**Aliases:** `/s`
+
+**Features:**
+- Groups files by status (modified, added, deleted, untracked)
+- Shows current branch and upstream status
+- Displays last commit information
+
+**Example:**
+```bash
+fsd slash "/status"
+fsd slash "/s"
+```
+
+#### `/commit`
+Interactive conventional commit helper.
+
+**Aliases:** `/c`
+
+**Features:**
+- Guided commit message creation
+- Conventional commit format
+- Optional scope and breaking change flags
+
+**Example:**
+```bash
+fsd slash "/commit"
+fsd slash "/c"
+```
+
+#### `/push`
+Push changes to remote repository.
+
+**Aliases:** `/p`
+
+**Options:**
+- `--force` - Force push (use with caution)
+- `--set-upstream` - Set upstream branch
+
+**Example:**
+```bash
+fsd slash "/push"
+fsd slash "/p --set-upstream"
+```
+
+### Extended Thinking Commands (NEW in v0.13.0)
+
+Extended Thinking Commands enable deep analysis and planning with explicit extended thinking mode. These commands generate comprehensive reports and Architecture Decision Records (ADRs).
+
+#### `/plan`
+Comprehensive planning with extended analysis.
+
+**Aliases:** `/pl`
+
+**Options:**
+- `--topic <string>` - Planning topic (required)
+- `--depth <string>` - Analysis depth: quick, normal, deep (default: normal)
+- `--create-adr` - Generate an Architecture Decision Record
+
+**Features:**
+- Multi-perspective analysis
+- Risk assessment
+- Implementation roadmap
+- Resource estimation
+
+**Example:**
+```bash
+fsd slash "/plan --topic 'microservices migration' --create-adr"
+fsd slash "/pl --topic 'authentication system' --depth deep"
+```
+
+#### `/investigate`
+Deep investigation of technical questions.
+
+**Aliases:** `/inv`
+
+**Options:**
+- `--question <string>` - Investigation question (required)
+- `--sources <list>` - Focus areas: code, patterns, performance, security
+
+**Features:**
+- Multi-source analysis
+- Evidence gathering
+- Pattern recognition
+- Recommendation generation
+
+**Example:**
+```bash
+fsd slash "/investigate --question 'memory leak in production'"
+fsd slash "/inv --question 'slow API response times' --sources performance,code"
+```
+
+#### `/decide`
+Structured decision-making with alternatives analysis.
+
+**Aliases:** `/dec`
+
+**Options:**
+- `--decision <string>` - Decision to make (required)
+- `--alternatives <number>` - Number of alternatives to consider (default: 3)
+- `--criteria <list>` - Evaluation criteria
+- `--create-adr` - Generate an Architecture Decision Record
+
+**Features:**
+- Alternative generation
+- Criteria-based evaluation
+- Trade-off analysis
+- Decision matrix
+
+**Example:**
+```bash
+fsd slash "/decide --decision 'database selection' --alternatives 5 --create-adr"
+fsd slash "/dec --decision 'frontend framework' --criteria performance,learning-curve,ecosystem"
+```
+
+#### `/estimate`
+Complex work estimation with multiple methods.
+
+**Aliases:** `/est`
+
+**Options:**
+- `--work <string>` - Work to estimate (required)
+- `--method <string>` - Estimation method: story-points, time, complexity
+- `--confidence` - Include confidence intervals
+
+**Features:**
+- Multiple estimation techniques
+- Risk factor analysis
+- Confidence intervals
+- Historical comparison
+
+**Example:**
+```bash
+fsd slash "/estimate --work 'user dashboard redesign' --confidence"
+fsd slash "/est --work 'API migration' --method story-points"
+```
+
+#### `/debug:strategy`
+Strategic debugging approach for complex issues.
+
+**Options:**
+- `--problem <string>` - Problem description (required)
+- `--symptoms <list>` - Observed symptoms
+- `--urgency <string>` - Priority level: low, medium, high, critical
+
+**Features:**
+- Systematic approach generation
+- Root cause analysis
+- Debugging checklist
+- Tool recommendations
+
+**Example:**
+```bash
+fsd slash "/debug:strategy --problem 'intermittent crashes' --urgency high"
+```
+
+#### `/optimize:plan`
+Performance optimization planning.
+
+**Options:**
+- `--target <string>` - Optimization target (required)
+- `--constraints <list>` - Constraints to consider
+- `--metrics <list>` - Success metrics
+
+**Features:**
+- Bottleneck analysis
+- Optimization strategies
+- Implementation plan
+- Measurement approach
+
+**Example:**
+```bash
+fsd slash "/optimize:plan --target 'page load time' --metrics 'LCP,FID,CLS'"
+```
+
+#### `/refactor:plan`
+Refactoring strategy development.
+
+**Options:**
+- `--scope <string>` - Refactoring scope (required)
+- `--goals <list>` - Refactoring goals
+- `--preserve <list>` - Behaviors to preserve
+
+**Features:**
+- Risk assessment
+- Step-by-step approach
+- Testing strategy
+- Rollback planning
+
+**Example:**
+```bash
+fsd slash "/refactor:plan --scope 'authentication module' --goals 'testability,maintainability'"
+```
+
+#### `/research`
+In-depth technical research.
+
+**Aliases:** `/res`
+
+**Options:**
+- `--topic <string>` - Research topic (required)
+- `--depth <string>` - Research depth: surface, moderate, deep
+- `--output <string>` - Output format: summary, detailed, academic
+
+**Features:**
+- Literature review
+- Technology comparison
+- Best practices analysis
+- Implementation examples
+
+**Example:**
+```bash
+fsd slash "/research --topic 'event sourcing patterns' --depth deep"
+fsd slash "/res --topic 'WebAssembly use cases' --output detailed"
+```
+
+#### `/alternatives`
+Generate and evaluate alternatives.
+
+**Aliases:** `/alt`
+
+**Options:**
+- `--for <string>` - What to find alternatives for (required)
+- `--count <number>` - Number of alternatives (default: 5)
+- `--criteria <list>` - Evaluation criteria
+
+**Features:**
+- Alternative generation
+- Comparison matrix
+- Pros/cons analysis
+- Recommendation
+
+**Example:**
+```bash
+fsd slash "/alternatives --for 'state management library' --criteria 'bundle-size,api,community'"
+fsd slash "/alt --for 'deployment platform' --count 7"
+```
 
 ### Sprint Management
 
@@ -241,6 +580,29 @@ fsd slash "/milestone:create --title 'Q1 Release' --due 2024-03-31 --description
 
 For faster usage, all commands support short aliases:
 
+### Quick Action Command Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/build` | `/b` | Run build command |
+| `/test` | `/t` | Run tests |
+| `/lint` | `/l` | Run linter |
+| `/fix` | `/f` | Auto-fix issues |
+| `/typecheck` | `/tc` | Type checking |
+| `/status` | `/s` | Git status |
+| `/commit` | `/c` | Commit helper |
+| `/push` | `/p` | Push changes |
+
+### Extended Thinking Command Aliases
+| Full Command | Alias | Description |
+|--------------|-------|-------------|
+| `/plan` | `/pl` | Deep planning |
+| `/investigate` | `/inv` | Investigation |
+| `/decide` | `/dec` | Decision analysis |
+| `/estimate` | `/est` | Work estimation |
+| `/research` | `/res` | Technical research |
+| `/alternatives` | `/alt` | Find alternatives |
+
+### Sprint & Project Management Aliases
 | Full Command | Alias | Description |
 |--------------|-------|-------------|
 | `/sprint:plan` | `/s:p` | Sprint planning |
@@ -259,6 +621,16 @@ For faster usage, all commands support short aliases:
 
 **Example using aliases:**
 ```bash
+# Quick actions
+fsd slash "/b"           # Build project
+fsd slash "/t --coverage" # Test with coverage
+fsd slash "/l --fix"     # Lint and fix
+
+# Extended thinking
+fsd slash "/pl --topic 'api design' --create-adr"
+fsd slash "/inv --question 'performance bottleneck'"
+
+# Sprint management
 fsd slash "/s:p --capacity 50"
 fsd slash "/i:b --action label"
 fsd slash "/p:r --period week"

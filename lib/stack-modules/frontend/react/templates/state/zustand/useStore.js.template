@@ -1,0 +1,26 @@
+import { create } from 'zustand'
+import { devtools, persist } from 'zustand/middleware'
+
+export const useStore = create(
+  devtools(
+    persist(
+      (set) => ({
+        // Auth state
+        user: null,
+        setUser: (user) => set({ user }),
+        clearUser: () => set({ user: null }),
+        
+        // UI state
+        theme: 'light',
+        toggleTheme: () => set((state) => ({ 
+          theme: state.theme === 'light' ? 'dark' : 'light' 
+        })),
+        
+        // Add more state slices here
+      }),
+      {
+        name: '{{projectName}}-storage',
+      }
+    )
+  )
+)

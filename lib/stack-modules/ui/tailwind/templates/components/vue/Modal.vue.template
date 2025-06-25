@@ -1,0 +1,133 @@
+<template>
+  <Teleport to="body">
+    <Transition name="modal">
+      <div v-if="modelValue" class="fixed inset-0 z-50 flex items-center justify-center">
+        <!-- Backdrop -->
+        <div 
+          class="fixed inset-0 bg-black/80 backdrop-blur-sm"
+          @click="closeOnBackdrop && close()"
+        />
+        
+        <!-- Modal -->
+        <div
+          :class="modalClasses"
+          @click.stop
+        >
+          <!-- Header -->
+          <div v-if="$slots.header || title" class="flex items-center justify-between p-6 pb-4">
+            <slot name="header">
+              <h2 class="text-lg font-semibold">{{ title }}</h2>
+            </slot>
+            
+            <button
+              v-if="showClose"
+              @click="close"
+              class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              <span class="sr-only">Close</span>
+            </button>
+          </div>
+          
+          <!-- Content -->
+          <div class="p-6 pt-0">
+            <slot />
+          </div>
+          
+          <!-- Footer -->
+          <div v-if="$slots.footer" class="flex items-center justify-end gap-2 p-6 pt-4">
+            <slot name="footer" />
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<script setup>
+import { computed, watch } from 'vue'
+import { cn } from '@/utils/cn'
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false
+  },
+  title: String,
+  size: {
+    type: String,
+    default: 'md',
+    validator: (value) => ['sm', 'md', 'lg', 'xl', 'full'].includes(value)
+  },
+  showClose: {
+    type: Boolean,
+    default: true
+  },
+  closeOnBackdrop: {
+    type: Boolean,
+    default: true
+  },
+  closeOnEsc: {
+    type: Boolean,
+    default: true
+  }
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const sizeClasses = {
+  sm: 'max-w-sm',
+  md: 'max-w-lg',
+  lg: 'max-w-2xl',
+  xl: 'max-w-4xl',
+  full: 'max-w-[90vw]'
+}
+
+const modalClasses = computed(() => {
+  return cn(
+    'relative z-50 w-full bg-background rounded-lg shadow-lg',
+    sizeClasses[props.size],
+    'max-h-[85vh] overflow-auto'
+  )
+})
+
+const close = () => {
+  emit('update:modelValue', false)
+}
+
+// Handle ESC key
+const handleEsc = (event) => {
+  if (props.closeOnEsc && event.key === 'Escape' && props.modelValue) {
+    close()
+  }
+}
+
+watch(() => props.modelValue, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('keydown', handleEsc)
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.removeEventListener('keydown', handleEsc)
+    document.body.style.overflow = ''
+  }
+})
+</script>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from > div:last-child,
+.modal-leave-to > div:last-child {
+  transform: scale(0.9);
+}
+</style>

@@ -2,6 +2,64 @@
 
 This guide helps resolve common issues with npm global packages on Linux Mint, Ubuntu, and other Debian-based distributions.
 
+## Common Issue: EACCES Permission Denied
+
+If you get an error like this when installing Flow State Dev (or Claude Code):
+
+```
+npm error code EACCES
+npm error syscall mkdir
+npm error path /usr/lib/node_modules/@anthropic-ai
+npm error errno -13
+npm error Error: EACCES: permission denied, mkdir '/usr/lib/node_modules/@anthropic-ai'
+```
+
+### Quick Fix (NOT Recommended)
+
+```bash
+sudo npm install -g flow-state-dev
+# or
+sudo npm install -g @anthropic-ai/claude-code
+```
+
+⚠️ **Warning**: Using `sudo` with npm is discouraged because:
+- It can create permission issues for future npm operations
+- It runs install scripts with root privileges (security risk)
+- It can break npm's ability to manage packages properly
+
+### Better Solutions
+
+#### Option 1: Use npx (Recommended - No Installation Needed!)
+```bash
+# Run without installing
+npx flow-state-dev init my-app
+```
+
+#### Option 2: Change npm's Default Directory
+```bash
+# Create a directory for global packages
+mkdir ~/.npm-global
+
+# Configure npm to use this directory
+npm config set prefix '~/.npm-global'
+
+# Add to your PATH
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+# Now install without sudo
+npm install -g flow-state-dev
+```
+
+#### Option 3: Fix npm Permissions
+```bash
+# Change ownership of npm's directories
+sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+
+# Now install without sudo
+npm install -g flow-state-dev
+```
+
 ## Quick Solution: Use npx
 
 The easiest way to avoid all installation issues is to use npx:

@@ -1,0 +1,83 @@
+<template>
+  <div class="space-y-2">
+    <label v-if="label" :for="inputId" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+      {{ label }}
+      <span v-if="required" class="text-destructive">*</span>
+    </label>
+    
+    <div class="relative">
+      <input
+        :id="inputId"
+        :type="type"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :required="required"
+        :class="inputClasses"
+        @input="handleInput"
+        @blur="emit('blur', $event)"
+        @focus="emit('focus', $event)"
+      />
+      
+      <div v-if="$slots.suffix" class="absolute inset-y-0 right-0 flex items-center pr-3">
+        <slot name="suffix" />
+      </div>
+    </div>
+    
+    <p v-if="error" class="text-sm text-destructive">{{ error }}</p>
+    <p v-else-if="hint" class="text-sm text-muted-foreground">{{ hint }}</p>
+  </div>
+</template>
+
+<script setup>
+import { computed, useId } from 'vue'
+import { cn } from '@/utils/cn'
+
+const props = defineProps({
+  modelValue: [String, Number],
+  type: {
+    type: String,
+    default: 'text'
+  },
+  label: String,
+  placeholder: String,
+  error: String,
+  hint: String,
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  required: {
+    type: Boolean,
+    default: false
+  },
+  size: {
+    type: String,
+    default: 'md',
+    validator: (value) => ['sm', 'md', 'lg'].includes(value)
+  }
+})
+
+const emit = defineEmits(['update:modelValue', 'blur', 'focus'])
+
+const inputId = useId()
+
+const sizeClasses = {
+  sm: 'h-8 px-3 text-sm',
+  md: 'h-10 px-3 py-2',
+  lg: 'h-12 px-4 text-lg'
+}
+
+const inputClasses = computed(() => {
+  return cn(
+    'flex w-full rounded-md border border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    sizeClasses[props.size],
+    props.error && 'border-destructive focus-visible:ring-destructive',
+    props.$slots.suffix && 'pr-10'
+  )
+})
+
+const handleInput = (event) => {
+  emit('update:modelValue', event.target.value)
+}
+</script>

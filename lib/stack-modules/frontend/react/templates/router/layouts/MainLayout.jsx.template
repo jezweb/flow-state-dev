@@ -1,0 +1,22 @@
+import { Outlet, Link } from 'react-router-dom'
+
+function MainLayout() {
+  return (
+    <div>
+      <nav style={{ 
+        padding: '1rem', 
+        borderBottom: '1px solid #ccc',
+        marginBottom: '2rem' 
+      }}>
+        <Link to="/" style={{ marginRight: '1rem' }}>Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+      
+      <main style={{ padding: '0 2rem' }}>
+        <Outlet />
+      </main>
+    </div>
+  )
+}
+
+export default MainLayout

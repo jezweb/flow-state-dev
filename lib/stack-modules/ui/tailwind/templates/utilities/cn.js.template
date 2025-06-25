@@ -1,0 +1,24 @@
+/**
+ * Utility function for combining class names
+ * Handles conditional classes and removes duplicates
+ */
+export function cn(...inputs) {
+  return inputs
+    .filter(Boolean)
+    .join(' ')
+    .split(' ')
+    .filter((val, index, arr) => arr.indexOf(val) === index)
+    .join(' ')
+    .trim()
+}
+
+/**
+ * Alternative with clsx for more advanced features
+ * Uncomment if you want to use clsx instead
+ */
+// import clsx from 'clsx'
+// import { twMerge } from 'tailwind-merge'
+// 
+// export function cn(...inputs) {
+//   return twMerge(clsx(inputs))
+// }

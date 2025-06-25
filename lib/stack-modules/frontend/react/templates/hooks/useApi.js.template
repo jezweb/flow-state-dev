@@ -1,0 +1,77 @@
+import { useState, useEffect, useCallback } from 'react'
+
+export function useApi(url, options = {}) {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const fetchData = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers
+        },
+        ...options
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      setData(data)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [url, options])
+
+  useEffect(() => {
+    if (options.skip) return
+    
+    fetchData()
+  }, [fetchData, options.skip])
+
+  return { data, loading, error, refetch: fetchData }
+}
+
+export function useMutation(url, options = {}) {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const mutate = useCallback(async (data) => {
+    setLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch(url, {
+        method: options.method || 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers
+        },
+        body: JSON.stringify(data),
+        ...options
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const result = await response.json()
+      return { success: true, data: result }
+    } catch (error) {
+      setError(error.message)
+      return { success: false, error: error.message }
+    } finally {
+      setLoading(false)
+    }
+  }, [url, options])
+
+  return { mutate, loading, error }
+}

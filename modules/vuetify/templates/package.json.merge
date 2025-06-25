@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "vuetify": "^3.4.0",
+    "@mdi/font": "^7.2.96"
+  }
+}

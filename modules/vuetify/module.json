@@ -1,0 +1,31 @@
+{
+  "name": "vuetify",
+  "version": "1.0.0",
+  "description": "Vuetify 3 Material Design component library for Vue 3",
+  "category": "ui-library",
+  "tags": ["vuetify", "material-design", "components", "ui"],
+  "provides": ["ui-library", "components", "theming"],
+  "requires": ["frontend-framework"],
+  "dependencies": ["vue-base"],
+  "compatibleWith": ["vue-base", "supabase", "pinia"],
+  "incompatibleWith": ["react-base", "tailwind"],
+  "recommended": true,
+  "author": "Flow State Dev",
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/flow-state-dev",
+  "templatePath": "./templates",
+  "packageDependencies": {
+    "vuetify": "^3.4.0",
+    "@mdi/font": "^7.2.96"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "mergeStrategies": {
+    "package.json": "merge",
+    "src/main.js": "merge",
+    "src/plugins/vuetify.js": "replace"
+  },
+  "hooks": {
+    "afterInstall": "./hooks/after-install.js"
+  }
+}

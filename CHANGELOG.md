@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2025-06-25
+
+### Fixed
+- **GitHub Labels** - Fixed labels creation during init process (was calling wrong command)
+- **Linux Documentation** - Added clear guidance for EACCES permission errors on Linux
+- **Init Process** - Labels now properly created with ai-enhanced collection during onboarding
+
+### Documentation
+- **Linux Troubleshooting** - Added specific section for npm permission errors
+- **README** - Added note for Linux users about avoiding sudo with npm
+
+## [2.0.0] - 2025-06-25
+
+### 🚀 Major Architecture Change
+
+This release completes the migration of all slash commands from a monolithic architecture to a modular, maintainable system. This is a breaking change in the internal architecture, though all commands maintain backward compatibility.
+
+### Added
+
+- **Modular Command Architecture** - All 67 commands now live in individual files
+- **Command Base Classes** - `BaseSlashCommand` and `GitHubSlashCommand` for consistency
+- **Auto-discovery System** - Commands are automatically discovered via filesystem scanning
+- **Final Migration Commands** - Completed 100% migration with:
+  - `/decide` - Architectural decisions with ADR creation
+  - `/research` - Deep multi-source research
+  - `/alternatives` - Alternative solution exploration
+
+### Changed
+
+- **Complete Architecture Overhaul** - Migrated from 3000+ line monolithic file to modular system
+- **Improved Error Handling** - Consistent error messages across all commands
+- **Better User Experience** - Clear feedback and progress indicators
+- **Simplified Wrapper** - `slash-commands-wrapper.js` now only routes to the new system
+
+### Removed
+
+- **Legacy System** - Removed `lib/slash-commands.js` (3000+ lines)
+- **Migration Logic** - Removed temporary bridging code from wrapper
+
+### Migration Statistics
+
+- **Total Commands**: 67 (100% migrated)
+- **Categories**: 10
+- **Architecture**: Modular with auto-discovery
+- **Breaking Changes**: Internal only - all commands work the same for users
+
 ## [0.13.0] - 2025-06-23
 
 ### Added

@@ -17,6 +17,9 @@ Complete security documentation for building secure applications:
 
 Guides for Flow State Dev's built-in tools:
 
+- **[SLASH_COMMANDS.md](./SLASH_COMMANDS.md)** - Complete reference for all 67+ slash commands
+- **[QUICK_ACTIONS_GUIDE.md](./QUICK_ACTIONS_GUIDE.md)** - Master daily workflow automation with Quick Actions
+- **[EXTENDED_THINKING_GUIDE.md](./EXTENDED_THINKING_GUIDE.md)** - Deep analysis and planning with Extended Thinking
 - **[STORE_GENERATOR.md](./STORE_GENERATOR.md)** - Guide to the Pinia store generator (`fsd store` command)
 - **[LOCAL_DEVELOPMENT.md](./LOCAL_DEVELOPMENT.md)** - Local Supabase development setup and workflow
 - **[LABELS.md](./LABELS.md)** - GitHub labels system for project management
@@ -35,7 +38,6 @@ Setup and configuration guides:
 
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contributing guidelines and release process
 - **[LINUX-TROUBLESHOOTING.md](./LINUX-TROUBLESHOOTING.md)** - Linux-specific installation troubleshooting
-- **[SLASH_COMMANDS_PLAN.md](./SLASH_COMMANDS_PLAN.md)** - Future slash commands implementation plan
 
 ### 📋 Project Planning
 

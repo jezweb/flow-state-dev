@@ -1,0 +1,17 @@
+import { Link } from 'react-router-dom'
+
+function Home() {
+  return (
+    <div>
+      <h1>Welcome to {{projectName}}</h1>
+      <p>
+        This is a React application built with Vite and React Router.
+      </p>
+      <p>
+        <Link to="/about">Learn more about this project</Link>
+      </p>
+    </div>
+  )
+}
+
+export default Home

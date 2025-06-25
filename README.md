@@ -122,6 +122,8 @@ fsd init
 ```
 *The `-g` flag installs globally so you can use `fsd` from anywhere*
 
+> **Linux Users**: If you get an EACCES permission error, **don't use sudo**! See our [Linux Troubleshooting Guide](docs/LINUX-TROUBLESHOOTING.md) for safe solutions, or just use `npx` (Option 1) to avoid installation issues entirely.
+
 The intelligent setup will guide you through:
 - 🔍 **Security Analysis** - Automatic detection of repository visibility
 - 🎨 **Framework Selection** - Choose Vue, React, and more (coming soon)
@@ -298,6 +300,61 @@ fsd upgrade --rollback backup-2025-01-23-14-30-15  # Rollback to backup
 
 # Help
 fsd help               # Show all commands
+```
+
+## Slash Commands System
+
+Flow State Dev includes a comprehensive slash command system with 67 commands across 10 categories. All commands use a modular architecture for better maintainability and extensibility.
+
+### Command Categories
+
+| Category | Commands | Description |
+|----------|----------|-------------|
+| **Quick Action** | 14 | Daily workflow automation (build, test, git operations) |
+| **Analysis & Planning** | 10 | Project analysis and issue creation |
+| **Workflow Automation** | 8 | CI/CD and deployment management |
+| **Sprint Management** | 6 | Agile sprint planning and tracking |
+| **Estimation** | 6 | Story point estimation and capacity planning |
+| **Extended Thinking** | 5 | Deep analysis with AI-style thinking |
+| **Project Management** | 5 | Issues, milestones, and labels |
+| **Issue Operations** | 5 | Bulk operations and dependency analysis |
+| **Analysis** | 5 | Code metrics and quality analysis |
+| **Utility** | 3 | Help, sync, and cleanup commands |
+
+### Quick Examples
+
+```bash
+# Quick daily commands with aliases
+fsd slash "/b"              # Build (alias for /build)
+fsd slash "/t"              # Test (alias for /test)
+fsd slash "/l --fix"        # Lint with fix (alias for /lint)
+
+# Sprint management
+fsd slash "/sprint:plan --weeks 2 --capacity 40"
+fsd slash "/sprint:review --milestone 'Sprint 5'"
+
+# Planning and analysis
+fsd slash "/breakdown 'User authentication system' --create-issues"
+fsd slash "/epic:breakdown 'Dashboard redesign' --milestone v2.0"
+
+# Extended thinking commands
+fsd slash "/plan 'API architecture' --create-adr"
+fsd slash "/decide 'Database: PostgreSQL vs MongoDB'"
+fsd slash "/alternatives 'State management for React'"
+```
+
+### Command Features
+
+- **Interactive Prompts**: All commands support interactive mode when arguments are omitted
+- **GitHub Integration**: Deep integration with GitHub API for issue/PR management
+- **Smart Detection**: Automatically detects project configuration and scripts
+- **Extended Thinking**: Some commands show AI-style thinking process
+- **Report Generation**: Many commands can generate markdown reports
+- **ADR Creation**: Planning commands can create Architecture Decision Records
+
+For a complete list of commands, run:
+```bash
+fsd slash "/help"
 ```
 
 ## Project Structure
@@ -498,6 +555,13 @@ Benefits of using npx:
 - Git
 - A Supabase account (free tier works great)
 
+## 📖 Documentation
+
+- **[CLI Reference](docs/CLI_REFERENCE.md)** - Complete command reference and examples
+- **[Testing Guide](docs/testing.md)** - Testing infrastructure and best practices
+- **[Security Guide](docs/SECURITY.md)** - Security features and best practices
+- **[Contributing](docs/CONTRIBUTING.md)** - How to contribute to Flow State Dev
+
 ## Why Flow State Dev?
 
 ### 🔒 Security First
@@ -621,6 +685,20 @@ Flow State Dev includes comprehensive security documentation to help you build s
 - ✅ **[Security Checklist](docs/SECURITY_CHECKLIST.md)** - Actionable security checklist for every stage
 - 🚀 **[Security Best Practices](docs/SECURITY_BEST_PRACTICES.md)** - Quick reference for secure coding
 - 🔐 **[Supabase Security Guide](docs/SUPABASE_SECURITY_GUIDE.md)** - Supabase-specific security configuration
+
+## Documentation
+
+### Command Guides
+- 📚 **[Slash Commands Reference](docs/SLASH_COMMANDS.md)** - Complete reference for all 67+ commands
+- ⚡ **[Quick Actions Guide](docs/QUICK_ACTIONS_GUIDE.md)** - Master daily workflow automation
+- 🧠 **[Extended Thinking Guide](docs/EXTENDED_THINKING_GUIDE.md)** - Deep analysis and planning commands
+- 🏷️ **[GitHub Labels Guide](docs/LABELS.md)** - Project management with smart labels
+
+### Feature Guides
+- 🔒 **[Security Guide](docs/SECURITY.md)** - Complete security documentation
+- 📋 **[Pinia Store Generator](docs/STORE_GENERATOR.md)** - Generate Vuex/Pinia stores
+- 🏠 **[Local Development Guide](docs/LOCAL_SUPABASE_GUIDE.md)** - Offline Supabase development
+- 🧩 **[Modular Onboarding](docs/MODULAR_ONBOARDING.md)** - Extensible project setup
 
 ## Getting Help
 
