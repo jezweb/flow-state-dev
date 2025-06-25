@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+dist/
+build/
+.next/
+
+# Development files
+src/
+public/
+*.config.js
+*.config.ts
+
+# Documentation
+docs/
+README.md
+
+# Testing
+test/
+tests/
+__tests__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache/
+.temp/
+
+# OS
+.DS_Store
+Thumbs.db

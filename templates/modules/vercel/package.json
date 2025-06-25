@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel",
+    "vercel:env": "vercel env pull .env.local",
+    "vercel:logs": "vercel logs",
+    "vercel:domains": "vercel domains",
+    "vercel:inspect": "vercel inspect"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

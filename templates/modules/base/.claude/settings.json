@@ -1,0 +1,39 @@
+{
+  "preApprovedCommands": [
+    "npm install",
+    "npm run dev",
+    "npm run build",
+    "npm run preview",
+    "npm run lint",
+    "npm run format",
+    "npm test",
+    "git add .",
+    "git status",
+    "git diff",
+    "git commit -m",
+    "git push",
+    "git pull",
+    "git checkout",
+    "git branch",
+    "rm -rf node_modules",
+    "rm -rf dist",
+    "code .",
+    "ls -la",
+    "cat",
+    "echo",
+    "pwd",
+    "cd"
+  ],
+  "webFetchWhitelist": [
+    "https://vuejs.org/",
+    "https://vitejs.dev/",
+    "https://router.vuejs.org/",
+    "https://pinia.vuejs.org/",
+    "https://vuetifyjs.com/",
+    "https://supabase.com/docs",
+    "https://developer.mozilla.org/",
+    "https://github.com/",
+    "https://www.npmjs.com/",
+    "https://stackoverflow.com/"
+  ]
+}

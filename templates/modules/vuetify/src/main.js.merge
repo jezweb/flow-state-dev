@@ -1,0 +1,5 @@
+// Import Vuetify
+import vuetify from './plugins/vuetify'
+
+// Add Vuetify to app
+app.use(vuetify)

@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Vercel Deployment Support (#138)
+- **Vercel Module** - Complete Vercel deployment integration with configuration templates
+- **Deployment Scripts** - npm scripts for deploy, preview, env management, and logs
+- **Security Headers** - Pre-configured security headers in vercel.json
+- **Framework Detection** - Automatic configuration for Vue and React projects
+- **SPA Routing** - Configured routes for single-page applications
+- **Environment Variables** - Template for Supabase and custom env vars
+- **Stack Presets** - Updated all presets to include Vercel deployment option
+- **Multi-Framework Support** - Specialized configurations for Vue and React
+- **Documentation** - Comprehensive README sections for deployment
+
 #### Minimal Setup Option
 - **No Framework Pathway** - New option to start without a framework for undecided users
 - **Framework Selection Guide** - Comprehensive guide comparing Vue, React, and Svelte
