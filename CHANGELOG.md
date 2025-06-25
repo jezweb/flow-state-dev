@@ -32,6 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Import selection shows 15 items
   - Retrofit feature selection shows 12 items
   - Memory template section selection shows 10 items
+- **Context-Relevant Next Steps** (#136) - Project completion messages now adapt to user selections
+  - Only shows Supabase setup if Supabase module was selected
+  - Skips cd command when using --here flag
+  - Shows framework-specific tips and resources
+  - Displays relevant module commands
+  - Numbered steps adjust dynamically
 
 ## [2.1.0] - 2025-06-25
 
