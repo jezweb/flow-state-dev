@@ -25,6 +25,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Test Suite** - Added minimal-setup.test.js for integration testing
 - **Environment Variable** - FSD_DEFAULT_FRAMEWORK for testing non-interactive mode
 
+### Fixed
+- **Checkbox Prompt UX** (#135) - Added pageSize to all checkbox prompts for better visibility
+  - Tech stack selection now shows 12 items
+  - Module selection shows 15 items  
+  - Import selection shows 15 items
+  - Retrofit feature selection shows 12 items
+  - Memory template section selection shows 10 items
+
 ## [2.1.0] - 2025-06-25
 
 ### Added

@@ -64,6 +64,7 @@ class DockerConfigurationStep extends OnboardingStep {
             type: 'checkbox',
             name: 'services',
             message: 'Which services would you like to include?',
+            pageSize: 10,
             choices: [
               { name: 'PostgreSQL database', value: 'postgres' },
               { name: 'Redis cache', value: 'redis' },
