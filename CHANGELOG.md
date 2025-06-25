@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### React & Tailwind CSS Support
+- **React Module** - Complete React 18 framework integration with TypeScript and modern tooling
+- **Tailwind CSS Module** - Utility-first CSS framework with PostCSS integration and custom components
+- **Modern React Stack** - React + Tailwind + Vercel deployment stack now fully functional
+- **Component Libraries** - Pre-built Tailwind components for both React and Vue frameworks
+- **TypeScript Support** - Full TypeScript configuration for React projects with ESLint integration
+- **Testing Setup** - Vitest and React Testing Library configuration out of the box
+- **State Management** - Multiple options including Context API, Redux Toolkit, and Zustand
+- **Dark Mode Support** - Built-in dark mode configuration with class-based strategy
+- **Custom Design System** - Extended color palette and theme customization in Tailwind config
+
 #### Vercel Deployment Support (#138)
 - **Vercel Module** - Complete Vercel deployment integration with configuration templates
 - **Deployment Scripts** - npm scripts for deploy, preview, env management, and logs
@@ -31,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **Framework Selection** - Minimal setup is now the default option in interactive mode
 - **README Updates** - Added documentation for minimal setup option
+- **Stack Presets** - React Full Stack and React Frontend presets now functional with new modular architecture
 
 ### Technical
 - **Test Suite** - Added minimal-setup.test.js for integration testing
