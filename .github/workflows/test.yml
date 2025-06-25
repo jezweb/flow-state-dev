@@ -28,6 +28,19 @@ jobs:
     - name: Run basic tests
       run: node test/test-runner.js
     
+    - name: Run integration tests
+      run: npm test -- test/integration/
+      env:
+        NODE_OPTIONS: --expose-gc
+    
+    - name: Run slash command tests
+      run: |
+        npm test -- test/integration/slash-commands.test.js
+        npm test -- test/integration/command-discovery.test.js
+        npm test -- test/integration/command-categories.test.js
+        npm test -- test/integration/command-error-handling.test.js
+        npm test -- test/integration/command-performance.test.js
+    
     - name: Test global installation
       run: |
         npm pack

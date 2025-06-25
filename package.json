@@ -26,6 +26,8 @@
     "test:jest:watch": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --watch",
     "test:jest:coverage": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --coverage",
     "test:integration": "jest --testMatch='**/test/integration/**/*.test.js'",
+    "test:integration:slash": "vitest run test/integration/slash-commands.test.js test/integration/command-*.test.js",
+    "test:integration:all": "node test/integration/run-all.js",
     "test:unit": "jest --testMatch='**/test/modules/**/*.test.js'",
     "test:migration": "jest --testMatch='**/test/migration/**/*.test.js'",
     "test:performance": "jest --testMatch='**/test/performance/**/*.test.js'",
@@ -76,7 +78,8 @@
     "ajv-formats": "^2.1.1"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "vitest": "^1.2.0"
   },
   "engines": {
     "node": ">=18.0.0"
