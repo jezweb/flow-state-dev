@@ -3,7 +3,7 @@
     <header>
       <img alt="Vue logo" class="logo" src="@/assets/vue.svg" width="125" height="125" />
       <div class="wrapper">
-        <HelloWorld msg="Welcome to test-final2" />
+        <HelloWorld msg="Welcome to test-final3" />
         <nav>
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/about">About</RouterLink>

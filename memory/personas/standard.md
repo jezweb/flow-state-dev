@@ -26,9 +26,9 @@
 
 ### Tools
 - **Version Control**: Git/GitHub
-- **Package Manager**: {{packageManager|npm}}
-- **Testing**: {{testing|Jest, Vitest}}
-- **CI/CD**: {{cicd|GitHub Actions}}
+- **Package Manager**: {{default packageManager "npm"}}
+- **Testing**: {{default testing "Jest, Vitest"}}
+- **CI/CD**: {{default cicd "GitHub Actions"}}
 
 ## Work Style & Preferences
 - **Approach**: {{approach|Balanced between speed and quality}}
