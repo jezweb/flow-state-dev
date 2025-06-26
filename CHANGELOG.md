@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2025-06-26
+
+### Fixed
+- Add missing `glob` dependency to fix npm installation error
+- Resolve ERR_MODULE_NOT_FOUND when installing from npm registry
+
 ## [2.1.0] - 2025-06-26
 
 ### Added
