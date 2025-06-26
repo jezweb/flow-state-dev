@@ -3,7 +3,8 @@
  */
 import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import { TemplateGenerator } from '../../lib/modules/template-generator.js';
-import { readFile, pathExists, remove } from 'fs-extra';
+import fsExtra from 'fs-extra';
+const { readFile, pathExists, remove } = fsExtra;
 import { join } from 'path';
 import { tmpdir } from 'os';
 

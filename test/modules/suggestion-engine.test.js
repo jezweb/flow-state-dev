@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { ModuleSuggestionEngine } from '../../lib/modules/suggestion-engine.js';
 import { ModuleDependencyResolver } from '../../lib/modules/dependency-resolver.js';
 import { BaseStackModule } from '../../lib/modules/types/base-stack-module.js';

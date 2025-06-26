@@ -9,6 +9,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Module Dependency Resolver System (#80)
+- **ModuleDependencyResolver Class** - Advanced dependency resolution with conflict detection
+- **Dependency Graph Construction** - Build and validate complex module relationships
+- **Conflict Detection** - Identify direct, exclusive, circular, and version conflicts
+- **Capability-based Dependencies** - Smart resolution based on module capabilities (provides/requires)
+- **Suggestion Engine** - Recommend compatible modules and alternatives
+- **Performance Optimization** - LRU caching and topological sorting for fast resolution
+- **Comprehensive Testing** - 62 tests covering all dependency scenarios
+- **Complete Documentation** - Detailed guide with architecture overview and examples
+
+#### Specialized Module Types (#79)
+- **FrontendFrameworkModule** - Vue, React, Svelte framework modules with build tool integration
+- **UILibraryModule** - Component and utility library modules (Vuetify, Tailwind, Material UI)
+- **BackendServiceModule** - BaaS integration modules (Supabase, Firebase) with service generation
+- **AuthProviderModule** - Authentication provider modules (Auth0, Clerk, SuperTokens)
+- **BackendFrameworkModule** - Server framework modules (Express, Fastify) with middleware setup
+- **204 Comprehensive Tests** - Full test coverage for all module types and edge cases
+- **Complete Documentation** - Detailed guide with usage examples and integration patterns
+
+### Fixed
+
+#### Critical ES Module Import Resolution
+- **Fixed fs-extra imports** - Resolved CommonJS module import issues across 3 core files
+- **Fixed glob imports** - Updated template generator and registry for proper ES module compatibility  
+- **Fixed DependencyResolver naming** - Corrected import/export mismatches across 8 test files
+- **All tests now executable** - Resolved blocking syntax errors preventing development work
+
 #### Template Generator for Modular Stacks (#81)
 - **TemplateGenerator Class** - Sophisticated engine for merging multiple module templates
 - **Merge Strategies** - Intelligent file merging (replace, merge, append, prepend, custom)

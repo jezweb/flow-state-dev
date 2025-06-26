@@ -4,7 +4,7 @@
  */
 import { ModuleRegistry } from '../lib/modules/registry.js';
 import { TemplateGenerator } from '../lib/modules/template-generator.js';
-import { DependencyResolver } from '../lib/modules/dependency-resolver.js';
+import { ModuleDependencyResolver } from '../lib/modules/dependency-resolver.js';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
@@ -41,7 +41,7 @@ async function testVercelIntegration() {
     console.log(chalk.blue('\n🧪 Test 1: Vue + Vercel Stack'));
     
     const modules = ['vue-base', 'vercel'];
-    const resolver = new DependencyResolver(registry);
+    const resolver = new ModuleDependencyResolver(registry);
     
     // Resolve dependencies
     const resolution = await resolver.resolve(modules, {

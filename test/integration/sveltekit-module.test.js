@@ -3,7 +3,7 @@ import { existsSync, readFileSync, rmSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
 import { ModuleRegistry } from '../../lib/modules/registry.js';
-import { DependencyResolver } from '../../lib/modules/dependency-resolver.js';
+import { ModuleDependencyResolver } from '../../lib/modules/dependency-resolver.js';
 import { ProjectGenerator } from '../../lib/modules/project-generator.js';
 
 describe('SvelteKit Module Integration', () => {
@@ -16,7 +16,7 @@ describe('SvelteKit Module Integration', () => {
     // Initialize module system
     registry = new ModuleRegistry();
     await registry.discover();
-    resolver = new DependencyResolver(registry);
+    resolver = new ModuleDependencyResolver(registry);
     generator = new ProjectGenerator(registry);
   });
 

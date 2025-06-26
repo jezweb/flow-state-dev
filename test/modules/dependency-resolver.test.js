@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { ModuleDependencyResolver } from '../../lib/modules/dependency-resolver.js';
 import { BaseStackModule } from '../../lib/modules/types/base-stack-module.js';
 
@@ -187,7 +187,7 @@ describe('ModuleDependencyResolver', () => {
     });
 
     it('should cache validation results', async () => {
-      const spy = vi.spyOn(resolver, 'checkDirectConflicts');
+      const spy = jest.spyOn(resolver, 'checkDirectConflicts');
       
       // First call
       await resolver.validate(['vue3', 'vuetify']);

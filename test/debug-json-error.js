@@ -4,7 +4,7 @@
  */
 import { ModuleRegistry } from '../lib/modules/registry.js';
 import { TemplateGenerator } from '../lib/modules/template-generator.js';
-import { DependencyResolver } from '../lib/modules/dependency-resolver.js';
+import { ModuleDependencyResolver } from '../lib/modules/dependency-resolver.js';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
@@ -24,7 +24,7 @@ async function debugJsonError() {
     // Test just React module first
     console.log(chalk.blue('Testing React module alone...'));
     const modules = ['react'];
-    const resolver = new DependencyResolver(registry);
+    const resolver = new ModuleDependencyResolver(registry);
     const resolution = await resolver.resolve(modules, { autoResolve: true });
     
     if (!resolution.success) {

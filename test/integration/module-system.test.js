@@ -2,7 +2,7 @@
  * Integration tests for the complete module system
  */
 import { ModuleRegistry } from '../../lib/modules/registry.js';
-import { DependencyResolver } from '../../lib/modules/dependency-resolver.js';
+import { ModuleDependencyResolver } from '../../lib/modules/dependency-resolver.js';
 import { TemplateGenerator } from '../../lib/modules/template-generator.js';
 import { createTestDir, createMockModule, createTestProject, assertFileExists } from '../utils/test-helpers.js';
 import { mockModules } from '../utils/mock-modules.js';
@@ -29,7 +29,7 @@ describe('Module System Integration', () => {
     // Discover modules
     await registry.discover();
     
-    resolver = new DependencyResolver(registry);
+    resolver = new ModuleDependencyResolver(registry);
   });
   
   describe('End-to-End Module Resolution and Generation', () => {

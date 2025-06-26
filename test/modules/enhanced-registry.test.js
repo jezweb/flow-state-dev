@@ -1,7 +1,7 @@
 /**
  * Tests for Enhanced Module Registry
  */
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
 import { EnhancedModuleRegistry } from '../../lib/modules/enhanced-registry.js';
 import { ModuleVersionManager } from '../../lib/modules/version-manager.js';
 import { ModuleSearchEngine } from '../../lib/modules/search-engine.js';

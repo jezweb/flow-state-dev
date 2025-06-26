@@ -2,7 +2,7 @@
  * Performance benchmarks for Flow State Dev
  */
 import { ModuleRegistry } from '../../lib/modules/registry.js';
-import { DependencyResolver } from '../../lib/modules/dependency-resolver.js';
+import { ModuleDependencyResolver } from '../../lib/modules/dependency-resolver.js';
 import { TemplateGenerator } from '../../lib/modules/template-generator.js';
 import { OnboardingOrchestrator } from '../../lib/onboarding/base.js';
 import { ProjectNameStep } from '../../lib/onboarding/steps/project-name.js';
@@ -39,7 +39,7 @@ describe('Performance Benchmarks', () => {
       const registry = new ModuleRegistry();
       await registry.discover();
       
-      const resolver = new DependencyResolver(registry);
+      const resolver = new ModuleDependencyResolver(registry);
       
       const startTime = Date.now();
       
@@ -58,7 +58,7 @@ describe('Performance Benchmarks', () => {
       const registry = new ModuleRegistry();
       await registry.discover();
       
-      const resolver = new DependencyResolver(registry);
+      const resolver = new ModuleDependencyResolver(registry);
       const result = await resolver.resolve(['vue-base', 'vuetify']);
       
       const projectDir = join(testDir, 'template-perf-test');
@@ -204,7 +204,7 @@ describe('Performance Benchmarks', () => {
       const startTime = Date.now();
       
       const promises = Array.from({ length: 3 }, async (_, i) => {
-        const resolver = new DependencyResolver(registry);
+        const resolver = new ModuleDependencyResolver(registry);
         return resolver.resolve(['vue-base', 'vuetify']);
       });
       
@@ -227,7 +227,7 @@ describe('Performance Benchmarks', () => {
       const registry = new ModuleRegistry();
       await registry.discover();
       
-      const resolver = new DependencyResolver(registry);
+      const resolver = new ModuleDependencyResolver(registry);
       await resolver.resolve(['vue-base', 'vuetify', 'supabase', 'pinia']);
       
       const projectDir = join(testDir, 'memory-test');
@@ -264,7 +264,7 @@ describe('Performance Benchmarks', () => {
       const endTime = startTime + 2000;
       
       while (Date.now() < endTime) {
-        const resolver = new DependencyResolver(registry);
+        const resolver = new ModuleDependencyResolver(registry);
         await resolver.resolve(['vue-base']);
         operations++;
       }
@@ -281,7 +281,7 @@ describe('Performance Benchmarks', () => {
       const registry = new ModuleRegistry();
       await registry.discover();
       
-      const resolver = new DependencyResolver(registry);
+      const resolver = new ModuleDependencyResolver(registry);
       
       // Try to resolve all available modules at once (stress test)
       const allModules = registry.getAllModules().map(m => m.name);
