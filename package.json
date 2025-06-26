@@ -74,6 +74,7 @@
     "commander": "^11.1.0",
     "fs-extra": "^11.2.0",
     "fuse.js": "^7.1.0",
+    "glob": "^10.3.10",
     "handlebars": "^4.7.8",
     "inquirer": "^9.2.12",
     "marked": "^11.0.0",
