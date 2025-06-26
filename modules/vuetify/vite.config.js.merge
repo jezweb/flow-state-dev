@@ -1,0 +1,4 @@
+import vuetify from 'vite-plugin-vuetify'
+
+// Add to plugins array
+vuetify({ autoImport: true })

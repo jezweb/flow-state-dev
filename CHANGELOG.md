@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.3] - 2025-06-26
+
+### Fixed
+- Fix init command integration with modular architecture
+- Correct ModuleDependencyResolver instantiation (no registry parameter needed)
+- Change resolver.resolve() method call to validate()
+- Fix module category values to match validation schema
+- Add absolute path resolution for module templatePath
+- Update template generator to handle both .template and regular files
+- Prevent git commit errors on empty repositories
+- Fix ES module imports in interactive test file
+
 ## [2.1.2] - 2025-06-26
 
 ### Fixed

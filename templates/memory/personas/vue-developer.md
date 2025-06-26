@@ -2,7 +2,7 @@
 
 ## Personal Information
 - **Name**: {{name}}
-- **Role**: {{role|Vue Developer}}
+- **Role**: {{default role "Vue Developer"}}
 - **Focus**: Modern Vue.js applications
 
 ## Development Environment
@@ -10,7 +10,7 @@
 - **Shell**: {{shell}}
 - **Project Location**: `{{projectPath}}/`
 - **Node.js**: {{nodeVersion}}
-- **Package Manager**: {{packageManager|pnpm}}
+- **Package Manager**: {{default packageManager "pnpm"}}
 
 ## Tech Stack Preferences
 ### Frontend

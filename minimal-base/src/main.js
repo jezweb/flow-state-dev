@@ -1,0 +1,13 @@
+// [PROJECT_NAME] - Main Entry Point
+// This is a minimal setup without any framework
+
+// Import your styles
+import './style.css'
+
+// Simple example of vanilla JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Welcome to [PROJECT_NAME]!')
+  
+  // You can start building your app here
+  // When ready, add a framework using: fsd upgrade --add-framework [framework-name]
+})

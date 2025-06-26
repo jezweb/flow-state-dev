@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "vuetify": "^3.5.1"
+  },
+  "devDependencies": {
+    "vite-plugin-vuetify": "^2.0.1"
+  }
+}

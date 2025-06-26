@@ -2,7 +2,7 @@
 
 ## Personal Information
 - **Name**: {{name}}
-- **Role**: {{role|Full Stack Developer}}
+- **Role**: {{default role "Full Stack Developer"}}
 - **Experience**: Building end-to-end applications
 
 ## Development Environment
@@ -10,7 +10,7 @@
 - **Shell**: {{shell}}
 - **Project Location**: `{{projectPath}}/`
 - **Node.js**: {{nodeVersion}}
-- **Docker**: {{dockerVersion|Available}}
+- **Docker**: {{default dockerVersion "Available"}}
 
 ## Tech Stack Preferences
 ### Frontend

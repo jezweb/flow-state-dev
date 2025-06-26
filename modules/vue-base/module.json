@@ -4,7 +4,7 @@
   "description": "Vue 3 framework with Composition API, Vue Router, and Vite",
   "category": "frontend-framework",
   "tags": ["vue", "frontend", "spa", "composition-api"],
-  "provides": ["frontend-framework", "routing", "vue"],
+  "provides": ["frontend", "frontend-framework", "routing", "vue"],
   "requires": [],
   "dependencies": [],
   "compatibleWith": ["vuetify", "tailwind", "supabase", "pinia"],

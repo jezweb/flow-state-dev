@@ -1,0 +1,68 @@
+# [PROJECT_NAME]
+
+This is a minimal project setup with basic tooling but no framework yet.
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Next Steps
+
+This project is set up with:
+- ⚡ Vite for fast builds and hot module replacement
+- 📝 ESLint for code linting
+- 💅 Prettier for code formatting
+
+### Choose a Framework
+
+When you're ready to add a framework, check out our [framework selection guide](./docs/CHOOSING_A_FRAMEWORK.md) or run:
+
+```bash
+# See available frameworks
+fsd upgrade --list-frameworks
+
+# Add a framework
+fsd upgrade --add-framework [framework-name]
+```
+
+### Available Frameworks
+- `vue-vuetify` - Vue 3 with Vuetify Material Design components
+- `react-mui` - React with Material-UI (coming soon)
+- `sveltekit` - SvelteKit full-stack framework (coming soon)
+
+## Project Structure
+
+```
+[PROJECT_NAME]/
+├── public/          # Static assets
+├── src/
+│   ├── main.js     # Application entry point
+│   └── style.css   # Global styles
+├── docs/           # Documentation
+├── index.html      # Main HTML file
+└── vite.config.js  # Vite configuration
+```
+
+## Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+
+---
+
+Built with [Flow State Dev](https://github.com/jezweb/flow-state-dev)

@@ -45,7 +45,7 @@
     <!-- Footer -->
     <v-footer app>
       <v-col class="text-center" cols="12">
-        {{ new Date().getFullYear() }} — <strong>{{ appName }}</strong>
+        {{ currentYear }} — <strong>{{ appName }}</strong>
       </v-col>
     </v-footer>
   </v-app>
@@ -62,6 +62,7 @@ const authStore = useAuthStore()
 
 const appName = import.meta.env.VITE_APP_NAME || 'My App'
 const user = computed(() => authStore.user)
+const currentYear = computed(() => new Date().getFullYear())
 
 // Check auth on mount
 onMounted(() => {

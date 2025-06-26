@@ -2,16 +2,16 @@
 
 ## Personal Information
 - **Name**: {{name}}
-- **Role**: {{role|AI Engineer}}
+- **Role**: {{default role "AI Engineer"}}
 - **Focus**: Building AI-powered applications
 
 ## Development Environment
 - **OS**: {{os}}
 - **Shell**: {{shell}}
 - **Project Location**: `{{projectPath}}/`
-- **Python**: {{pythonVersion|3.11+}}
+- **Python**: {{default pythonVersion "3.11+"}}
 - **Node.js**: {{nodeVersion}}
-- **GPU**: {{gpu|Available for training}}
+- **GPU**: {{default gpu "Available for training"}}
 
 ## Tech Stack Preferences
 ### AI/ML Frameworks
