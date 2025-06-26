@@ -44,7 +44,7 @@ const logo = chalk.cyan(`
 program
   .name('fsd')
   .description('Flow State Dev - Vue 3 + Supabase project generator')
-  .version('2.1.1');
+  .version('2.1.2');
 
 // Init command
 program

@@ -1,6 +1,6 @@
 {
   "name": "flow-state-dev",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "The fastest way to start a modern web project that both you and Claude Code will love",
   "type": "module",
   "main": "bin/fsd.js",
