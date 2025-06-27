@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "project": {
+    "type": "web-application",
+    "framework": "{{framework}}",
+    "language": "javascript",
+    "buildTool": "vite"
+  },
+  "assistant": {
+    "defaultMode": "code",
+    "codeStyle": {
+      "preferFunctionalComponents": true,
+      "useTypeScript": false,
+      "formatting": {
+        "indent": 2,
+        "quotes": "single",
+        "semicolons": true
+      }
+    },
+    "context": {
+      "includeFiles": [
+        "src/**/*.{js,vue,jsx,ts,tsx}",
+        "package.json",
+        "vite.config.js",
+        ".env.example"
+      ],
+      "excludePatterns": [
+        "node_modules/**",
+        "dist/**",
+        ".git/**",
+        "*.log"
+      ]
+    }
+  },
+  "commands": {
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "test": "npm test",
+    "lint": "npm run lint"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run dev)",
+      "Bash(npm run build)",
+      "Bash(npm test)",
+      "Bash(git status)",
+      "Bash(git add)",
+      "Bash(git commit)",
+      "Read(*)",
+      "Write(*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo *)"
+    ]
+  }
+}

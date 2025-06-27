@@ -43,7 +43,11 @@
     "release:major": "node scripts/release.js major",
     "release:validate": "node scripts/validate-release.js",
     "release:publish": "node scripts/publish-release.js",
-    "security:scan": "node bin/fsd.js security scan --verbose"
+    "security:scan": "node bin/fsd.js security scan --verbose",
+    "gui": "cd gui-temp && npm install && npm run dev",
+    "gui:install": "cd gui-temp && npm install",
+    "gui:dev": "cd gui-temp && npm run dev",
+    "gui:build": "cd gui-temp && npm run build"
   },
   "keywords": [
     "vue",

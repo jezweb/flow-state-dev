@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUI Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .status {
+      font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
+    .warning { color: orange; }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #log {
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Flow State Dev GUI Test</h1>
+  
+  <div class="test-section">
+    <h2>API Tests</h2>
+    <button onclick="testModules()">Test Modules API</button>
+    <button onclick="testPresets()">Test Presets API</button>
+    <button onclick="testDiagnostics()">Test Diagnostics</button>
+    <button onclick="testCompatibility()">Test Compatibility</button>
+    <button onclick="testProjectCreation()">Test Project Creation</button>
+  </div>
+  
+  <div class="test-section">
+    <h2>Status</h2>
+    <div id="status">Click a test button to begin...</div>
+  </div>
+  
+  <div id="log"></div>
+
+  <script type="module">
+    import * as api from './src/services/mockFlowStateApi.js'
+    
+    window.log = function(message, type = 'info') {
+      const logDiv = document.getElementById('log')
+      const time = new Date().toLocaleTimeString()
+      const color = type === 'error' ? 'red' : type === 'success' ? 'green' : '#333'
+      logDiv.innerHTML += `<div style="color: ${color}">[${time}] ${message}</div>`
+      logDiv.scrollTop = logDiv.scrollHeight
+    }
+    
+    window.updateStatus = function(message, type = 'info') {
+      const statusDiv = document.getElementById('status')
+      statusDiv.className = `status ${type}`
+      statusDiv.textContent = message
+    }
+    
+    window.testModules = async function() {
+      try {
+        updateStatus('Testing modules API...', 'info')
+        log('Fetching modules...')
+        
+        const modules = await api.getModules()
+        log(`✓ Found ${modules.length} modules`, 'success')
+        
+        modules.forEach(m => {
+          log(`  - ${m.displayName} (${m.category}) v${m.version}`)
+        })
+        
+        updateStatus('Modules API test passed!', 'success')
+      } catch (error) {
+        log(`✗ Error: ${error.message}`, 'error')
+        updateStatus('Modules API test failed!', 'error')
+      }
+    }
+    
+    window.testPresets = async function() {
+      try {
+        updateStatus('Testing presets API...', 'info')
+        log('Fetching presets...')
+        
+        const presets = await api.getPresets()
+        log(`✓ Found ${presets.length} presets`, 'success')
+        
+        presets.forEach(p => {
+          log(`  - ${p.name}: ${p.description}`)
+          log(`    Modules: ${p.modules.join(', ')}`)
+        })
+        
+        updateStatus('Presets API test passed!', 'success')
+      } catch (error) {
+        log(`✗ Error: ${error.message}`, 'error')
+        updateStatus('Presets API test failed!', 'error')
+      }
+    }
+    
+    window.testDiagnostics = async function() {
+      try {
+        updateStatus('Running diagnostics...', 'info')
+        log('Running system diagnostics...')
+        
+        const results = await api.runDiagnostics()
+        log(`✓ Diagnostics complete`, 'success')
+        
+        log(`  Overall status: ${results.summary.overallStatus}`)
+        log(`  Node.js: ${results.node.status} (${results.node.version})`)
+        log(`  Git: ${results.git.status} (${results.git.version})`)
+        log(`  npm: ${results.npm.status} (${results.npm.version})`)
+        log(`  Docker: ${results.docker.status}`)
+        
+        updateStatus('Diagnostics test passed!', 'success')
+      } catch (error) {
+        log(`✗ Error: ${error.message}`, 'error')
+        updateStatus('Diagnostics test failed!', 'error')
+      }
+    }
+    
+    window.testCompatibility = async function() {
+      try {
+        updateStatus('Testing compatibility checks...', 'info')
+        
+        // Test compatible modules
+        log('Testing Vue + Vuetify (should be compatible)...')
+        let result = await api.checkCompatibility(['vue', 'vuetify'])
+        log(`  Compatible: ${result.compatible}`, result.compatible ? 'success' : 'error')
+        
+        // Test conflicting modules
+        log('Testing Vue + React (should conflict)...')
+        result = await api.checkCompatibility(['vue', 'react'])
+        log(`  Compatible: ${result.compatible}`, result.compatible ? 'success' : 'error')
+        if (result.issues.length > 0) {
+          result.issues.forEach(issue => log(`    - ${issue.message}`, 'warning'))
+        }
+        
+        updateStatus('Compatibility test passed!', 'success')
+      } catch (error) {
+        log(`✗ Error: ${error.message}`, 'error')
+        updateStatus('Compatibility test failed!', 'error')
+      }
+    }
+    
+    window.testProjectCreation = async function() {
+      try {
+        updateStatus('Testing project creation...', 'info')
+        log('Creating test project...')
+        
+        const projectApi = await api.createProject('test-project', {
+          modules: ['vue', 'vuetify', 'supabase']
+        })
+        
+        projectApi.onProgress((progress) => {
+          log(`  ${progress.type}: ${progress.message}`)
+        })
+        
+        const result = await projectApi.execute()
+        
+        if (result.success) {
+          log(`✓ Project created successfully!`, 'success')
+          log(`  Name: ${result.projectName}`)
+          log(`  Path: ${result.projectPath}`)
+          log(`  Duration: ${result.duration}ms`)
+          log(`  Next steps:`)
+          result.nextSteps.forEach(step => {
+            log(`    - ${step.command}: ${step.description}`)
+          })
+          updateStatus('Project creation test passed!', 'success')
+        } else {
+          throw new Error('Project creation failed')
+        }
+      } catch (error) {
+        log(`✗ Error: ${error.message}`, 'error')
+        updateStatus('Project creation test failed!', 'error')
+      }
+    }
+    
+    // Test on load
+    log('GUI Test Page loaded. Click buttons to test different APIs.')
+  </script>
+</body>
+</html>

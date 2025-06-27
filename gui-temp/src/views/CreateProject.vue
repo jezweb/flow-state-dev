@@ -36,11 +36,17 @@
                 <v-window v-model="stackTab">
                   <!-- Presets Tab -->
                   <v-window-item value="presets">
-                    <PresetSelector 
-                      :presets="presets" 
+                    <LoadingWrapper 
                       :loading="presetsLoading"
-                      @select="projectStore.selectPreset"
-                    />
+                      type="card"
+                      :skeleton-props="{ showTitle: true, showContent: true, showActions: false, contentType: 'paragraph@2' }"
+                    >
+                      <PresetSelector 
+                        :presets="presets" 
+                        :loading="presetsLoading"
+                        @select="projectStore.selectPreset"
+                      />
+                    </LoadingWrapper>
                   </v-window-item>
                   
                   <!-- Custom Stack Tab -->
@@ -112,6 +118,7 @@ import PresetSelector from '../components/PresetSelector.vue'
 import ModuleSelector from '../components/ModuleSelector.vue'
 import ProjectReview from '../components/ProjectReview.vue'
 import ProgressDialog from '../components/ProgressDialog.vue'
+import LoadingWrapper from '../components/LoadingWrapper.vue'
 
 const projectStore = useProjectStore()
 
